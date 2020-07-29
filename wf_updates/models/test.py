@@ -2028,7 +2028,7 @@ class StockQuantityHistoryinh(models.TransientModel):
 class ResPartner_inherit(models.Model):
     _inherit = "res.partner"
 
-    vendor_name_arabic = fields.Text("Vendor Name (arabic)")
+    vendor_name_arabic = fields.Text('Vendor Name (arabic)')
 
 class productproductinh(models.Model):
     _inherit = "product.product"
