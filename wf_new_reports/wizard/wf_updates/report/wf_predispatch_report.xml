@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_wf_pre_dispatch_document">
+    <t t-call="web.external_layout">
+        <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+        <h2 class="text-center" style="white-space: nowrap;">
+                <strong>PRE-DISPATCH INSPECTION CHECKLIST</strong>
+        </h2>
+        <div class="page">
+            <div class="oe_structure"/>
+            <table class="table table-sm o_main_table" style="border: 1px solid black;border-collapse: collapse;">
+                <tr>
+                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Customer Name:</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="doc.partner_id"/></td>
+                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Sale Order No.:</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="doc.origin"/></td>
+                </tr>
+                <tr>
+                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Delivery Date:</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="doc.scheduled_date" t-options-widget="&quot;date&quot;"/></td>
+                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Pump Capacity:</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;"/>
+                </tr>
+            </table><br/><br/>
+                <t t-foreach="doc.product_line_ids" t-as="line">
+                    <t t-if="line.bom == 1">
+                        <table class="table table-sm o_main_table" style="border: 1px solid black;border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                    <!-- TODO: remove in master -->
+                                    <t t-set="colspan" t-value="5"/>
+                                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;"><span t-field="line.product"/></th>
+                                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Serial No.</th>
+                                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Qty.</th>
+                                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Status</th>
+                                    <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody"> 
+                                <tr>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.product"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.no"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.qty"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.status"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                          <!-- <span t-field="line.price"/> -->
+                                    </td>
+                                </tr>
+                                <t t-foreach="doc.product_line_idss" t-as="lin">
+                                  <t t-if="line.types == lin.types">
+                                    <tr>  
+                                        <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                            <span t-field="lin.product"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                            <span t-field="lin.no"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                            <span t-field="lin.qty"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                            <span t-field="lin.status"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                            <!-- <span t-field="line.price"/> -->
+                                        </td>
+                                    </tr>
+                                  </t>
+                                </t>
+                            </tbody>    
+                        </table>
+                        <br/>
+                    </t>
+                </t>
+                
+                <br/>
+                <table class="table table-sm o_main_table" style="border: 1px solid black;border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <!-- TODO: remove in master -->
+                            <t t-set="colspan" t-value="5"/>
+                            <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">ACCESSORIES</th>
+                            <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Serial No.</th>
+                            <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Qty.</th>
+                            <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Status</th>
+                            <th class="text-left" style="border: 1px solid black;border-collapse: collapse;background-color:#e0ebe3;">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody"> 
+                        <t t-foreach="doc.product_line_ids" t-as="line">
+                            <t t-if="line.bom == 0">
+                                <tr>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.product"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.no"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.qty"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <span t-field="line.status"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">
+                                        <!-- <span t-field="line.price"/> -->
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>    
+                </table>
+                <!--<t t-foreach="doc.product_line_idss" t-as="line">-->
+                             <!--<t t-if="line.bom == 0"> -->
+                <!--                <tr>-->
+                <!--                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">-->
+                <!--                        <span t-field="line.product"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">-->
+                <!--                        <span t-field="line.no"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">-->
+                <!--                        <span t-field="line.qty"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">-->
+                <!--                        <span t-field="line.status"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" style="border: 1px solid black;border-collapse: collapse;">-->
+                                          
+                <!--                    </td>-->
+                <!--                </tr>-->
+                             <!--</t> -->
+                <!--        </t>-->
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+
+<template id="report_wf_pre_dispatch">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="wf_updates.report_wf_pre_dispatch_document" t-lang="doc.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+</odoo>

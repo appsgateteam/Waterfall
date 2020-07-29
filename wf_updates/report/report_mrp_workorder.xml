@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_mrp_workorder">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-7">
+                            <h2><span t-field="o.name"/></h2>
+                        </div>
+                        <div class="col-5">
+                            <span class="text-right">
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:350px;height:60px"/>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- startby fouad -->
+                    <div class="row mt32 mb32">
+                        <div class="col-3">
+                            <strong>Source Document:</strong><br/>
+                            <span t-field="o.name"/>
+                        </div>
+                        <t t-foreach="request.env['sale.order'].search([('name','=',o.origin)])" t-as="li">
+                            <div class="col-3">
+                                <strong>Customer:</strong><br/>
+                                <span t-field="li.partner_id.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Ref. P.O. No.</strong><br/>
+                                <span t-field="li.client_order_ref"/>
+                            </div>
+                        </t>
+                       
+                        <div class="col-3">
+                            <strong>MO Date:</strong><br/>
+                            <span t-field="o.date_planned_start"/>
+                        </div>
+                    </div>
+                    <div class="row mt32 mb32">
+                        <div class="col-3">
+                            <strong>Product to Produce:</strong><br/>
+                            <span t-field="o.product_id"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>Qty to Produce:</strong><br/>
+                            <span t-field="o.product_qty"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>Schedule Date:</strong><br/>
+                            <span t-field="o.date_planned_start_wo"/>
+                        </div>
+                        <div class="col-3">
+                            <strong>Printing Date:</strong><br/>
+                            <span t-esc="time.strftime('%Y-%m-%d')" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                        </div>
+                    </div>
+                    
+                    
+                    <div style="margin-bottom: 100px;height:auto;">
+                        <table style="width:100%;border: 1px solid black;">
+                            <tr>
+                                <td class="text-center" colspan="99" style="padding: 2px;width:100%;border: 1px solid black;text-transform:uppercase;">WORK ORDER INFORMATION</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="99" style="padding: 2px;width:100%;border: 1px solid black;text-transform:uppercase;"><span t-field="o.product_id.product_tmpl_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="99" style="padding: 2px;width:100%;border: 1px solid black;">PUMP DETAILS</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Model:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2">Additional Details for VT</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Rated Speed:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id.name" style="font-family: Calibri;"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Gear Drive Brand:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.manu_gear"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">No. of Stages:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.no_of_stages"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Gear Drive Model:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model_gear"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Head:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.head"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Gear Ratio:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.ratio_gear"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Flow:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.flow"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.flow_uom_id.name" style="font-family: Calibri;"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Watertank Depth:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.watertank"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Type:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.head"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Manufacture:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.manu"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Pump Listing:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.listing"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Pump Construction:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.con"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Pump Accessories:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.acc"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Add'l Material Spec:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.material_spec"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Spare Parts:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.spare_part"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="99" style="padding: 2px;width:100%;border: 1px solid black;">DRIVER DETAILS</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Brand:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.manu_dr"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">HP Rating:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.rate_dr"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.rate_uom_id_dr.name" style="font-family: Calibri;"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Speed:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed_dr)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id_dr.name" style="font-family: Calibri;"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Derating:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.derating"/> </td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2">Additional Details for Electric Motor</td>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2">Additional Details for Diesel Engine</td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Voltage:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.supply_dr"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Engine Model:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model_dr"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Enclosure Rating:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.enc_dr"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Silencer Type:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.silencer_type"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Frame Size:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.frame"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">PRV:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.prv"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="padding: 2px;width:50%;border: 1px solid black;" colspan="2"></td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;">Fuel Tank Capacity:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:25%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.fuel_tank"/> </td>
+                            </tr>
+                        </table><br/>
+                        
+
+                    </div>
+
+                    <!-- end by fouad -->
+                    
+                    
+
+                <!--    <div style="margin-bottom: 100px;height:auto;">-->
+                    <!-- <t t-foreach="request.env['product.template'].search([('name','=',o.product_id.name)])" t-as="line"> -->
+                        <!-- <h2><span t-field="s.name"/></h2> -->
+                    
+                        <!-- <t t-foreach="s.sale_order_option_ids" t-as="line"> -->
+                <!--            <t t-if="o.product_id.product_tmpl_id.bom_ok == True">-->
+                            <!-- <t t-if="o.product_id.product_tmpl_id.check == 1"> -->
+                              
+                        <!-- <div class="page"> -->
+                <!--            <table style="width:100%;border: 1px solid black;">-->
+                <!--              <tr>-->
+                <!--                    <td class="text-center" style="padding: 2px;width:100%;background-color:#d2d4d6;border: 1px solid black;text-transform:uppercase;">WORK ORDER INFORMATION</td>-->
+                <!--                </tr>-->
+                <!--                <tr>-->
+                <!--                    <td class="text-center" style="padding: 2px;width:100%;background-color:#d2d4d6;border: 1px solid black;text-transform:uppercase;"><span t-field="o.product_id.product_tmpl_id.name"/></td>-->
+                <!--                </tr>-->
+                <!--                </table><br/>-->
+                <!--            <div>-->
+                <!--            <div style="float:left;width:48%;">-->
+                <!--            <t t-if="o.product_id.product_tmpl_id.Pro_type">-->
+                    
+                <!--                <table style="width:100%;border: 1px solid black;" class="mb0">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-center" colspan="99" style="padding: 2px;width:100%;background-color:#d2d4d6;border: 1px solid black;">PUMP DETAILS</td>-->
+                <!--                    </tr>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.model">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Model:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.speed">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Rated Speed:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id.name" style="font-family: Calibri;"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.no_of_stages">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">No. of Stages:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.no_of_stages"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                     <t t-if="o.product_id.product_tmpl_id.head">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Head:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.head"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.flow">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Flow:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.flow"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.flow_uom_id.name" style="font-family: Calibri;"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.type">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Type:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.head"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.manu">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Manufacture:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.manu"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.listing">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Pump Listing:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.listing"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.con">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Pump Construction:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.con"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.acc">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Pump Accessories:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="o.product_id.product_tmpl_id.acc"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.material_spec">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Add'l Material Spec:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.material_spec"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.spare_part">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Spare Parts:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.spare_part"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                </table>-->
+                <!--            </t>-->
+                <!--            <t t-if="o.product_id.product_tmpl_id.Pro_type_dr">-->
+                <!--                <table style="width:100%;border: 1px solid black;" class="mt0">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-center" colspan="99" style="padding: 2px;width:100%;background-color:#d2d4d6;border: 1px solid black;">DRIVER DETAILS</td>-->
+                <!--                    </tr>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.manu_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Brand:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.manu_dr"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.rate_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">HP Rating:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.rate_dr"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.rate_uom_id_dr.name" style="font-family: Calibri;"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.supply_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Voltage:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.supply_dr"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.speed_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Speed:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed_dr)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id_dr.name" style="font-family: Calibri;"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.enc_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Enclosure Rating:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.enc_dr"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.Type_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Driver Type:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.Type_dr"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.manu_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Manufacture:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.manu_dr"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.listing_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Driver Listing:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.listing_dr"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.frame">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Driver Frame Size:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.frame"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.model_dr">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Driver Model:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model_dr"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.fuel_tank">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Fuel Tank Capacity:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.fuel_tank"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.prv">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">PRV:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.prv"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.silencer_type">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Silencer Type:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.silencer_type"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="o.product_id.product_tmpl_id.derating">-->
+                <!--                    <tr>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Derating:</td>-->
+                <!--                        <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.derating"/> </td>-->
+                <!--                    </tr>-->
+                <!--                    </t>-->
+                <!--                </table><br/>-->
+                <!--            </t>-->
+                <!--            </div>-->
+                <!--            <div style="margin-left:53%;">-->
+                    
+                <!--                <t t-if="o.product_id.product_tmpl_id.Pro_type_ger">-->
+                <!--                    <table style="width:100%;border: 1px solid black;" class="mb0">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-center" colspan="99" style="padding: 2px;width:100%;background-color:#d2d4d6;border: 1px solid black;">ADDITIONAL DETAILS FOR VT</td>-->
+                <!--                        </tr>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.manu_gear">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Gear Drive Brand:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.manu_gear"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.model_gear">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Gear Drive Model:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model_gear"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.ratio_gear">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Gear Ratio:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.ratio_gear"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.watertank">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Watertank Depth:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.watertank"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                    </table>-->
+                <!--                </t>-->
+                    
+                    
+                    
+                    
+                    
+                    
+                <!--                <t t-if="o.product_id.product_tmpl_id.Pro_type_con">-->
+                <!--                    <table style="width:100%;border: 1px solid black;" class="mt0">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-center" colspan="99" style="padding: 2px;width:100%;background-color:#d2d4d6;border: 1px solid black;">CONTROLLER DETAILS</td>-->
+                <!--                        </tr>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.watertank">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Brand:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.manu_con"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.rate_con">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">HP Rating:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.rate_con"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.rate_uom_id_con.name" style="font-family: Calibri;"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.Type_con">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Starting Method:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.Type_con"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.site_voltage">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Site Voltage:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.site_voltage"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.charger_voltage">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Charger Voltage:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.charger_voltage"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.listing_con">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Controller Listing:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.listing_con"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.supply_con">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Controller Supply:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.supply_con"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.enc_con">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Enclosure Rating:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.enc_con"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.with_ats">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">With ATS:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.with_ats"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                        <t t-if="o.product_id.product_tmpl_id.special_options">-->
+                <!--                        <tr>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:40%;background-color:#d2d4d6;border: 1px solid black;">Special Options:</td>-->
+                <!--                            <td class="text-left" style="margin-left:10px;padding: 2px;width:60%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.special_options"/> </td>-->
+                <!--                        </tr>-->
+                <!--                        </t>-->
+                <!--                    </table><br/>-->
+                                    
+                <!--                </t>-->
+                <!--                </div>-->
+                <!--                </div>-->
+                <!--                <br/>-->
+                        <!-- </t> -->
+                        <!-- </t> -->
+                <!--        </t>-->
+                    
+                    <!-- </t> -->
+                <!--</div>-->
+                <!--    <br/>-->
+                    <br/>
+                    <br/>
+   
+
+                    <div t-if="o.workorder_ids" class="mt1" >
+                        <h3>
+                            <t t-if="o.state == 'done'">Operations Done</t>
+                            <t t-else="">Operations Planned</t>
+                        </h3>
+                        <table class="table table-sm">
+                            <tr>
+                                <th><strong>Operation</strong></th>
+                                <th><strong>WorkCenter</strong></th>
+                                <th><strong>No. Of Minutes</strong></th>
+                            </tr>
+                            <tr t-foreach="o.workorder_ids" t-as="line2">
+                                <td><span t-field="line2.name"/></td>
+                                <td><span t-field="line2.workcenter_id.name"/></td>
+                                <td>
+                                    <span t-if="o.state != 'done'" t-field="line2.duration_expected"/>
+                                    <span t-if="o.state == 'done'" t-field="line2.duration"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                    <!-- <br/>
+                    <br/>  margin-bottom: 100px;
+                    <br/>
+                    <br/>
+                    <br/> style="position: absolute;  min-height: 300px;"
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/> -->
+                    </div>
+                   
+                    <div>
+                      <h3 t-if="o.move_raw_ids" class="mt1">
+                          <t t-if="o.state == 'done'">
+                              Consumed Products
+                          </t>
+                          <t t-else="">
+                              Products to Consume
+                          </t>
+                      </h3>
+                    </div>
+                    <br/>
+                    <br/>
+
+                    <table class="table table-sm" t-if="o.move_raw_ids">
+                        <t t-set="has_location" t-value="any(o.move_raw_ids.filtered(lambda x: x.move_line_ids.filtered(lambda x: x.location_id.id)))" groups="stock.group_stock_multi_locations"/>
+                        <t t-set="has_serial_number" t-value="any(o.move_raw_ids.filtered(lambda x: x.move_line_ids.filtered(lambda x: x.lot_id or x.lot_name)))" groups="stock.group_production_lot"/>
+                        <t t-set="has_product_barcode" t-value="any(o.move_raw_ids.filtered(lambda x: x.product_id.barcode))"/>
+                        <t t-set="has_product_available" t-value="any(o.move_raw_ids.filtered(lambda x: x.move_line_ids.filtered(lambda x: x.product_qty)))"/>
+                        <t t-if="o.state=='done'">
+                            <t t-set="has_product_available" t-value="any(o.move_raw_ids.filtered(lambda x: x.move_line_ids.filtered(lambda x: x.qty_done)))"/>
+                        </t>
+                        <thead>
+                            <tr t-if="has_product_available">
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th><span t-if="has_location">From</span></th>
+                                <th t-if="has_serial_number" width="15%">Lot/Serial barcode</th>
+                                <th t-if="has_product_barcode" width="15%" class="text-center">Barcode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="has_product_available and o.move_raw_ids">
+                                <t t-set="lines" t-value="o.move_raw_ids"/>
+                                <t t-foreach="lines" t-as="line">
+                                    <t t-set="move_lines" t-value="line.move_line_ids.filtered(lambda x: x.state != 'done' and x.product_qty)"/>
+                                    <t t-if="o.state == 'done'">
+                                        <t t-set="move_lines" t-value="line.move_line_ids.filtered(lambda x: x.state == 'done' and x.qty_done)"/>
+                                    </t>
+                                    <t t-foreach="move_lines" t-as="ml">
+                                        <tr>
+                                            <td>
+                                                <span t-field="line.product_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="ml.product_uom_qty" t-if="ml.state !='done'"/>
+                                                <span t-esc="ml.qty_done" t-if="ml.state =='done'"/>
+                                                <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
+                                            </td>
+                                            <td>
+                                                <span t-if="has_location">
+                                                    <span t-field="ml.location_id"/>
+                                                </span>
+                                            </td>
+                                            <td t-if="has_serial_number" width="15%">
+                                                <t t-if="has_serial_number and (ml.lot_id or ml.lot_name)">
+                                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', ml.lot_id.name, 600, 100)" style="width:100%;height:35px" alt="Barcode"/>
+                                                </t>
+                                            </td>
+                                            <td t-if="has_product_barcode" width="15%" class="text-center">
+                                                <t t-if="line.product_id.barcode">
+                                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', line.product_id.barcode, 600, 100)" style="width:100%;height:35px" alt="Barcode"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table><br/><br/>
+                    <t t-set="has_product_reserved" t-value="o.move_raw_ids.filtered(lambda x: x.product_uom_qty != x.reserved_availability)"/>
+                    <p t-if="o.state !='done' and (not has_product_available or has_product_reserved)" class="fa fa-exclamation-triangle">
+                        All components could not be reserved. Click on the "Check Availability button" to try to reserve components.
+                    </p>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+<!-- <template id="production_message">
+    <t t-if="move.move_id.raw_material_production_id">
+        <t t-set="message">Consumed</t>
+    </t>
+    <t t-if="move.move_id.production_id">
+        <t t-set="message">Produced</t>
+    </t>
+    <strong><t t-esc="message"/> quantity has been updated.</strong>
+</template>
+
+<template id="track_production_move_template">
+    <div>
+        <t t-call="mrp.production_message"/>
+        <t t-call="stock.message_body"/>
+    </div>
+</template> -->
+</odoo>

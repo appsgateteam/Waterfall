@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    
+    <record id="mrp_production_form_view_inherit_process_costing" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <field name="bom_id" position="before">
+                <field name="everage_price"/>
+<!--                <field name="update_cost" invisible="0"/>-->
+                <field name="compute_cost" invisible="0"/>
+            </field>
+            <xpath expr="//notebook/page/field[@name='move_raw_ids']/tree/field[@name='product_uom']" position="after">
+                    <field name="remarks"/>
+            </xpath>
+            <xpath expr="//notebook/page/field[@name='move_raw_ids']/tree/field[@name='remarks']" position="after">
+                    <field name="mrp_product"/>
+            </xpath>
+            <xpath expr="//notebook/page/field[@name='move_raw_ids']/tree/field[@name='mrp_product']" position="after">
+                    <field name="raw_product" invisible="1"/>
+            </xpath>
+             <xpath expr="//form/header/button[@name='button_mark_done']" position="replace">
+                 <button name="button_mark_done" attrs="{'invisible': ['|','|',  ('check_to_done', '=', False), ('consumed_less_than_planned', '=', True),('compute_cost', '=', False)]}" string="Mark as Done" type="object" class="oe_highlight"/>
+            </xpath>
+<!--             <xpath expr="//form/header/button[@name='button_mark_done']" position="after">-->
+<!--                 <button name="update_product_cost" attrs="{'invisible': ['|','|', ('check_to_done', '=', False), ('consumed_less_than_planned', '=', True),('update_cost', '=', True),('compute_cost', '=', False)]}" string="Confirm" type="object" class="oe_highlight"/>-->
+<!--            </xpath>-->
+            <xpath expr="//form/header/button[@name='button_mark_done']" position="after">
+                 <button name="update_material_cost" attrs="{'invisible': ['|','|', ('check_to_done', '=', False), ('consumed_less_than_planned', '=', True),('compute_cost', '=', True)]}" string="Approve" type="object" class="oe_highlight"/>
+            </xpath>
+           <!--  <xpath expr="//notebook/page/field[@name='move_raw_ids']" position="replace">
+                <field name="move_raw_ids" context="{'final_lots': show_final_lots, 'form_view_ref': 'mrp.view_stock_move_lots', 'default_location_id': location_src_id, 'default_location_dest_id': production_location_id, 'default_state': 'confirmed', 'default_raw_material_production_id': id, 'default_picking_type_id': picking_type_id}" attrs="{'readonly': [('is_locked', '=', True)]}">
+                    <tree create="true" edit="true" default_order="is_done,sequence" decoration-muted="is_done" decoration-warning="quantity_done&gt;product_uom_qty" decoration-success="not is_done and quantity_done - product_uom_qty &lt; 0.0001" decoration-danger="not is_done and reserved_availability &lt; product_uom_qty and product_uom_qty - reserved_availability &gt; 0.0001">
+                        <field name="product_id" required="1"/>
+                        <field name="name" invisible="1"/>
+                        <field name="unit_factor" invisible="1"/>
+                        <field name="product_uom" groups="uom.group_uom"/>
+                        <field name="has_tracking" invisible="1"/>
+                        <field name="needs_lots" readonly="1" groups="stock.group_production_lot"/>
+                        <field name="is_done" invisible="1"/>
+                        <field name="sequence" invisible="1"/>
+                        <field name="location_id" invisible="1"/>
+                        <field name="location_dest_id" domain="[('id', 'child_of', parent.location_dest_id)]" invisible="1"/>
+                        <field name="state" invisible="1" force_save="1"/>
+                        <field name="product_uom_qty" string="To Consume"/>
+                        <field name="reserved_availability" attrs="{'invisible': [('is_done', '=', True)], 'column_invisible': [('parent.state', '=', 'done')]}" string="Reserved"/>
+                        <field name="quantity_done" string="Consumed" readonly="1"/>
+                    </tree>
+                </field>
+            </xpath> -->
+            <xpath expr="//page[last()]" position="after">
+<!--                <page name="mrp_material" string="Direct Materials Cost">-->
+<!--                    <group>-->
+<!--                        <field name="direct_material_ids" nolabel="1" context="{'default_job_type': 'material'}"/>-->
+<!--                    </group>-->
+<!--                    <group class="oe_subtotal_footer oe_right"> -->
+<!--                        <label for="material_total" string="Total Material Cost"/>-->
+<!--                        <div>-->
+<!--                            <field name="material_total" class="oe_inline"/>-->
+<!--                        </div>-->
+<!--                        <label for="total_actual_material_cost" string="Total Material Actual Cost"/>-->
+<!--                        <div>-->
+<!--                            <field name="total_actual_material_cost" class="oe_inline"/>-->
+<!--                        </div>-->
+<!--                    </group>-->
+<!--                </page>-->
+                <page name="mrp_labour" string="Direct Labour Cost">
+                    <group>
+                        <field name="labour_cost_ids" nolabel="1" context="{'default_job_type': 'labour'}"/>
+                    </group>
+<!--                    <group class="oe_subtotal_footer oe_right">-->
+<!--                        <label for="labor_total" string="Total Labour Cost"/>-->
+<!--                        <div>-->
+<!--                            <field name="labor_total" class="oe_inline"/>-->
+<!--                        </div>-->
+<!--                        <label for="total_actual_labour_cost" string="Total Labour Actual Cost"/>-->
+<!--                        <div>-->
+<!--                            <field name="total_actual_labour_cost" class="oe_inline"/>-->
+<!--                        </div>-->
+<!--                    </group>-->
+                </page>
+                <page name="mrp_overhead" string="Manufacturing Overhead Cost">
+                    <group>
+                        <field name="overhead_cost_ids" nolabel="1" context="{'default_job_type': 'overhead'}"/>
+                    </group>
+                  <!--   <group class="oe_subtotal_footer oe_right">
+                        <label for="overhead_total" string="Total Overhead Cost"/>
+                        <div class="oe_inline">
+                            <field name="overhead_total" class="oe_inline"/>
+                        </div> --> 
+<!--                        <label for="total_actual_overhead_cost" string="Total Overhead Actual Cost"/>-->
+<!--                        <div>-->
+<!--                            <field name="total_actual_overhead_cost" class="oe_inline"/>-->
+<!--                        </div>-->
+                 <!--   </group> -->
+                </page>
+                <page name="costing" string="Costing">
+                    <group>
+                        <group string="Plan">
+                            <field name="custom_currency_id" invisible="1"/>
+                            <field name="material_total" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                            <field name="labor_total" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                            <field name="overhead_total" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                            <field name="final_total_cost" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                        </group>
+                        <group string="Actual">
+                            <field name="total_actual_material_cost" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                            <field name="total_actual_labour_cost" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                            <field name="total_actual_overhead_cost" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                            <field name="final_total_actual_cost" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                            <field name="unit_cost" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="view_stock_move_lots_inherit" model="ir.ui.view">
+            <field name="name">stock.move.lots.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+            <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="remarks"/>
+            </field>
+            </field>
+     </record>
+    </data>
+</odoo>

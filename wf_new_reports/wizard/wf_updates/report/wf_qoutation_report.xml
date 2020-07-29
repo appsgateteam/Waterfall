@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- <template id="report_assets_common_custom_fonts" name="qweb_fonts less backend assets" inherit_id="web.report_assets_common">
+    <xpath expr="." position="inside">
+      <link href="/wf_updates/static/src/less/fonts.less" rel="stylesheet" type="text/less"/>
+    </xpath>
+</template> -->
+
+
+<template id="report_wf_quotation_document">
+    <t t-call="web.external_layout">
+        <div class="page">
+          <style type="text/css">
+            
+              /* United */
+              @font-face {
+                font-family: 'Calibri';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(/home/ubuntu/.fonts/calibrii.ttf) format('truetype');
+              }
+              @font-face {
+                font-family: 'PWSignaturetwo';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(wf_updates/static/src/fonts/PWSignaturetwo.ttf) format('truetype');
+              }
+      
+            
+          </style>
+            <div class="oe_structure"/>
+            <div style="margin-right:90%;">
+              <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+              <t t-set="address">
+                <strong style="margin-left:25%;font-family: Calibri;color:black;">QUOTATION</strong>
+                <b><span style="margin-left:25%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
+                <b><span style="margin-left:25%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
+                <b><span style="margin-left:25%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+                <br/>
+                <br/>
+                <br/>
+                
+                  <div class="row address">
+                    
+                    <div class="col-5">
+                      <p t-if="doc.contact_person">Name Of Contact Person: <span t-field="doc.contact_person"/></p>
+                      <p>Company name: <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: ['name'], &quot;no_marker&quot;: True}"/></p>
+                      <p t-if="doc.project_name">Project Name: <span t-field="doc.project_name"/></p>
+                      <p t-if="doc.project_loc">Project Location: <span t-field="doc.project_loc"/></p>
+                      <p t-if="doc.client_order_ref">Customer Referance: <span t-field="doc.client_order_ref"/></p>
+                    </div>
+                    <div class="col-5 offset-2"/>
+                  </div>
+                  <!--<div style="float:left;" t-field="doc.partner_id" />-->
+                  <!--<p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="doc.partner_id.vat"/></p>-->
+              </t>
+            </div>
+            <br/>
+            <p style="font-family: Calibri;">We thank you for your valuable enquiry. It is our pleasure to submit our quotation for your considration. Material/Equipment specifications and schedule are given below. </p>
+            
+            <span class="text-left" style="font-family: Calibri;"><u><b>EQUIPMENT</b></u></span>
+            <br/>
+            <!-- <t t-foreach="doc.order_line" t-as="line"> -->
+            <span style="font-family: Calibri;">We offer our </span><span t-field="doc.pro_nam" style="font-family: Calibri;"/><span style="font-family: Calibri;"> for the fire protection applications</span>
+            <!-- </t> -->
+            <br/>
+            <t t-set="i" t-value="1"/>
+            <t t-foreach="doc.sale_order_option_ids" t-as="line">
+                <t t-if="line.check == 1">
+                  <t t-if="line.bom_nam">
+                <span style="font-family: Calibri;">ITEM(<span t-esc="i"/>):</span><span t-field="line.bom_nam" style="font-family: Calibri;"/>
+                <t t-set="i" t-value="i+1"/><br/>
+                </t>
+                </t>
+              
+            </t>
+            <span style="font-family: Calibri;">ITEM(<span t-esc="i"/>):Price,Terms and Conditions</span><br/>
+            <br/>
+            <p style="font-family: Calibri;">When you have finished examining the offer, we would be pleased to receive your invitation to discuss our offer in more details</p>
+            <b><span class="text-left" style="font-family: Calibri;">Yours Faithfully</span></b><br/>
+            <!--<b><span class="text-left" style="font-family: Calibri;">WATERFALL Pumps</span></b>-->
+            
+            <br/>            
+            <br/>
+            <br/>
+            <br/>
+<!---->
+            <div>
+                <div style="float:left;margin-left:10%;">
+                  <b><span t-field="doc.sign_sale" style="font-family:PWSignaturetwo;font-size:50px;white-space: nowrap;"/></b>
+                </div>
+                <div style="margin-left:55%;">
+                  <t t-if="doc.sign_man">
+                  <b><span t-field="doc.sign_man" style="font-family:PWSignaturetwo;font-size:50px;white-space: nowrap;"/></b>
+                  </t>
+                  <t t-else=""><p style="font-family:PWSignaturetwo;font-size:38px;color:white;">.</p></t>
+                  
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;">
+                  <span class="text-left" style="font-family: Calibri;"><span t-esc="doc.user_id.name" style="font-family: Calibri;white-space: nowrap;"/></span>
+                </div>
+                <div style="margin-left:55%;">
+                  <span class="text-left" style="font-family: Calibri;"><span t-esc="doc.sign_man.name" style="font-family: Calibri;white-space: nowrap;"/></span>
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;width:40%">
+                    <span class="text-left" style="font-family: Calibri;white-space: nowrap;">
+                      <span t-field="doc.user_id.function" style="font-family: Calibri;white-space: nowrap;"/>
+                    </span>
+                </div>
+                <div style="margin-left:55%;">
+                    <span class="text-left" style="font-family: Calibri;white-space: nowrap;">
+                      <span t-field="doc.sign_man.function" style="font-family: Calibri;white-space: nowrap;"/>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;">
+                    <span class="text-left" style="font-family: Calibri;white-space: nowrap;">Mob: <span t-field="doc.user_id.mobile" style="font-family: Calibri;"/></span>
+                </div>
+                <div style="margin-left:55%;">
+                    <span class="text-left" style="font-family: Calibri;white-space: nowrap;">Mob: <span t-field="doc.sign_man.mobile" style="font-family: Calibri;"/></span>
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;">
+                    <span class="text-left" style="font-family: Calibri;white-space: nowrap;">E-mail: <span t-esc="doc.user_id.login" style="font-family: Calibri;"/></span>
+                </div>
+                <div style="margin-left:55%;">
+                    <!--<img t-att-src="'/sale/static/src/img/kussay.jpeg'" />-->
+                    <span class="text-left" style="font-family: Calibri;white-space: nowrap;">E-mail: <span t-esc="doc.sign_man.login" style="font-family: Calibri;"/></span>
+                </div>
+                
+            </div>
+            <!---->
+            <div class="oe_structure"/>
+        </div>
+        
+        <t t-set="j" t-value="1"/>
+        <t t-foreach="doc.sale_order_option_ids" t-as="line">
+          <t t-if="line.bom_ok == True">
+          <t t-if="line.check == 1">
+        <p style="page-break-after:always"/>
+        <div class="page">
+          <div class="oe_structure"/>
+            <strong style="margin-left:70%;font-family: Calibri;color:black;">QUOTATION</strong>
+            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
+            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
+            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+            <br/>
+            <u><b><strong class="text-center" style="font-family: Calibri;margin-left:30%;color:black;">ITEM(<span t-esc="j"/>):<span t-field="line.bom_nam"/></strong></b></u><b><strong style="font-family: Calibri;margin-left:20%;color:black;">QTY:<t t-esc="int(line.quantity)"/></strong></b>
+            <br/>
+            <!-- <t t-foreach="doc.sale_order_options_ids" t-as="line"> -->
+            
+            <!-- <t t-if="line.check == 0">
+              <t t-if="line.num == j"> -->
+                <!--<t t-if="line.bom_ok == True">-->
+                <t t-if="line.Pro_type">
+                <u><b><span t-field="line.Pro_type" style="font-family: Calibri;"/>:</b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                    <div t-if="line.flow">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Flow</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="int(line.flow)" style="font-family: Calibri;"/> <t t-esc="line.flow_uom_id.name" style="font-size:10px;font-family: Calibri;"/></div></div> 
+                    </div>
+                    <div t-if="line.head">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Head</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.head" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.Type">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Type</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.manu">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Manufacture</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.model">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Model</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.model" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.no_of_stages">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">No.of Stages</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.no_of_stages" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.speed">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Speed</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="int(line.speed)" style="font-family: Calibri;"/> <t t-esc="line.speed_uom_id.name" style="font-family: Calibri;"/></div></div> 
+                    </div>
+                    <div t-if="line.listing">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Listing</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.listing" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.con">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Construction</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.con" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.acc">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Accessories</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.acc" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    
+                </div>
+                </t>
+                <t t-if="line.Pro_type_dr">
+                <u><b><span t-field="line.Pro_type_dr" style="font-family: Calibri;"/>:</b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                    <div t-if="line.Type_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Type</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type_dr" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.manu_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Manufacture</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu_dr" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.model_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Model</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.model_dr" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.speed_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Speed</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="int(line.speed_dr)" style="font-family: Calibri;"/> <t t-esc="line.speed_uom_id_dr.name" style="font-family: Calibri;"/></div></div>  
+                    </div>
+                    <div t-if="line.frame">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">FrameSize</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.frame" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.rate_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Rating</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="line.rate_dr" style="font-family: Calibri;"/> <t t-esc="line.rate_uom_id_dr.name" style="font-family: Calibri;"/></div></div>  
+                    </div>
+                    <div t-if="line.listing_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Listing</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.listing_dr" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.supply_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Supply</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.supply_dr" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.enc_dr">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Enclosure</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.enc_dr" style="font-family: Calibri;"/></div></div>
+                    </div>
+                </div>
+                </t>
+                <!-- add by fouad -->
+
+                <t t-if="line.Pro_type_ger">
+                <u><b><span t-field="line.Pro_type_ger" style="font-family: Calibri;"/>:</b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                    <div t-if="line.Type_ger">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Type</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type_ger" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.manu_gear">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Manufacture</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu_gear" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.model_gear">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Model</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="line.model_gear" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.ratio_gear">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Ratio</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.ratio_gear" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.approval_gear">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Approval</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.approval_gear" style="font-family: Calibri;"/></div></div>
+                    </div>
+                </div>
+                </t>
+
+
+                <!--end add by fouad -->
+
+
+
+
+                <t t-if="line.Pro_type_con">
+                <u><b><span t-field="line.Pro_type_con" style="font-family: Calibri;"/>:</b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                    <div t-if="line.Type_con">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Type</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type_con" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.manu_con">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Manufacture</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu_con" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.rate_con">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Rating</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="line.rate_con" style="font-family: Calibri;"/> <t t-esc="line.rate_uom_id_con.name" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.listing_con">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Listing</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.listing_con" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.supply_con">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Supply</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.supply_con" style="font-family: Calibri;"/></div></div>
+                    </div>
+                    <div t-if="line.enc_con">
+                        <div style="float:left;margin-left:10%;"><span style="font-family: Calibri;">Enclosure</span></div>
+                        <div style="margin-left:40%;"><div style="float:left;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.enc_con" style="font-family: Calibri;"/></div></div>
+                    </div>
+                </div>
+                </t>
+                <!-- </t>
+                </t> -->
+                <!--</t>-->
+                <!-- </t> -->
+                <!-- <br/> -->
+            <!-- </t> -->
+            <div class="oe_structure"/>
+        </div>
+        <t t-set="j" t-value="j+1"/>
+        </t>
+        </t>
+        </t>
+        <p style="page-break-after:always"/>
+        <div class="page">
+          <div class="oe_structure"/>
+            <strong style="margin-left:70%;font-family: Calibri;color:black;">QUOTATION</strong>
+            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
+            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
+            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+            <br/>
+            <br/>
+            <br/>
+            <!-- <h4 class="text-center" style="font-family: Calibri;"><u><b>Price,Terms and Conditions</b></u></h4> -->
+            <u><b><strong class="text-center" style="font-family: Calibri;margin-left:30%;color:black;">ITEM(<span t-esc="j"/>):Price,Terms and Conditions</strong></b></u>
+            <br/>
+            <span style="margin-right:70px;font-family: Calibri;"><b>PRICE:</b></span>
+            <div style="white-space: nowrap;">
+            <span t-field="doc.text" style="margin-left:5%;font-family: Calibri;text-transform:uppercase;"/>  ONLY <span t-field="doc.amount_total" style="padding-left:100px;font-family: Calibri;"/><br/><br/>
+            </div>
+            <!-- <p t-field="doc.note" style="margin-left:10%;font-family: Calibri;"/> -->
+            <span style="margin-right:70px;font-family: Calibri;"><b>SCOPE OF WORK:</b></span>
+            <p t-field="doc.scope" style="margin-left:5%;font-family: Calibri;"/>
+            <span style="margin-right:70px;font-family: Calibri;"><b>TERMS:</b></span>
+            <p t-field="doc.terms" style="margin-left:5%;font-family: Calibri;"/>
+            <span style="margin-right:70px;font-family: Calibri;"><b>NOTES:</b></span>
+            <p t-field="doc.notess" style="margin-left:5%;font-family: Calibri;"/>
+            <span style="margin-right:70px;font-family: Calibri;"><b>EXCLUSIONS:</b></span>
+            <p t-field="doc.exclue" style="margin-left:5%;font-family: Calibri;"/>
+            <div class="oe_structure"/>
+        </div>
+    </t>
+    
+</template>
+
+
+<template id="report_wf_quotation">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="wf_updates.report_wf_quotation_document" t-lang="doc.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+</odoo>

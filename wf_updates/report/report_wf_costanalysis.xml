@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_wf_costanalysis_document">
+    <t t-call="web.external_layout">
+        <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+        <h2 class="text-center" style="white-space: nowrap;">
+                <strong>Cost Analysis</strong>
+        </h2>
+        <span style="font-size:20px">Sales Order:  <span t-field="doc.origin"/> </span><br/>
+        <div class="page">
+            <div class="oe_structure"/>
+                <t t-foreach="doc.product_line_ids" t-as="line">
+                    <t t-if="line.bom == 1">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <!-- TODO: remove in master -->
+                                    <t t-set="colspan" t-value="5"/>
+                                    <th class="text-left">Product</th>
+                                    <th class="text-left">Serial No.</th>
+                                    <th class="text-left">Qty.</th>
+                                    <th class="text-left">Unit Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody"> 
+                                <tr>
+                                    <td class="text-left">
+                                        <span t-field="line.product"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-field="line.no"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-field="line.qty"/>
+                                    </td>
+                                    <td class="text-left">
+                                          <span t-field="line.price"/>
+                                    </td>
+                                </tr>
+                                <t t-foreach="doc.product_line_idss" t-as="lin">
+                                  <t t-if="line.types == lin.types">
+                                    <tr>  
+                                        <td class="text-left">
+                                            <span t-field="lin.product"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="lin.no"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="lin.qty"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="lin.price"/>
+                                        </td>
+                                    </tr>
+                                  </t>
+                                </t>
+                            </tbody>    
+                        </table>
+                        <br/>
+                    </t>
+                </t>
+                
+                <br/>
+                  <table class="table table-sm">
+                      <thead>
+                          <tr>
+                              <!-- TODO: remove in master -->
+                              <t t-set="colspan" t-value="5"/>
+                              <th class="text-left">Product</th>
+                              <th class="text-left">Serial No.</th>
+                              <th class="text-left">Qty.</th>
+                              <th class="text-left">Unit Cost</th>
+                          </tr>
+                      </thead>
+                      <tbody class="sale_tbody"> 
+                          <t t-foreach="doc.product_line_ids" t-as="line">
+                              <t t-if="line.bom == 0">
+                                  <tr>
+                                      <td class="text-left">
+                                          <span t-field="line.product"/>
+                                      </td>
+                                      <td class="text-left">
+                                          <span t-field="line.no"/>
+                                      </td>
+                                      <td class="text-left">
+                                          <span t-field="line.qty"/>
+                                      </td>
+                                      <td class="text-left">
+                                          <span t-field="line.price"/>
+                                      </td>
+                                  </tr>
+                              </t>
+                          </t>
+                      </tbody>    
+                  </table>
+                <span style="font-size:20px">Total Cost: <span t-field="doc.total_price"/> </span>
+                <!--<t t-foreach="doc.product_line_idss" t-as="line">-->
+                             <!--<t t-if="line.bom == 0"> -->
+                <!--                <tr>-->
+                <!--                    <td class="text-left" >-->
+                <!--                        <span t-field="line.product"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" >-->
+                <!--                        <span t-field="line.no"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" >-->
+                <!--                        <span t-field="line.qty"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" >-->
+                <!--                        <span t-field="line.status"/>-->
+                <!--                    </td>-->
+                <!--                    <td class="text-left" >-->
+                                          
+                <!--                    </td>-->
+                <!--                </tr>-->
+                             <!--</t> -->
+                <!--        </t>-->
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+
+<template id="report_wf_costanalysis">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="wf_updates.report_wf_costanalysis_document" t-lang="doc.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+</odoo>

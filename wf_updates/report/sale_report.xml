@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="action_report_wf_quotation"
+            string="WF Quotation"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_wf_quotation" 
+            name="wf_updates.report_wf_quotation"
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name))"
+            
+        />
+        <record id="wf_quotation_arabic_report" model="report.paperformat">
+            <field name="name">Quotation Arabic</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">28</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">25</field>
+            <field name="dpi">90</field>
+        </record>
+        <record id="packinglist_report" model="report.paperformat">
+            <field name="name">Packing List</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">28</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">33</field>
+            <field name="dpi">90</field>
+        </record>
+        <report 
+            id="action_report_wf_quotation_arabic"
+            string="WF Quotation Arabic"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_wf_quotation_arabic" 
+            name="wf_updates.report_wf_quotation_arabic"
+            paperformat="wf_quotation_arabic_report"
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name))"
+            
+        />
+        <report 
+            id="action_report_wf_packing_list"
+            string="Packing List"
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_wf_packing_list" 
+            name="wf_updates.report_wf_packing_list"
+            print_report_name="'Packing List - %s' % (object.name)"
+            paperformat="packinglist_report"
+        />
+
+        <!--packing list arabic   -->
+
+        <report 
+            id="action_report_wf_packing_list_arabic"
+            string="Packing List Arabic"
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_wf_packing_list_arabic" 
+            name="wf_updates.report_wf_packing_list_arabic"
+            print_report_name="'Packing List Arabic - %s' % (object.name)"
+        />
+
+
+
+
+
+
+
+        <report 
+            id="action_report_wf_predispatch"
+            string="Pre-dispatch Inspection Checklist"
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_wf_pre_dispatch" 
+            name="wf_updates.report_wf_pre_dispatch"
+            print_report_name="'PRE-DISPATCH Report - %s' % (object.name)"
+        />
+        <report 
+            id="action_report_wf_costanalysis"
+            string="Cost Analysis Final"
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_wf_costanalysis" 
+            name="wf_updates.report_wf_costanalysis"
+            print_report_name="'Cost Analysis Final - %s' % (object.name)"
+            groups="account.group_account_manager"
+        />
+        <report 
+            id="action_report_delivery_order"
+            string="Delivery Order"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_delivery_order" 
+            name="wf_updates.report_delivery_order"
+            print_report_name="'Delivery order - %s' % (object.name)"
+        />
+
+
+
+        <record id="sales_order_acknowledgement_report" model="report.paperformat">
+            <field name="name">Sales Order Acknowledgement</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">32</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">25</field>
+            <field name="dpi">90</field>
+        </record>
+        <report 
+            id="action_report_sales_order_acknowledgement"
+            string="Sales Order Acknowledgement"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_sales_order_acknowledgement" 
+            name="wf_updates.report_sales_order_acknowledgement"
+            paperformat="sales_order_acknowledgement_report"
+            print_report_name="'Sales Order Acknowledgement - %s' % (object.name)"
+        />
+
+        <record id="sale_report" model="report.paperformat">
+            <field name="name">Leaves Summary</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">100</field>
+        </record>
+        <report id="sale_summary_report"
+            model="quotations.seals"
+            string="Custom Sale Report"
+            report_type="qweb-pdf"
+            name="wf_updates.sale_summary_report_view"
+            paperformat="sale_report"
+            menu="False"/>
+
+
+
+        <!-- Invoices report arabic   -->
+        <report 
+            id="action_report_invoice_arabic_document"
+            string="Invoices Arabic"
+            model="account.invoice" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_invoice_arabic" 
+            name="wf_updates.report_invoice_arabic"
+            print_report_name="'Invoices Arabic - %s' % (object.name)"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,60 @@
+<odoo>
+    <record model="report.paperformat" id="paperformat_project_payment_report">
+        <field name="name">project.payment.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">25</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="project_payment_report"
+            model="project.payment.wizard"
+            string="Project Payment Report"
+            report_type="qweb-pdf"
+            name="sc_account_report.project_payment_report_view"
+            paperformat="paperformat_project_payment_report"
+            menu="False"/>
+
+    <template id="project_payment_report_view">
+        <div class="header" style="width:100%;align:center">
+            <strong><h3 class="text-center">تقرير دفعيات المشروعات </h3></strong>
+            <div class="row" style="margin-right: 40%;border:4px;">
+                <!-- <div class="col-xs-6">
+                    <strong> الي:  </strong>
+                    <span t-esc="date_to"/>
+                </div>
+                <div class="col-xs-6" >
+                    <strong> من: </strong>
+                    <span t-esc="date_from"/>
+                </div> -->
+                
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="row text-center" style="border-top: 1px solid black;">
+                <div class="text-center">
+                    <ul class="list-inline" style="margin-top:10px;">
+                        <li>Page:</li>
+                        <li>
+                            <span class="page"/>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record model="ir.ui.view" id="view_purchase_order_pivot_cust">
+        <field name="name">product.month.pivot.cust</field>
+        <field name="model">purchase.report</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='price_average']" position="after">
+                <field name="name"/>
+                <field name="date_planned"/>
+                <field name="purchased_qty"/>
+                <field name="received_qty"/>
+                <field name="billed_qty"/>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_purchase_order_graph_cust">
+        <field name="name">product.month.graph.cust</field>
+        <field name="model">purchase.report</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_graph"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='price_average']" position="after">
+                <field name="name"/>
+                <field name="date_planned"/>
+                <field name="purchased_qty"/>
+                <field name="received_qty"/>
+                <field name="billed_qty"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- <record model="ir.ui.view" id="view_mrp_workorder_cust">
+        <field name="name">view.mrp.workorder.cust</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="bring_lot_id" type="object" string="Bring SN" class="btn-info" attrs="{'invisible': [('active_move_line_ids', '=', [])]}"/>
+            </xpath>
+        </field>
+    </record> -->
+
+    <record model="ir.ui.view" id="view_mrp_workorder_custtt">
+        <field name="name">view.mrp.workorder.custtt</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mfg_wo.mrp_workorder_view_form_tablet"/>
+        <field name="arch" type="xml">
+            <button name="action_open_manufacturing_order" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="action_open_manufacturing_order" position="after">
+                <button name="bring_lot_id2" type="object" string="Assign SN" class="btn-primary" attrs="{'invisible': [('active_move_line_ids', '=', [])]}"/>
+                <!-- <button name="action_open_manufacturing_order" type="object" string="Mark as Done and Close MO" icon="fa-check" attrs="{'invisible': ['|', '|', '|', '|', '|', ('is_user_working', '=', False), ('is_last_step', '!=', True), ('skipped_check_ids', '!=', []), ('is_last_lot', '=', False), ('is_last_unfinished_wo', '=', False)]}" class="btn-primary" barcode_trigger="cloMO"/> -->
+            </button>
+            <xpath expr="//field[@name='qty_done']" position="replace">
+                <field name="qty_done" context="{'default_qty_done':1}" attrs="{'readonly': [('component_tracking', '=', 'serial')],'required':[('qty_done','=',True)]}" string="Quantity" class="oe_inline"/>
+            </xpath>
+        </field>
+    </record>
+
+    
+
+
+    
+</odoo>

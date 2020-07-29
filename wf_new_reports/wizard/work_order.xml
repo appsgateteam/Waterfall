@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record id="prod_schedule_report_form" model="ir.ui.view">
+            <field name="name">prod.schedule.report.form</field>
+            <field name="model">prod.schedule.report</field>
+            <field name="arch" type="xml">
+                <form string="PRODUCTION SCHEDULE">
+                    <h2>Print work order</h2>
+                    <group>
+                        <!-- <group> -->
+                            <field name="date_from" />
+                            <field name="date_to" />
+                            <field name="category" widget="many2many_tags"/>
+                        <!-- </group>
+                        <group> --> 
+                            <!-- <field name="project" domain="[('group_id','=',event)]" widget="many2many_tags"/> -->
+                        <!-- </group> -->
+                    </group>
+                    <footer>
+						<button name="get_report" string="Print" type="object" class="btn-primary"/>
+						<button string="Cancel" class="btn-default" special="cancel"/>
+					</footer>		
+				</form>
+            </field>
+        </record>
+
+        <act_window id="prod_schedule_report_action"
+                    name="Production Schedule"
+                    res_model="prod.schedule.report"
+                    view_mode="form"
+                    target="new"/>
+
+        <menuitem
+            id="prod_schedule_report_config"
+            name="Production Schedule"
+            parent = "mrp.menu_mrp_manufacturing"
+            action="prod_schedule_report_action"
+            sequence="100"/>
+
+</odoo>

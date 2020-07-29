@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            string="Item Location and Quantity" 
+            id="action_report_item_location" 
+            model="stock.quant" 
+            report_type="qweb-pdf"
+            name="wf_updates.report_item_location" 
+            print_report_name="'Product Locations - %s' % (object.name)"
+        />
+
+        <!-- <report 
+            string="Price Comparison" 
+            id="action_report_price_comparison" 
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            file="wf_updates.report_price_comparison" 
+            name="wf_updates.report_price_comparison" 
+            print_report_name="' price_comparison - %s' % (object.name)"
+        /> -->
+    </data>
+</odoo>

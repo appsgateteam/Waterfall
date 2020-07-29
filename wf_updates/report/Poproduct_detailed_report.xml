@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_item_location_document">
+    <t t-call="web.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+            <h2 class="text-center">Products Locations</h2>
+            <br/>
+            <br/>
+            <table class="table table-sm o_main_table">
+                <thead>
+                    <tr>
+                        <th class="text-left"><strong>Item</strong></th>
+                        <th class="text-left"><strong>Location</strong></th>
+                        <th class="text-left"><strong>Lot/Serial Number</strong></th>
+                        <th class="text-left"><strong>Reserved</strong></th>
+                        <th class="text-left"><strong>OnHand</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <!-- <t t-set="j" t-value="1"/> -->
+                        <t t-set="i" t-value="test"/>
+                        <t t-foreach="docs" t-as="o">
+                            
+                            <tr>
+                            
+                            <!-- <t t-foreach="o.invoice_line_ids" t-as="line"> -->
+                                <t t-if="i != o.product_id">
+                                    <td class="text-left">
+                                        <span t-field="o.product_id"/>
+                                    </td>
+                                </t>
+                                <t t-else="">
+                                  <td>
+                                        <span>  </span>
+                                    </td>
+                                </t>
+                                <td class="text-left">
+                                    <span t-field="o.location_id"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.lot_id"/>
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="int(o.reserved_quantity)"/>
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="int(o.quantity)"/>
+                                </td>
+                                
+                                
+                            <!-- </t> -->
+                            </tr>
+                            <t t-set="i" t-value="o.product_id"/>
+                            <!-- <t t-set="j" t-value="j+1"/> -->
+                        </t>
+                    
+                    
+                </tbody>
+            </table>
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+<template id="report_item_location">
+    <t t-call="web.html_container">
+            <t t-call="wf_updates.report_item_location_document" />
+    </t>
+</template>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+       <template id="report_purchaseorder_document_customization" inherit_id="purchase.report_purchaseorder_document">
+
+        <xpath expr="/t/t/t[4]/t/strong" position="replace">
+            <br/>
+            <strong>Invoice to:</strong>
+        </xpath>
+        <xpath expr="/t/t/t[4]/t/strong" position="before">
+            <t t-if="o.revsion_ref">
+            <h2 t-if="o.state == 'draft'" style="white-space: nowrap;">Request for Quotation #<span t-field="o.name"/> - REV. <span t-field="o.revsion_ref"/></h2>
+            
+                    <h2 t-if="o.state in ['sent', 'to approve']" style="white-space: nowrap;">Purchase Order #<span t-field="o.name"/> - REV. <span t-field="o.revsion_ref"/></h2>
+                    <h2 t-if="o.state in ['purchase', 'done']" style="white-space: nowrap;">Purchase Order Confirmation #<span t-field="o.name"/> - REV. <span t-field="o.revsion_ref"/></h2>
+                    <h2 t-if="o.state == 'cancel'" style="white-space: nowrap;">Cancelled Purchase Order #<span t-field="o.name"/> - REV. <span t-field="o.revsion_ref"/></h2>
+                    </t>
+                    <t t-else="">
+                    <h2 t-if="o.state == 'draft'" style="white-space: nowrap;">Request for Quotation #<span t-field="o.name"/></h2>
+                    <h2 t-if="o.state in ['sent', 'to approve']" style="white-space: nowrap;">Purchase Order #<span t-field="o.name"/></h2>
+                    <h2 t-if="o.state in ['purchase', 'done']" style="white-space: nowrap;">Purchase Order Confirmation #<span t-field="o.name"/></h2>
+                    <h2 t-if="o.state == 'cancel'" style="white-space: nowrap;">Cancelled Purchase Order #<span t-field="o.name"/></h2>
+                    </t>
+                    
+        </xpath>
+        <xpath expr="/t[1]/t[1]/div[1]/div[2]/div[3]/p[1]" position="attributes">
+            <attribute name="t-options-widget">"date"</attribute>
+        </xpath>
+        <!-- <xpath expr="/t[1]/t[1]/div[1]/table[1]/tbody[1]/tr[1]/td[2]/span[1]" position="attributes">
+            <attribute name="t-options-widget">"date"</attribute>
+        </xpath> -->
+
+     </template>
+
+</odoo>

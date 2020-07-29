@@ -1,0 +1,149 @@
+<odoo>
+    <record model="report.paperformat" id="paperformat_bank_move_report">
+        <field name="name">paperformat.bank.move.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">25</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="bank_move_report"
+            model="bank.move.wizard"
+            string="Bank Movement Report"
+            report_type="qweb-pdf"
+            name="sc_account_report.bank_move_report_view"
+            paperformat="paperformat_bank_move_report"
+            menu="False"/>
+
+    <template id="bank_move_report_view">
+        <div class="header" style="width:100%;align:center">
+            <div class="row" style="margin-right: 40%;border:4px;">
+                <div class="col-xs-6">
+                    <strong> بنك:  </strong>
+                    <span t-esc="bank"/>
+                </div>
+                <p><div class="col-xs-6">
+                    <strong> الي:  </strong>
+                    <span t-esc="date_from"/>
+                </div>
+                <div class="col-xs-6" >
+                    <strong> من: </strong>
+                    <span t-esc="date_to"/>
+                </div></p>
+            </div>
+        </div>
+        <div class="article">
+            <br /><br /><br />
+            <t t-if="all_project == true">
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <thead>
+                        <th class="text-center" style="width: 5%;">عدد الاقساط</th>
+                        <th class="text-center" style="width: 30%">المتبقي</th>
+                        <th class="text-center" style="width: 15%">المدفوع</th>
+                        <th class="text-center" style="width: 15%">قيمة العقد</th>
+                        <th class="text-center" style="width: 15%"> اسم المشروع </th>
+                    </thead>
+
+                    <tbody dir='rtl'>
+                        <t t-foreach="docs" t-as="doc">
+                            <tr>
+                                <td class="text-center">
+                                    <span t-esc="doc['project_name']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['total']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['payed']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['residual']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['count']"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <div class="footer">
+                        <div class="row text-center" style="border-top: 1px solid black;">
+                            <div class="text-center">
+                                <ul class="list-inline" style="margin-top:10px;">
+                                    <li>Page:</li>
+                                    <li>
+                                        <span class="page"/>
+                                    </li>
+                                    <li>/</li>
+                                    <li>
+                                        <span class="topage"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </t>
+            <t t-elif="project_ids == 1">
+                <t t-foreach="docs" t-as="doc">
+                <br /><br /><br />
+                <table class="table table-condensed table-bordered" style="width:100%;">
+                    <style>
+                    table, th, td {
+                      border: 1px solid black;
+                      border-collapse: collapse;
+                    }
+                    </style>
+                    <thead>
+                        <th class="text-center" style="width: 15%">تم السداد/لم يتم السداد</th>
+                        <th class="text-center" style="width: 15%">المبلغ</th>
+                        <th class="text-center" style="width: 15%">التاريخ</th>
+                        <th class="text-center" style="width: 15%">رقم الدفعية</th>
+                    </thead>
+                    <tbody dir='rtl'>
+                        <t t-foreach="doc" t-as="do">
+                            <tr>
+                                <td class="text-center">
+                                    <span t-esc="do['installment_number']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="do['date']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="do['amount']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="do['state']"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <div class="footer">
+                        <div class="row text-center" style="border-top: 1px solid black;">
+                            <div class="text-center">
+                                <ul class="list-inline" style="margin-top:10px;">
+                                    <li>Page:</li>
+                                    <li>
+                                        <span class="page"/>
+                                    </li>
+                                    <li>/</li>
+                                    <li>
+                                        <span class="topage"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </table>
+        </t>
+    </t>
+</div>
+</template>
+</odoo>

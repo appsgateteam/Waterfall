@@ -1,0 +1,244 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* sc_account_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-30 17:12+0000\n"
+"PO-Revision-Date: 2019-06-30 17:12+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sc_account_report
+#: model:ir.ui.view,arch_db:sc_account_report.bank_move_report_view
+msgid "<strong> الي:  </strong>"
+msgstr "<strong> الي:  </strong>"
+
+#. module: sc_account_report
+#: model:ir.ui.view,arch_db:sc_account_report.bank_move_report_view
+msgid "<strong> من: </strong>"
+msgstr "<strong> من: </strong>"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_account_account
+msgid "Account"
+msgstr "حساب"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_all_project
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_all_project
+msgid "All Project"
+msgstr "كل المشاريع"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_bank_id
+msgid "Bank"
+msgstr "البنك"
+
+#. module: sc_account_report
+#: model:ir.ui.menu,name:sc_account_report.bank_move_wizrd
+#: model:ir.ui.view,arch_db:sc_account_report.view_bank_move_wizard
+msgid "Bank Move"
+msgstr "حركة البنك"
+
+#. module: sc_account_report
+#: model:ir.actions.report,name:sc_account_report.bank_move_report
+msgid "Bank Movement Report"
+msgstr "تقرير حركة البنك"
+
+#. module: sc_account_report
+#: model:ir.ui.view,arch_db:sc_account_report.view_project_payment_wizard
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_create_uid
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_create_uid
+#: model:ir.model.fields,field_description:sc_account_report.field_sc_account_report_create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_create_date
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_create_date
+#: model:ir.model.fields,field_description:sc_account_report.field_sc_account_report_create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_date_from
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_date_from
+msgid "Date From"
+msgstr "من تاريخ"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_date_to
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_date_to
+msgid "Date To"
+msgstr "الى تاريخ"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_display_name
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_display_name
+#: model:ir.model.fields,field_description:sc_account_report.field_report_sc_account_report_bank_move_report_view_display_name
+#: model:ir.model.fields,field_description:sc_account_report.field_report_sc_account_report_project_payment_report_view_display_name
+#: model:ir.model.fields,field_description:sc_account_report.field_sc_account_report_display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_id
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_id
+#: model:ir.model.fields,field_description:sc_account_report.field_report_sc_account_report_bank_move_report_view_id
+#: model:ir.model.fields,field_description:sc_account_report.field_report_sc_account_report_project_payment_report_view_id
+#: model:ir.model.fields,field_description:sc_account_report.field_sc_account_report_id
+msgid "ID"
+msgstr "المعرف"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard___last_update
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard___last_update
+#: model:ir.model.fields,field_description:sc_account_report.field_report_sc_account_report_bank_move_report_view___last_update
+#: model:ir.model.fields,field_description:sc_account_report.field_report_sc_account_report_project_payment_report_view___last_update
+#: model:ir.model.fields,field_description:sc_account_report.field_sc_account_report___last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_write_uid
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_write_uid
+#: model:ir.model.fields,field_description:sc_account_report.field_sc_account_report_write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_write_date
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_write_date
+#: model:ir.model.fields,field_description:sc_account_report.field_sc_account_report_write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: sc_account_report
+#: model:ir.ui.view,arch_db:sc_account_report.project_payment_report_view
+msgid "Page:"
+msgstr "صفحة:"
+
+#. module: sc_account_report
+#: model:ir.ui.view,arch_db:sc_account_report.view_bank_move_wizard
+#: model:ir.ui.view,arch_db:sc_account_report.view_project_payment_wizard
+msgid "Print"
+msgstr "طباعة"
+
+#. module: sc_account_report
+#: model:ir.ui.menu,name:sc_account_report.project_payment_wizrd
+#: model:ir.ui.view,arch_db:sc_account_report.view_project_payment_wizard
+msgid "Project Payment"
+msgstr "دفعيات المشروع"
+
+#. module: sc_account_report
+#: model:ir.actions.report,name:sc_account_report.project_payment_report
+msgid "Project Payment Report"
+msgstr "تقرير دفعيات المشروع"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_direct_investment
+msgid "Project Type"
+msgstr "نوع المشروع"
+
+#. module: sc_account_report
+#: model:ir.actions.act_window,name:sc_account_report.bank_move_wizard_action_window
+msgid "bank move window"
+msgstr "bank move window"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_bank_move_wizard
+msgid "bank.move.wizard"
+msgstr "bank.move.wizard"
+
+#. module: sc_account_report
+#: selection:project.payment.wizard,direct_investment:0
+msgid "banking"
+msgstr "تمويل بنكي"
+
+#. module: sc_account_report
+#: selection:project.payment.wizard,direct_investment:0
+msgid "direct"
+msgstr "تمويل ولائي"
+
+#. module: sc_account_report
+#: selection:project.payment.wizard,direct_investment:0
+msgid "federal"
+msgstr "تمويل اتحادي"
+
+#. module: sc_account_report
+#: selection:project.payment.wizard,direct_investment:0
+msgid "foreign"
+msgstr "foreign"
+
+#. module: sc_account_report
+#: selection:project.payment.wizard,direct_investment:0
+msgid "local"
+msgstr "تمويل محلي"
+
+#. module: sc_account_report
+#: model:ir.model.fields,field_description:sc_account_report.field_bank_move_wizard_project_ids
+#: model:ir.model.fields,field_description:sc_account_report.field_project_payment_wizard_project_ids
+msgid "porjects"
+msgstr "المشاريع"
+
+#. module: sc_account_report
+#: model:ir.actions.act_window,name:sc_account_report.project_payment_wizard_action_window
+msgid "project payment window"
+msgstr "project payment window"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_project_payment_wizard
+msgid "project.payment.wizard"
+msgstr "project.payment.wizard"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_report_sc_account_report_bank_move
+msgid "report.sc_account_report.bank_move"
+msgstr "report.sc_account_report.bank_move"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_report_sc_account_report_bank_move_report
+msgid "report.sc_account_report.bank_move_report"
+msgstr "report.sc_account_report.bank_move_report"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_report_sc_account_report_bank_move_report_view
+msgid "report.sc_account_report.bank_move_report_view"
+msgstr "report.sc_account_report.bank_move_report_view"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_report_sc_account_report_project_payment_report_view
+msgid "report.sc_account_report.project_payment_report_view"
+msgstr "report.sc_account_report.project_payment_report_view"
+
+#. module: sc_account_report
+#: model:ir.model,name:sc_account_report.model_sc_account_report
+msgid "sc.account.report"
+msgstr "sc.account.report"
+
+#. module: sc_account_report
+#: selection:project.payment.wizard,direct_investment:0
+msgid "self"
+msgstr "self"
+
+#. module: sc_account_report
+#: model:ir.ui.view,arch_db:sc_account_report.bank_move_report_view
+msgid "تقرير حركة الدفع لبنك"
+msgstr "تقرير حركة الدفع لبنك"
+
+#. module: sc_account_report
+#: model:ir.ui.view,arch_db:sc_account_report.project_payment_report_view
+msgid "تقرير دفعيات المشروعات"
+msgstr "تقرير دفعيات المشروعات"
+

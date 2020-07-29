@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_price_comparison_document">
+        <t t-call="web.external_layout">
+            <div class="oe_structure"/>
+            <div class="page">
+
+                <style type="text/css">
+            
+                    /* United */
+                    @font-face {
+                        font-family: 'Calibri';
+                        font-style: heavy;
+                        font-weight: 200;
+                        src: url(/home/ubuntu/.fonts/calibrii.ttf) format('truetype');
+                    }
+                    
+                    @font-face {
+                        font-family: 'PWSignaturetwo';
+                        font-style: heavy;
+                        font-weight: 200;
+                        src: url(wf_updates/static/src/fonts/PWSignaturetwo.ttf) format('truetype');
+                    }
+
+      
+                </style>
+
+                <h1 class="text-center">PRICE COMPARISON</h1>
+                <div style="margin-left:80%">
+                <strong>DATE:</strong>
+                            <span t-esc="time.strftime('%Y-%m-%d')" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                </div>
+                   
+                    <table class="table table-bordered" style="width: 100%;">
+                            <thead style="font-size: 14px">
+                                <th style="width:3%;">Sl.No</th>
+                                <th style="width:15%;">Product</th>
+                                <th style="width:10%;">Vendor</th>
+                                <th style="width:10%;">Vendor Product Name</th>
+                                <th style="width:4%;">QTY</th>
+                                <th style="width:5%;">Unit Cost</th>
+                                <th style="width:10%;">Total</th>
+                                <th style="width:5%;">Currency</th>
+                                <th style="width:5%;">Discount</th>
+                                <th style="width:10%;">Payment Terms </th>
+                                <th style="width:10%;">Warranty</th>
+                                <th style="width:8%;">Delivery Terms</th>
+                                <th style="width:5%;">Lead Time</th> 
+                            </thead>
+                            <tbody>
+                            <!-- self.env['product.product'].search([('id', '=', l.product_id.id)]) -->
+                                <t t-set="i" t-value="1"/>
+                                <t t-foreach="docs" t-as="doc">
+                                <t t-foreach="doc.seller_ids" t-as="do">
+                                <t t-foreach="doc" t-as="d">
+                                
+                                <!-- <t t-foreach="request.env['purchase.order'].search([('id', '=', doc.id)])" t-as="dos"> 
+                                <t t-foreach="dos.order_line" t-as="do"> -->
+                                <!-- <t t-foreach="dos.seller_ids" t-as="dom">  -->
+                                <!-- <t t-set="record" t-value="doc._get_data()"/> -->
+                                        <tr>
+                                            
+                                            <th colspan="1" class="text-center" style="width:3%;" ><span t-esc="i" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:15%;"><span t-esc="doc.name" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:10%;"><span t-esc="do.name.name" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:10%;"><span t-esc="do.product_name" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:4%;"><span t-esc="do.min_qty"  style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:5%;"><span t-esc="do.price" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:10%;"><span t-esc="do.min_qty * do.price" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:5%;"><span t-esc="do.currency_id.name" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:5%;"><span t-esc="do.discount" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:10%;"><span t-esc="do.payment_terms" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:10%;"><span t-esc="do.warranty" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:8%;"><span t-esc="do.delivery_terms" style="font-family: Calibri;"/></th>
+                                            <th colspan="1" class="text-center" style="width:5%;"><span><span t-esc="do.delay" style="font-family: Calibri;"/>&amp;nbsp;days</span></th>
+                                            <t t-set="i" t-value="i+1"/>  
+                                           
+                                        </tr> 
+                            
+                                </t>                            
+                                </t>                            
+                                </t>  
+                                                        
+                            </tbody> 
+
+<!-- 
+                            <th class="text-center" colspan="3">Vendor <span t-esc="i"/> </th>
+                                    <t t-set="i" t-value="i+1"/> -->
+                            
+                            <!-- <strong>Preared By:</strong>
+                            <span  t-esc="dos.user_id.name" style="font-family: Calibri;"/> -->
+                
+                        </table> 
+
+                        <div>
+                         
+                        <strong>Preared By:</strong>
+                        <span t-esc="user.name"></span>
+                        <!-- <span  t-esc="dos.user_id.name" style="font-family: Calibri;"/> -->
+                
+                        </div>
+                        
+                 <!-- section 2  user_id-->  
+
+
+
+             
+
+                     <div class="oe_structure"/>
+                    </div>
+                     
+        
+            
+          
+        </t>
+        
+    </template>
+
+    <template id="report_price_comparison">
+        <t t-call="web.html_container">
+            <t t-call="wf_updates.report_price_comparison_document"/>
+        </t>
+    </template>
+
+
+</odoo>

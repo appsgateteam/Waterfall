@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- <record model="ir.ui.view" id="view_sale_order_custtt">
+        <field name="name">view.sale.order.custtt</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Specification Sheet" name="Specification_Sheet">
+                    <group>
+                        <group >
+                            <field name="submittal_refss" />
+                            <field name="pump_capacity" />
+                            <field name="pressure_bar" />
+                        </group>
+                        <group>
+                            
+                            <field name="listing" />
+                            <field name="ttypes" />
+                        </group>
+                    </group>
+                </page>
+                
+            </xpath>
+    
+        </field>
+    </record> -->
+
+    
+</odoo>
+

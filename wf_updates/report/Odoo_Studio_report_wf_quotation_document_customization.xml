@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+       <template id="report_wf_quotation_document_customization" inherit_id="wf_updates.report_wf_quotation_document">
+
+        <xpath expr="/t[1]/t[1]/div[1]/div[2]/t[2]/div[1]/div[1]/p[1]" position="replace"/>
+        <xpath expr="/t[1]/t[1]/div[1]/div[2]/t[2]/div[1]/div[1]/p[1]" position="replace"/>
+        <xpath expr="/t[1]/t[1]/div[1]/div[2]/t[2]/div[1]/div[1]/p[1]" position="replace"/>
+        <xpath expr="/t[1]/t[1]/div[1]/div[2]/t[2]/div[1]/div[1]/p[1]" position="replace"/>
+        <xpath expr="/t[1]/t[1]/div[1]/div[2]/t[2]/div[1]/div[1]" position="replace"/>
+        <xpath expr="/t/t/div[1]/div[2]" position="after">
+            <div style="width:93%;height:100%;border: 1px solid black;margin-left:3px">
+            <div>
+                <span>New Text Block</span>
+            </div>
+            </div>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[3]/div/span" position="replace">
+            <span>Atten</span>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[3]/div/span" position="replace">
+            <span style="font-family: Calibri;padding-left:3px;">Attention: </span>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[3]/div/span" position="after">
+            <span t-field="doc.contact_person" style="padding-left:151px;font-family: Calibri;"/>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[3]" position="after">
+            <div style="width:93%;height:100%;border: 1px solid black;margin-left:3px">
+            <div>
+                <span>New Text Block</span>
+            </div>
+            </div>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[4]/div/span" position="replace">
+          <div style="float:left;padding-left:3px;">
+            <span style="font-family: Calibri;">Customer Name: </span>
+          </div>
+          <div style="padding-left:90px;">
+            <span t-field="doc.partner_id.name" style="padding-left:100px;font-family: Calibri;"/>
+          </div>
+        </xpath>
+        <!--<xpath expr="/t/t/div[1]/div[4]/div/span" position="after">-->
+        <!--  <div style="padding-left:100px;">-->
+        <!--    <span t-field="doc.partner_id.name" style="padding-left:100px;font-family: Calibri;"/>-->
+        <!--  </div>-->
+        <!--</xpath>-->
+        <xpath expr="/t/t/div[1]/div[4]" position="after">
+            <div style="width:93%;height:100%;border: 1px solid black;margin-left:3px">
+            <div>
+                <span>New Text Block</span>
+            </div>
+            </div>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[5]/div/span" position="replace">
+            
+          <!--<div style="float:left;padding-left:3px;">-->
+            <span style="font-family: Calibri;padding-left:3px;">Project Name: </span>
+          <!--</div>-->
+          <!--<div style="padding-left:108px;">-->
+            <!--<span t-field="doc.project_name" style="font-family: Calibri;"/>-->
+          <!--</div>-->
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[5]/div/span" position="after">
+            <span t-field="doc.project_name" style="padding-left:118px;font-family: Calibri;"/>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[5]" position="after">
+            <div style="width:93%;height:100%;border: 1px solid black;margin-left:3px">
+            <div>
+                <span>New Text Block</span>
+            </div>
+            </div>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[6]/div/span" position="replace">
+            
+          <!--<div style="float:left;padding-left:3px;">-->
+            <span style="font-family: Calibri;padding-left:3px;">Project Location: </span>
+          <!--</div>-->
+          <!--<div style="padding-left:90px;">-->
+            <!--<span t-field="doc.project_loc" style="font-family: Calibri;padding-left:90px;"/>-->
+          <!--</div>-->
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[6]/div/span" position="after">
+            <span t-field="doc.project_loc" style="padding-left:100px;font-family: Calibri;"/>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[6]" position="after">
+            <div style="width:93%;height:100%;border: 1px solid black;margin-left:3px">
+            <div>
+                <span>New Text Block</span>
+            </div>
+            </div>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[7]/div/span" position="replace">
+            
+          <!--<div style="float:left;padding-left:3px;">-->
+            <span style="font-family: Calibri;padding-left:3px;">Customer Reference: </span>
+          <!--</div>-->
+          <!--<div style="padding-left:58px;">-->
+          <!--  <span t-field="doc.client_order_ref" style="font-family: Calibri;"/>-->
+          <!--</div>-->
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[7]/div/span" position="after">
+            <span t-field="doc.client_order_ref" style="padding-left:68px;font-family: Calibri;"/>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[7]" position="after">
+            <div style="width:93%;height:100%;border: 1px solid black;margin-left:3px">
+            <div>
+                <span>New Text Block</span>
+            </div>
+            </div>
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[8]/div/span" position="replace">
+            
+          <!--<div style="float:left;padding-left:3px;">-->
+            <span style="font-family: Calibri;padding-left:3px;">Dated:  </span>
+          <!--</div>-->
+          <!--<div style="padding-left:158px;">-->
+          <!--  <span t-field="doc.cus_date" style="font-family: Calibri;"/>-->
+          <!--</div>-->
+        </xpath>
+        <xpath expr="/t/t/div[1]/div[8]/div/span" position="after">
+            <span t-field="doc.cus_date" style="padding-left:168px;font-family: Calibri;"/>
+        </xpath>
+
+
+     </template>
+
+</odoo>

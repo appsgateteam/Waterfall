@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- <template id="report_assets_common_custom_fonts" name="qweb_fonts less backend assets" inherit_id="web.report_assets_common">
+    <xpath expr="." position="inside">
+      <link href="/wf_updates/static/src/less/fonts.less" rel="stylesheet" type="text/less"/>
+    </xpath>
+</template> -->
+
+
+<template id="report_finished_goods_document">
+    <t t-call="web.external_layout">
+        <div class="page" style="font-size: 14px;">
+          <style type="text/css">
+            
+              /* United */
+              @font-face {
+                font-family: 'Calibri';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(/home/ubuntu/.fonts/calibrii.ttf) format('truetype');
+              }
+              @font-face {
+                font-family: 'PWSignaturetwo';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(wf_updates/static/src/fonts/PWSignaturetwo.ttf) format('truetype');
+              }
+      
+            
+          </style>
+            <div class="oe_structure"/>
+            <h3 class="text-center" style="color:black;">Finished Goods</h3>
+            <b><span style="font-family: Calibri;white-space: nowrap;font-size: 17px;">From: <span t-esc="d_from" t-options-widget="&quot;date&quot;"/>&amp;nbsp;&amp;nbsp;To :<span t-esc="d_to" t-options-widget="&quot;date&quot;"/></span></b>
+            <table style="width:100%;border: 1px solid black;">
+                <thead style="border: 1px solid black;">
+                    <th style="color:black;padding: 2px;width:5%;background-color:#d2d4d6;border: 1px solid black;">Date Transferred</th>
+                    <th style="color:black;padding: 2px;width:20%;background-color:#d2d4d6;border: 1px solid black;">Product Name</th>
+                    <th style="color:black;padding: 2px;width:15%;background-color:#d2d4d6;border: 1px solid black;">Customer Name</th>
+                    <th style="color:black;padding: 2px;width:5%;background-color:#d2d4d6;border: 1px solid black;">Qty</th>
+                    <th style="color:black;padding: 2px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Sales Order</th>
+                    <th style="color:black;padding: 2px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Manufacturing Order</th>
+                    <th style="color:black;padding: 2px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Serial No.</th>
+                    <!-- <th style="color:black;padding: 2px;width:5%;background-color:#d2d4d6;border: 1px solid black;">Cost</th> -->
+                    <t t-if="show == True"><th style="color:black;padding: 2px;width:25%;background-color:#d2d4d6;border: 1px solid black;">Component Name</th></t>
+                    
+                    
+                </thead>
+                <tbody>
+                    <t t-foreach="docs" t-as="doc">
+                        <tr style="border: 1px solid black;">
+                            <t t-if="doc['mo']">
+                                <td class="text-left" style="padding: 2px;width:5%;border: 1px solid black;"><span t-esc="doc['date_finished']" t-options-widget="&quot;date&quot;"/></td>
+                                <td class="text-left" style="padding: 2px;width:20%;border: 1px solid black;"><span t-esc="doc['des']"/></td>
+                                <td class="text-left" style="padding: 2px;width:15%;border: 1px solid black;"><span t-esc="doc['client']"/></td>
+                                <td class="text-left" style="padding: 2px;width:5%;border: 1px solid black;"><span t-esc="doc['qty']"/></td>
+                                <td class="text-left" style="padding: 2px;width:10%;border: 1px solid black;"><span t-esc="doc['so']"/></td>
+                                <td class="text-left" style="padding: 2px;width:10%;border: 1px solid black;"><span t-esc="doc['mo']"/></td>
+                                <td class="text-left" style="padding: 2px;width:10%;border: 1px solid black;"><span t-esc="doc['lot']"/> </td>
+                                <!-- <td class="text-left" style="padding: 2px;width:5%;border: 1px solid black;"><t t-foreach="request.env['mrp.production'].search([('name','=',doc['mo'])])" t-as="li">
+                                    <span t-esc="li.final_total_actual_cost"/></t></td> -->
+                            </t>
+                            <t t-else="">
+                                <td class="text-left" colspan="7" style="padding: 2px;width:10%;border: 1px solid black;"/>
+                            </t>
+                            
+                            <t t-if="show == True"><td class="text-left" style="padding: 2px;width:25%;border: 1px solid black;"><span><span t-esc="doc['product']"/></span></td></t>
+                            
+                        </tr>
+                    </t>
+                </tbody>
+            </table>    
+            <div class="oe_structure"/>
+        </div>
+    </t>
+    
+</template>
+
+
+<template id="report_finished_goods">
+    <t t-call="web.html_container">
+        <!-- <t t-foreach="docs" t-as="doc"> -->
+            <t t-call="wf_new_reports.report_finished_goods_document" />
+        <!-- </t> -->
+    </t>
+</template>
+</odoo>
