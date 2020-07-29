@@ -9,7 +9,7 @@
           <br/><br/><br/>
           <br/>
             <strong style="text-align: right; float:right; width:100%; margin-right: 5px; font-size: 20px; font-family: ARIAL;">:تفاصيل المرسل إليه</strong><br/>
-            <div style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-field="doc.partner_id.name"/>
+            <div style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-field="doc.partner_id.vendor_name_arabic"/>
             <p  style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'الرقم الضريبي'"/>: <span t-field="doc.partner_id.vat"/></p>
         </t>
         <!--<t t-if="doc.partner_shipping_id == doc.partner_invoice_id                              and doc.partner_invoice_id != doc.partner_id                              or doc.partner_shipping_id != doc.partner_invoice_id">-->
