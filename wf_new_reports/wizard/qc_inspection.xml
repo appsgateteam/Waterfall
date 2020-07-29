@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record id="qc_inspection_report_form" model="ir.ui.view">
+            <field name="name">qc.inspection.report.form</field>
+            <field name="model">qc.inspection.report</field>
+            <field name="arch" type="xml">
+                <form string="Quality Check Report">
+                    <h2>Quality Check Report</h2>
+                    <group>
+                        <!-- <group> -->
+                            <field name="picking" />
+                            <field name="production" />
+                            <!-- <field name="date_to" />
+                            <field name="category" widget="many2many_tags"/>
+                            <field name="products" widget="many2many_tags"/>
+                            <field name="show_product" /> -->
+                        <!-- </group>
+                        <group> --> 
+                            <!-- <field name="project" domain="[('group_id','=',event)]" widget="many2many_tags"/> -->
+                        <!-- </group> -->
+                    </group>
+                    <footer>
+						<button name="get_report" string="Print" type="object" class="btn-primary"/>
+						<button string="Cancel" class="btn-default" special="cancel"/>
+					</footer>		
+				</form>
+            </field>
+        </record>
+
+        <act_window id="qc_inspection_report_action"
+                    name="Quality Check Report"
+                    res_model="qc.inspection.report"
+                    view_mode="form"
+                    target="new"/>
+
+        <menuitem
+            id="qc_inspection_report_config"
+            name="Quality Check Report"
+            parent = "qlty_cntrl.menu_quality_control"
+            action="qc_inspection_report_action"
+            sequence="100"/>
+
+</odoo>

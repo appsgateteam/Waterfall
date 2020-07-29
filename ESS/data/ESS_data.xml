@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--   Start prepayment data -->
+  <data >
+    <record id="prepayment_request_email_template" model="mail.template">
+        <field name="name">Prepayment Request</field>
+        <field name="model_id" ref="ESS.model_prepayment_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Prepayment Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this prepayment request with reference ${object.name}</p>
+          <!-- <a t-att-href="access_url" style="background-color: red; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                    Check
+                </a> -->
+        </field>
+        <!-- <field name="report_template" ref="action_report_saleorder"/> -->
+        <!-- <field name="report_name">${(object.name or '').replace('/','_')}</field> -->
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="prepayment_request_seq_name" model="ir.sequence">
+      <field name="name">Prepayment Request Sequence Number</field>
+      <field name="code">prepayment.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  permanent data -->
+  <data>
+    <record id="permanent_request_email_template" model="mail.template">
+        <field name="name">Prepayment Request</field>
+        <field name="model_id" ref="ESS.model_permanent_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Permanent Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this permanent request with reference ${object.name}</p>
+        </field>
+
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="permanent_request_seq_name" model="ir.sequence">
+      <field name="name">Permanent Request Sequence Number</field>
+      <field name="code">permanent.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  Credit/Debit data -->
+  <data>
+    <record id="credit_debit_request_email_template" model="mail.template">
+        <field name="name">Credit/Debit Request</field>
+        <field name="model_id" ref="ESS.model_credit_debit_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Credit/Debit Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Credit/Debit request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="credit_debit_request_seq_name" model="ir.sequence">
+      <field name="name">Credit/Debit Request Sequence Number</field>
+      <field name="code">credit.debit.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  Temporary Petty request data -->
+  <data>
+    <record id="temporary_petty_request_email_template" model="mail.template">
+        <field name="name">Temporary Petty Request</field>
+        <field name="model_id" ref="ESS.model_temporary_petty_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Temporary Petty  Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Temporary Petty  request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="temporary_petty_request_seq_name" model="ir.sequence">
+      <field name="name">Temporary Petty Request Sequence Number</field>
+      <field name="code">temporary.petty.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  Invoices payment request data -->
+  <data>
+    <record id="invoices_payment_request_email_template" model="mail.template">
+        <field name="name">Temporary Petty Request</field>
+        <field name="model_id" ref="ESS.model_invoices_payment_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Temporary Petty  Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Invoices payment  request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="invoices_payment_request_seq_name" model="ir.sequence">
+      <field name="name">Invoices payment Request Sequence Number</field>
+      <field name="code">invoices.payment.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+    <!--  Start  Petty Cash request data -->
+  <data>
+    <record id="petty_cash_request_email_template" model="mail.template">
+        <field name="name">Petty Cash Request</field>
+        <field name="model_id" ref="ESS.model_petty_cash_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Petty Cash  Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Petty Cash  request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="petty_cash_request_seq_name" model="ir.sequence">
+      <field name="name">Petty Cash Request Sequence Number</field>
+      <field name="code">petty.cash.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+    <!--  Start  Human Resources request data -->
+  <data>
+    <record id="human_resources_request_email_template" model="mail.template">
+        <field name="name">Human Resources  Request</field>
+        <field name="model_id" ref="ESS.model_human_resources_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Human Resources Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Human Resources request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="human_resources_request_seq_name" model="ir.sequence">
+      <field name="name">Human Resources Request Sequence Number</field>
+      <field name="code">human.resources.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+    <!--  Start  LC BG request data -->
+  <data>
+    <record id="lc_bg_request_email_template" model="mail.template">
+        <field name="name">LC BG  Request</field>
+        <field name="model_id" ref="ESS.model_lc_bg_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">LC BG Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this LC BG request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="lc_bg_request_seq_name" model="ir.sequence">
+      <field name="name">LC BG Request Sequence Number</field>
+      <field name="code">lc.bg.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+
+ <!--  Start  Prepayment Settlement request data -->
+  <data>
+    <record id="prepayment_settlement_request_email_template" model="mail.template">
+        <field name="name">Prepayment Settlement Request</field>
+        <field name="model_id" ref="ESS.model_prepayment_settlement_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Prepayment Settlement Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Prepayment Settlement request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="lc_bg_request_seq_name" model="ir.sequence">
+      <field name="name">Prepayment Settlement Request Sequence Number</field>
+      <field name="code">prepayment.settlement.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  Prepayment petty cash Settlement request data -->
+  <data>
+    <record id="prepayment_petty_cash_settlement_request_email_template" model="mail.template">
+        <field name="name">Prepayment Petty Cash Request</field>
+        <field name="model_id" ref="ESS.model_prepayment_petty_cash_settlement_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Prepayment Petty Cash Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Prepayment Petty Cash request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="prepayment_petty_cash_request_seq_name" model="ir.sequence">
+      <field name="name">Prepayment Petty Cash Request Sequence Number</field>
+      <field name="code">prepayment.petty.cash.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  temporary petty cash settlement request data -->
+  <data>
+    <record id="temporary_petty_cash_settlement_request_email_template" model="mail.template">
+        <field name="name">Temporary Petty Cash Settlement Request</field>
+        <field name="model_id" ref="ESS.model_temporary_petty_cash_settlement_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Temporary Petty Cash Settlement Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this Prepayment Temporary Petty Cash Settlement Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="temporary_petty_cash_settlement_request_seq_name" model="ir.sequence">
+      <field name="name">Temporary Petty Cash Settlement Sequence Number</field>
+      <field name="code">temporary.petty.cash.settlement.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  Permenant Petty Cash Reimbursement Request data -->
+  <data>
+    <record id="permenant_petty_cash_reimbursement_request_email_template" model="mail.template">
+        <field name="name">Permenant Petty Cash Reimbursement Request</field>
+        <field name="model_id" ref="ESS.model_permenant_petty_cash_reimbursement_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Permenant Petty Cash Reimbursement Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  Permenant Petty Cash Reimbursement Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="permenant_petty_cash_reimbursement_request_seq_name" model="ir.sequence">
+      <field name="name">Permenant Petty Cash Reimbursement Sequence Number</field>
+      <field name="code">permenant.petty.cash.reimbursement.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  Receipts Post Date Cheque  Request data -->
+  <data>
+    <record id="receipts_post_date_cheque_request_email_template" model="mail.template">
+        <field name="name">Receipts Post Date Cheque  Request</field>
+        <field name="model_id" ref="ESS.model_receipts_post_date_cheque_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Receipts Post Date Cheque Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  Receipts Post Date Cheque Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="receipts_post_date_cheque_request_seq_name" model="ir.sequence">
+      <field name="name">Receipts Post Date Cheque Sequence Number</field>
+      <field name="code">receipts.post.date.cheque.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+    <!--  Start  Receipts Current Date Cheque  Request data -->
+  <data>
+    <record id="receipts_current_date_cheque_request_email_template" model="mail.template">
+        <field name="name">Receipts Current Date Cheque  Request</field>
+        <field name="model_id" ref="ESS.model_receipts_current_date_cheque_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Receipts Current Date Cheque Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  Receipts Current Date Cheque Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="receipts_current_date_cheque_request_seq_name" model="ir.sequence">
+      <field name="name">Receipts Current Date Cheque Sequence Number</field>
+      <field name="code">receipts.current.date.cheque.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+  <!--  Start  Receipts Cash Request data -->
+  <data>
+    <record id="receipts_cash_request_email_template" model="mail.template">
+        <field name="name">Receipts Cash Request</field>
+        <field name="model_id" ref="ESS.model_receipts_cash_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Receipts Cash Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  Receipts Cash Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="receipts_cash_request_seq_name" model="ir.sequence">
+      <field name="name">Receipts Cash Sequence Number</field>
+      <field name="code">receipts.cash.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  Intercompany Transaction Request data -->
+  <data>
+    <record id="intercompany_transaction_request_email_template" model="mail.template">
+        <field name="name">Intercompany Transaction Request</field>
+        <field name="model_id" ref="ESS.model_intercompany_transaction_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Intercompany Transaction Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  Intercompany Transaction Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="intercompany_transaction_request_seq_name" model="ir.sequence">
+      <field name="name">Intercompany Transaction Sequence Number</field>
+      <field name="code">intercompany.transaction.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start  human resources accruals Request data -->
+  <data>
+    <record id="human_resources_accruals_request_email_template" model="mail.template">
+        <field name="name">Human Resources Accruals Request</field>
+        <field name="model_id" ref="ESS.model_human_resources_accruals_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Human Resources Accruals Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  Human Resources Accruals Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="human_resources_accruals_request_seq_name" model="ir.sequence">
+      <field name="name">Human Resources Accruals Sequence Number</field>
+      <field name="code">human.resources.Accruals.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start   Preforma/Sales Invoice Request data -->
+  <data>
+    <record id="preforma_sales_invoice_request_email_template" model="mail.template">
+        <field name="name">Preforma/Sales Invoice Request</field>
+        <field name="model_id" ref="ESS.model_preforma_sales_invoice_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">Preforma/Sales Invoice Request (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  Preforma/Sales Invoice Request with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+
+  <data noupdate="1">
+    <record id="pr_preforma_sales_invoice_request_seq_name" model="ir.sequence">
+      <field name="name">Pr Preforma Sales Invoice Accruals Sequence Number</field>
+      <field name="code">pr.preforma.sales.invoice.Accruals.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+<!--  Start   TEST LOGS data -->
+  <data>
+    <record id="test_logs_email_template" model="mail.template">
+        <field name="name">TEST LOGS</field>
+        <field name="model_id" ref="ESS.model_test_logs_request"/>
+        <field name="email_from">${object.emp_name.login}</field>
+        <field name="email_to">${object.emp_name.login}</field>
+        <field name="subject">TEST LOGS (Ref ${object.name or 'n/a' })</field>
+        <field name="body_html" type="xml">
+          <p>Hello ${object.emp_man},</p><br />
+          <p>Please check this  TEST LOGS with reference ${object.name}</p>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+  </data>
+  <data noupdate="1">
+    <record id="test_logs__seq_name" model="ir.sequence">
+      <field name="name">TEST LOGS Sequence Number</field>
+      <field name="code">test.logs.request</field>
+      <field name="active">True</field>
+      <field name="prefix">PR/</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">4</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+</odoo>

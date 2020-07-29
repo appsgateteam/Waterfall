@@ -1,0 +1,1552 @@
+<?xml version="1.0"?>
+    <odoo>
+
+
+    <!-- <record id="action_selse_report" model="ir.actions.act_window">
+            <field name="name">selse Report</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="target">new</field>
+    </record> -->
+
+    <menuitem id="selse_report_menu" name="Custom Report" parent="sale.sale_menu_root" groups="sales_team.group_sale_salesman" action="quotations_seals_wizard"/>
+    
+<!-- FFF fouad  Quality Check cus -->
+    <record id="quality_point_cus_form" model="ir.ui.view">
+        <field name="name">quality.point.cus.form</field>
+        <field name="model">quality.point</field>
+        <field name="inherit_id" ref="qlty_core.quality_point_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="quality_attach"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="quality_check_cus_form" model="ir.ui.view">
+        <field name="name">quality.check.cus.form</field>
+        <field name="model">quality.check</field>
+        <field name="inherit_id" ref="qlty_cntrl.quality_check_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_id']" position="after">
+                <field name="quality_att" />
+                <field name="quality_attac" readonly="1" string="Quality attchment of employee"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="quality_check2_cus_form" model="ir.ui.view">
+        <field name="name">quality.check2.cus.form</field>
+        <field name="model">quality.check</field>
+        <field name="inherit_id" ref="qlty_cntrl.quality_check_view_form_small"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='note']" position="after">
+                <h2>Quality check detail Attachment</h2>
+                <field name="quality_att" /><br />
+                <h2>Upload Quality check Report</h2>
+                <field name="quality_attac" />
+            </xpath>
+            <xpath expr="//footer" position="replace">
+                <footer>
+                    <button name="do_measure" type="object" class="btn-primary" string="Validate" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+                    <button name="do_pass" type="object" class="btn-primary" string="Pass" attrs="{'invisible': [('test_type', '=', 'measure')]}"/>
+                    <button name="do_fail" type="object" class="btn-primary" string="Fail" attrs="{'invisible': [('test_type', '=', 'measure')]}"/>
+                    <button name="do_close" type="object" class="btn-primary" string="Skip" />
+                    
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </xpath>
+        </field>
+    </record>    
+    
+    <!-- FFF end fouad -->
+
+    <!--  Quality Check cus -->
+    <record id="hr_employee_cus_form" model="ir.ui.view">
+        <field name="name">hr.employee.cus.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='address_id']" position="before">
+                <field name="user_ref" />
+            </xpath>
+        </field>
+    </record>
+    <!-- ###################################################### -->
+    <!-- hide inventory valuation value field -->
+    <record id="valuation_cus_tree" model="ir.ui.view">
+        <field name="name">valuation.cus.tree</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock_account.view_stock_product_tree2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stock_value']" position="replace">
+                <field name="stock_value" sum="Stock Valuation" widget="monetary" options="{'currency_field': 'cost_currency_id'}" groups="account.group_account_manager"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- FFF hide inventory valuation value field -->
+
+
+    <!-- fouad add pivot report in inventory -->
+
+    
+    <record id="stock_picking_view_pivot" model="ir.ui.view">
+        <field name="name">stock.picking.view.pivot</field>
+        <field name="model">stock.picking</field>	
+        <field name="arch" type="xml">
+            <pivot string="Stock Picking Report" >
+                <field name="product" type="row"/>
+                <field name="origin" type="row"/>
+                <field name="partner_id" type="row"/>
+                <field name="scheduled_date" type="col" interval="year"/>
+                <field name="scheduled_date" type="col" interval="quarter"/>
+                <field name="scheduled_date" type="col" interval="month"/>
+                <field name="scheduled_date" type="col" interval="week"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="stock.action_picking_tree_ready" model="ir.actions.act_window">
+
+
+        <field name="view_mode">tree,kanban,form,pivot,calendar</field>
+
+    </record>
+
+    <!-- end add pivot report in inventory -->
+
+    <record id="stock_picking_cus_form_wf" model="ir.ui.view">
+        <field name="name">stock.picking.cus.form.wf</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_validate'][1]" position="replace">
+                <button name="button_validate" attrs="{'invisible': ['|', ('state', 'in', ('done','cancel','waiting','confirmed')),('quality_check_fail', '=', True)]}" string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user"/>  
+                <!-- <button name="action_draft" string="Set to Draft" type="object" states="done,confirmed,assigned,ready" groups="mrp.group_mrp_manager"/> -->
+                
+            </xpath>
+            <xpath expr="//button[@name='button_validate'][2]" position="replace">
+                    <button name="button_validate" invisible="1" attrs="{'invisible': ['|', ('state', 'in', ('waiting','confirmed')),('quality_check_fail', '=', True)]}" string="Validate" type="object" groups="stock.group_stock_user" class="o_btn_validate"/>
+            </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="attrs">{'column_invisible': ['&amp;',('parent.immediate_transfer', '=', True), ('parent.is_locked', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[2]" position="after">
+                <page string="Packages" attrs="{'invisible':[('packing_list','=',False)]}">
+                    <group>
+                        <group>
+                            <field name="po_number"/>
+                            <field name="comm"/>
+                        </group>
+                        <group>
+                            <field name="hs_code"/>
+                            <field name="mode_tran"/>   
+                        </group>
+                    </group>
+                    <group>
+                    <field name="package_line_ids" context="{'form_view_ref': 'wf_updates.package_line_cus_form_wf1'}" >
+                        <tree string="Package Lines" >
+                            <control>
+                                <create string="Add a package" />
+                            </control>
+                            <field name="package_id" invisible="1"/>
+                            <field name="name"/>
+                            <field name="package_dim"/>
+                            <field name="package_gross"/>
+                        </tree>
+                    </field>
+                    </group>
+                </page>
+                <page string="Products" invisible="1">
+                    <field name="product_line_ids" context="{'form_view_ref': 'wf_updates.product_line_cus_form_wf1'}">
+                        <tree string="Product Lines" editable="bottom">
+                            <control>
+                                <create string="Add a package" />
+                            </control>
+                            <field name="product_id" invisible="1"/>
+                            <field name="product"/>
+                            <field name="qty"/>
+                            <field name="status"/>
+                            <field name="types"/>
+                            <field name="price"/>
+                            <field name="no"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Products" invisible="1">
+                    <field name="product_line_idss" >
+                        <tree string="Product Lines" editable="bottom">
+                            <control>
+                                <create string="Add a package" />
+                            </control>
+                            <field name="product_id" invisible="1"/>
+                            <field name="product"/>
+                            <field name="qty"/>
+                            <field name="status"/>
+                            <field name="types"/>
+                            <field name="price"/>
+                            <field name="no"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="detail_data" />
+                <field name="hide" invisible="1"/>
+                <field name="order" attrs="{'invisible':[('hide','=',False)]}"/>
+                <field name="packing_list"/>
+                <field name="total_price" invisible="1"/>
+                    
+
+            </xpath>
+        </field>
+    </record>
+    <record id="package_line_cus_form_wf1" model="ir.ui.view">
+        <field name="name">package.line.cus.form.wf1</field>
+        <field name="model">package.line</field>
+        <field name="arch" type="xml">
+            <form string="Package Lines">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="package_id" invisible="1"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="package_dim"/>
+                            <field name="package_gross"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Package details" >
+                            <field name="Package_detail" >
+                                <tree editable="bottom" string="Package Lines" >
+                                    <!-- <field name="package_id" invisible="1"/> -->
+                                    <field name="package_ids" invisible="1"/>
+                                    <field name="package_des"/>
+                                    <field name="package_qty"/>
+                                    <field name="package_net"/>
+                                </tree>
+                            </field>
+                        </page> 
+                    </notebook>
+                </sheet>
+                
+            </form>
+        </field>
+    </record>
+    <record id="package_line_cus_tree_wf1" model="ir.ui.view">
+        <field name="name">package.line.cus.tree.wf1</field>
+        <field name="model">package.line</field>
+        <field name="arch" type="xml">
+            <tree string="Package Lines">
+                <field name="package_id" />
+                <field name="name"/>
+                <field name="package_dim"/>
+                <field name="package_gross"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_package_line_cus_wf1" model="ir.actions.act_window">
+        <field name="name">Package Lines</field>
+        <field name="res_model">package.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="search_view_id" ref="stock.view_stock_level_forecast_filter"/> -->
+        <!-- <field name="context">{'search_default_product_tmpl_id': active_id, 'group_by': ['company_id']}</field> -->
+        <!-- <field name="context">{'search_default_product_id': [active_id]}</field> -->
+        <!-- <field name="view_id" ref="view_purchase_report_tree2"/> -->
+    </record>
+
+    <record id="package_line_inh_cus_form_wf1" model="ir.ui.view">
+        <field name="name">package.line.inh.cus.form.wf1</field>
+        <field name="model">package.line.inh</field>
+        <field name="arch" type="xml">
+            <form string="Package Lines">
+                <sheet>
+                    <group>
+                        <!-- <field name="package_id" /> -->
+                        <field name="package_ids"/>
+                        <field name="package_des"/>
+                        <field name="package_qty"/>
+                        <field name="package_net"/>
+                    </group>
+                </sheet>
+                
+            </form>
+        </field>
+    </record>
+    <record id="package_line_inh_cus_tree_wf1" model="ir.ui.view">
+        <field name="name">package.line.inh.cus.tree.wf1</field>
+        <field name="model">package.line.inh</field>
+        <field name="arch" type="xml">
+            <tree string="Package Lines">
+                <!-- <field name="package_id" /> -->
+                <field name="package_ids"/>
+                <field name="package_des"/>
+                <field name="package_qty"/>
+                <field name="package_net"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_line_cus_form_wf1" model="ir.ui.view">
+        <field name="name">product.line.cus.form.wf1</field>
+        <field name="model">product.line</field>
+        <field name="arch" type="xml">
+            <form string="pro Lines">
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="product"/>
+                        <field name="qty"/>
+                        <field name="status"/>
+                        <field name="types"/>
+                        <field name="price"/>
+                        <field name="no"/>
+                    </group>
+                </sheet>
+                
+            </form>
+        </field>
+    </record>
+    <record id="product_line_cus_tree_wf1" model="ir.ui.view">
+        <field name="name">product.line.cus.tree.wf1</field>
+        <field name="model">product.line</field>
+        <field name="arch" type="xml">
+            <tree string="pro Lines">
+                <field name="product_id"/>
+                <field name="product"/>
+                <field name="qty"/>
+                <field name="status"/>
+                <field name="types"/>
+                <field name="price"/>
+                <field name="no"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_product_line_cus_wf1" model="ir.actions.act_window">
+        <field name="name">pro Lines</field>
+        <field name="res_model">product.line</field>
+        <field name="view_mode">form,tree</field>
+        <!-- <field name="search_view_id" ref="stock.view_stock_level_forecast_filter"/> -->
+        <!-- <field name="context">{'search_default_product_tmpl_id': active_id, 'group_by': ['company_id']}</field> -->
+        <!-- <field name="context">{'search_default_product_id': [active_id]}</field> -->
+        <!-- <field name="view_id" ref="view_purchase_report_tree2"/> -->
+    </record>
+
+    <record id="product2_line_cus_form_wf1" model="ir.ui.view">
+        <field name="name">product2.line.cus.form.wf1</field>
+        <field name="model">product2.line</field>
+        <field name="arch" type="xml">
+            <form string="pro Lines">
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="product"/>
+                        <field name="qty"/>
+                        <field name="status"/>
+                        <field name="types"/>
+                        <field name="price"/>
+                        <field name="no"/>
+                    </group>
+                </sheet>
+                
+            </form>
+        </field>
+    </record>
+    <record id="product2_line_cus_tree_wf1" model="ir.ui.view">
+        <field name="name">product2.line.cus.tree.wf1</field>
+        <field name="model">product2.line</field>
+        <field name="arch" type="xml">
+            <tree string="pro Lines">
+                <field name="product_id"/>
+                <field name="product"/>
+                <field name="qty"/>
+                <field name="status"/>
+                <field name="types"/>
+                <field name="price"/>
+                <field name="no"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_product2_line_cus_wf1" model="ir.actions.act_window">
+        <field name="name">pro Lines</field>
+        <field name="res_model">product2.line</field>
+        <field name="view_mode">form,tree</field>
+        <!-- <field name="search_view_id" ref="stock.view_stock_level_forecast_filter"/> -->
+        <!-- <field name="context">{'search_default_product_tmpl_id': active_id, 'group_by': ['company_id']}</field> -->
+        <!-- <field name="context">{'search_default_product_id': [active_id]}</field> -->
+        <!-- <field name="view_id" ref="view_purchase_report_tree2"/> -->
+    </record>
+
+    <!-- project location menu in the maintenance  -->
+        <record id="project_location_cus_form_wf1" model="ir.ui.view">
+            <field name="name">project.location.cus.form.wf1</field>
+            <field name="model">project.location</field>
+            <field name="arch" type="xml">
+                <form string="Project Location">
+                    <sheet>
+                        <div class="oe_title">
+                            <span class="o_form_label" >Project Location </span>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                    
+                </form>
+            </field>
+        </record>
+        <record id="project_location_cus_tree_wf1" model="ir.ui.view">
+            <field name="name">project.location.cus.tree.wf1</field>
+            <field name="model">project.location</field>
+            <field name="arch" type="xml">
+                <tree string="Project Location">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+<!-- 
+        <record id="action_project_location_cus_wf1" model="ir.actions.act_window">
+            <field name="name">Project Location</field>
+            <field name="res_model">project.location</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record> -->
+        <record id="action_project_location_cus_wf1" model="ir.actions.act_window">
+            <field name="name">Project Name</field>
+            <field name="res_model">project.location</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="view_id" ref="hr_equipment_request_view_kanban"/> -->
+            <!-- <field name="context">{'default_user_id': uid}</field> -->
+            <!-- <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new maintenance request
+                </p><p>
+                    Follow the process of the request and communicate with the collaborator.
+                </p>
+            </field> -->
+        </record>
+
+        <menuitem
+        id="menu_project_location"
+        name="Project Name"
+        parent="maintenance.menu_maintenance_configuration"
+        action="action_project_location_cus_wf1"
+        groups="maintenance.group_equipment_manager"
+        sequence="4"/>
+
+    <!-- project location menu in the maintenance  -->
+
+    <!-- ###################################################### -->
+
+    <record id="purchase_order_cus_form_wf" model="ir.ui.view">
+        <field name="name">purchase.order.cus.form.wf</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1" position="after">
+                <label for="revsion_ref" /><br/>
+
+                <h1><field name="revsion_ref" /></h1>
+            </xpath>
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="des" />
+                <field name="delivery_term" />
+                <field name="old" />
+                <field name="receive_state" />
+                <field name="decimal" invisible="1"/>
+                <field name="entire" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', ('done', 'cancel','purchase'))]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="curr_change_untaxed" />
+                <field name="curr_change_total" />
+            </xpath>
+        </field>
+    </record>
+    <record id="purchase_order_cus_tree_wf" model="ir.ui.view">
+        <field name="name">purchase.order.cus.tree.wf</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="receive_state"/>
+                <field name="curr_change_untaxed" sum="Untaxed total Amount" groups="purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+                <field name="curr_change_total" sum="Total Amount" groups="purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+            </xpath>
+        </field>
+    </record>
+    <!--by fouad <record id="mrp_production_cus_form_wf2" model="ir.ui.view">
+        <field name="name">mrp.production.cus.form.wf2</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mfg_acc.mrp_production_form_inherit_view6"/>
+        <field name="arch" type="xml">
+            <button name="%(mfg_acc.action_cost_struct_mrp_production)d" position="replace">
+                <button name="%(mfg_acc.action_cost_struct_mrp_production)d" type="action" class="oe_stat_button" icon="fa-circle-o" string="Cost Analysis"
+                groups="account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager" attrs="{'invisible': [('state', '!=', 'done')]}">
+                </button>
+            </button>
+        </field>
+    </record> -->
+    <record id="mrp_production_cus_form_wf" model="ir.ui.view">
+        <field name="name">mrp.production.cus.form.wf</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <button name="button_plan" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ('confirmed','planned')), '|', ('routing_id', '=', False)]}</attribute>
+            </button>
+            <button name="button_unreserve" position="replace">
+                <button name="button_unreserve" type="object" string="Unreserve" attrs="{'invisible': ['|',('state', '=', 'planned'),('unreserve_visible', '=', False)]}"/>
+            </button>
+            <button name="button_unplan" position="replace">
+                <button name="button_unplan" type="object" invisible="1" string="Unplan" attrs="{'invisible': ['|', '|', ('state', '!=', 'planned'), ('date_planned_start_wo', '=', False), ('date_planned_finished_wo', '=', False)]}"/>
+            </button>
+            
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="customer_name" />
+                <field name="old" />
+            </xpath>
+            <xpath expr="//field[@name='move_raw_ids']" position="replace">
+                <field name="move_raw_ids" context="{'final_lots': show_final_lots, 'form_view_ref': 'mrp.view_stock_move_lots', 'default_location_id': location_src_id, 'default_location_dest_id': production_location_id, 'default_state': 'confirmed', 'default_raw_material_production_id': id, 'default_picking_type_id': picking_type_id}" >
+                    <tree  default_order="is_done,sequence" decoration-muted="is_done" decoration-warning="quantity_done&gt;product_uom_qty" decoration-success="not is_done and quantity_done==product_uom_qty" decoration-danger="not is_done and reserved_availability &lt; product_uom_qty">
+                        <field name="product_id" required="1"/>
+                        <field name="name" invisible="1"/>
+                        <field name="unit_factor" invisible="1"/>
+                        <field name="product_uom" groups="uom.group_uom"/>
+                        <field name="has_tracking" invisible="1"/>
+                        <field name="needs_lots" readonly="1" groups="stock.group_production_lot"/>
+                        <field name="is_done" invisible="1"/>
+                        <field name="sequence" invisible="1"/>
+                        <field name="location_id" invisible="1"/>
+                        <field name="location_dest_id" domain="[('id', 'child_of', parent.location_dest_id)]" invisible="1"/>
+                        <field name="state" invisible="1" force_save="1"/>
+                        <field name="product_uom_qty" string="To Consume"/>
+                        <field name="reserved_availability" attrs="{'invisible': [('is_done', '=', True)], 'column_invisible': [('parent.state', '=', 'done')]}" string="Reserved"/>
+                        <field name="quantity_done" string="Consumed" readonly="1"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+    <record id="stock_move_cusss_form_wf" model="ir.ui.view">
+        <field name="name">stock.move.cusss.form.wf</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active_move_line_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'cancel')]}</attribute>>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="readonly">0</attribute>>
+            </xpath>
+        </field>
+    </record>
+    <record id="mrp_workorder_cusss_form_wf" model="ir.ui.view">
+        <field name="name">mrp.workorder.cusss.form.wf</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mfg_wo.mrp_workorder_view_form_inherit_workorder"/>
+        <field name="arch" type="xml">
+            <button name="open_tablet_view" position="replace">
+                <button name="open_tablet_view" type="object" string="Process" attrs="{'invisible': [('state', 'not in', ('pending','ready', 'progress'))]}"/>
+            </button>
+        </field>
+    </record>
+    <record id="mrp_production_cusss_form_wf" model="ir.ui.view">
+        <field name="name">mrp.production.cusss.form.wf</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mfg_wo.mrp_production_view_form_inherit_planning"/>
+        <field name="arch" type="xml">
+            <field name="date_planned_start_wo" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+            <field name="date_planned_start_wo" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+        </field>
+    </record>
+    <record id="product_product_cus_tree_wf" model="ir.ui.view">
+        <field name="name">product.product.cus.tree.wf</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lst_price']" position="replace">
+                    <field name="lst_price" string="Sales Price" groups="account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+            </xpath>
+            <xpath expr="//field[@name='standard_price']" position="replace">
+                    <field name="standard_price" groups="account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_qty_tree" model="ir.ui.view">
+        <field name="name">product.qty.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='list_price']" position="replace">
+                    <field name="list_price" string="Sales Price" groups="account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+            </xpath>
+            <xpath expr="//field[@name='standard_price']" position="replace">
+                    <field name="standard_price" groups="purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+            </xpath>
+            <xpath expr="//field[@name='virtual_available']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='virtual_available']" position="after">
+                <!-- <attribute name="string">Reserved</attribute> -->
+                <field name="mo_no_total2" invisible="1" string="Reserved"/>
+            </xpath>
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="sales_count" string="Sold"/>
+                <field name="purchased_product_qty" string="Purchased" />
+                <field name="mrp_product_qty" string="Manufactured" />
+                <field name="bom_count" string="Create as BOM" />
+                <field name="po_num" string="Qty In Open POs"/>  
+                <field name="so_num" string="Qty In Open SOs"/>  
+                <field name="mo_num" string="Qty In Open MOs"/>  
+                <field name="forcaste_num" string="Qty After Booking"/>    
+            </xpath>
+        </field>
+    </record>
+
+    
+
+    <record id="product_bom_form" model="ir.ui.view">
+        <field name="name">product.bom.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <button name="toggle_active" position="before">
+		<button type="object" class="oe_stat_button" icon="fa-building-o">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value" widget="statinfo">
+                            <field name="forcaste_num" widget="statinfo" nolabel="1" class="mr4"/>
+                        </span>
+                        <span class="o_stat_text">Qty After Booking</span>
+                    </div>
+                </button>
+
+                <button type="object" name="action_open_mos" invisible="1" class="oe_stat_button" icon="fa-building-o">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value" widget="statinfo">
+                            <field name="mo_no_total2" widget="statinfo" nolabel="1" class="mr4"/>
+                        </span>
+                        <span class="o_stat_text">Reserved</span>
+                    </div>
+                </button>
+                <button type="object" name="action_open_pos"  class="oe_stat_button" icon="fa-building-o">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value" widget="statinfo">
+                            <field name="so_num" widget="statinfo" nolabel="1" class="mr4"/>
+                        </span>
+                        <span class="o_stat_text">Open SO's Info</span>
+                    </div>
+                </button>
+                <button type="object" name="action_open_oppos"  class="oe_stat_button" icon="fa-building-o">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value" widget="statinfo">
+                            <field name="po_num" widget="statinfo" nolabel="1" class="mr4"/>
+                        </span>
+                        <span class="o_stat_text">Open Purchase Info</span>
+                    </div>
+                </button>
+                <button type="object" name="action_open_moss"  class="oe_stat_button" icon="fa-building-o">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value" widget="statinfo">
+                            <field name="mo_num" widget="statinfo" nolabel="1" class="mr4"/>
+                        </span>
+                        <span class="o_stat_text">Open MO's Info</span>
+                    </div>
+                </button>
+            </button>
+            <!--<button name="%(stock.action_stock_level_forecast_report_template)d" position="replace">
+                <button type="object" class="oe_stat_button" icon="fa-building-o">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value" widget="statinfo">
+                            <field name="forcaste_num" widget="statinfo" nolabel="1" class="mr4"/>
+                        </span>
+                        <span class="o_stat_text">Qty After Booking</span>
+                    </div>
+                </button>
+            </button>-->
+            <xpath expr="//field[@name='list_price']" position="replace">
+                <field name="list_price" string="Sales Price" widget='monetary'
+                options="{'currency_field': 'currency_id', 'field_digits': True}"
+                groups="account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+            </xpath>
+            <!-- <xpath expr="//group[3]/label[@for='standard_price']" position="replace">
+                <label for="standard_price" groups="base.group_user,purchase.group_purchase_manager,purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                    
+            </xpath> -->
+            <label for="standard_price" position="replace">
+                <label for="standard_price" groups="wf_updates.group_mrp_top_manager,purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>
+                 
+            </label>    
+            <xpath expr="//div[@name='standard_price_uom']" position="replace">
+                <div name="standard_price_uom" groups="wf_updates.group_mrp_top_manager,purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
+                    <field name="standard_price" widget="monetary" options="{'currency_field': 'cost_currency_id'}"/>
+                </div>
+            </xpath>
+
+            <!-- <xpath expr="//group[3]" position="replace">
+                <group name="group_standard_price">
+                    <field name="list_price" string="Sales Price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"
+                    groups="sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager"/>/>
+                    <label for="standard_price" groups="base.group_user,purchase.group_purchase_manager,purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                    <div name="standard_price_uom" groups="base.group_user,purchase.group_purchase_manager,purchase.group_purchase_user,account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
+                        <field name="standard_price" widget='monetary' options="{'currency_field': 'cost_currency_id'}"/>
+                    </div>
+                    <field name="company_id" groups="base.group_multi_company"
+                        options="{'no_create': True}"/>
+                    <field name="uom_id" groups="uom.group_uom" options="{'no_create': True}"/>
+                    <field name="uom_po_id" groups="uom.group_uom" options="{'no_create': True}"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="cost_currency_id" invisible="1"/>
+                    <field name="product_variant_id" invisible="1"/>
+                </group>
+
+            </xpath> -->
+            <xpath expr="//div[@name='options']" position="inside">
+                <!-- <div name="options" groups="base.group_user"> -->
+                    <div>
+                        <field name="bom_ok"/>
+                        <label for="bom_ok"/>
+                    </div>
+                <!-- </div> -->
+            </xpath>
+            <xpath expr="//field[@name='type']" position="before">
+                <field name="po_num" invisible="1"/>                
+                <field name="po_name" invisible="1"/>                
+                <field name="so_num" invisible="1"/>                
+                <field name="so_name" invisible="1"/>
+                <field name="mo_num" invisible="1"/>                
+                <field name="forcaste_num" invisible="1"/>                
+                <field name="mo_name" invisible="1"/>                  
+                <field name="mo_no_total2" invisible="1"/>
+                <field name="mo_no_total" invisible="1"/>                  
+            </xpath>
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page name="bom" attrs="{'invisible':[('bom_ok','=',False)]}" string="Specifications">
+                    
+                    <group>
+                        
+                        <group>
+                            <strong>PUMP</strong>
+                            <field name="Pro_type" string="Pump Product type"/>
+                            <field name="flow" string="Pump Flow"/><field name="flow_uom_id" string="Pump Flow UOM"/>
+                            <field name="head" string="Pump Head"/>
+                            <field name="Type" string="Pump Type"/>
+                            <field name="manu" string="Pump Manufacture"/>
+                            <field name="model" string="Pump Model"/>
+                            <field name="no_of_stages" string="No Of Stages"/>
+                            <field name="speed" string="Pump Speed"/><field name="speed_uom_id" string="Pump Speed UOM"/>
+                            <field name="listing" string="Pump Listing"/>
+                            <field name="con" string="Pump Construction"/>
+                            <field name="acc" string="Pump Accessories"/>
+                            <!-- new changes ziad -->
+                            <field name="material_spec" />
+                            <field name="spare_part" />
+                            <!-- new changes ziad -->
+                            
+                        </group>
+                        
+                        <group>
+                            <strong>DRIVER</strong>
+                            <field name="Pro_type_dr" string="Driver Product type"/>
+                            <field name="Type_dr" string="Driver Type"/>
+                            <field name="manu_dr" string="Driver Manufacture"/>
+                            <field name="speed_dr" string="Driver Speed"/><field name="speed_uom_id_dr" string="Driver Speed UOM"/>
+                            <field name="rate_dr" string="Driver Rating"/><field name="rate_uom_id_dr" string="Driver Rating UOM"/>
+                            <field name="listing_dr" string="Driver Listing"/>
+                            <span style="color:blue">Additional Details for Electric Motor</span>
+                            <field name="supply_dr" string="Driver Supply"/>
+                            <field name="enc_dr" string="Driver Enclosure"/>
+                            <field name="frame" string="Driver Frame Size"/>
+                            <span style="color:blue">Additional Details for Diesel Engine</span>
+                            <field name="model_dr" string="Driver Model"/>
+                            <field name="silencer_type" />
+                            <field name="prv" />
+                            <field name="fuel_tank" />
+                            <field name="derating" />
+                            
+                        </group>
+                        <group>
+                            <strong>CONTROLLER</strong>
+                            <field name="Pro_type_con" string="Controller Product type"/>
+                            <field name="Type_con" string="Controller Type"/>
+                            <field name="manu_con" string="Controller Manufacture"/>
+                            <field name="listing_con" string="Controller Listing"/>
+                            <field name="supply_con" string="Controller Supply"/>
+                            <field name="enc_con" string="Controller Enclosure"/>
+                            <span style="color:blue">Additional Details for Electric Motor</span>
+                            <field name="rate_con" string="Controller Rating"/><field name="rate_uom_id_con" string="Controller Rating UOM"/>
+                            <!-- new changes ziad -->
+                            <field name="site_voltage" />
+                            <field name="charger_voltage" />
+                            <field name="with_ats" />
+                            <field name="special_options" />
+                            <!-- new changes ziad -->
+
+                        </group>
+                        <!-- add by fouad -->
+                        <group>
+                            <strong>GEAR DRIVE</strong>
+                            <field name="Pro_type_ger" string="Gear Product type"/>
+                            <field name="Type_ger" string="Gear Type"/>
+                            <field name="manu_gear" string="Gear Manufacturer"/>
+                            <field name="model_gear" string="Gear Model"/>
+                            <field name="ratio_gear" string="Gear Ratio"/>
+                            <field name="approval_gear" string="Gear Approval"/>
+                            <!-- new changes ziad -->
+                            <field name="watertank" />
+                            <!-- new changes ziad -->
+                        </group>
+                        <!-- end add by fouad -->
+
+                        
+                    </group>
+                </page>
+                <page string="Special Options" name="special_options">
+                    <!-- new changes ziad -->
+                    <group>
+                        <field name="pressuge_gauge" />
+                        <field name="waste_cone" />
+                        <field name="flame_arrester" />
+                        <field name="remote_alarm" />
+                    </group>
+                    <!-- new changes ziad -->
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- <record id="product_template_cus_form" model="ir.ui.view">
+        <field name="name">product.template.cus.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            
+        </field>
+    </record> -->
+
+    <record id="sale_order_wf_cus_form" model="ir.ui.view">
+        <field name="name">sale.order.wf.cus.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="contact_person"/>
+                <field name="project_name"/>
+                <field name="project_loc"/>
+                <field name="cus_date"/>
+                <field name="pro_nam"/>
+                <field name="test" invisible="1"/>
+                <field name="sign_sale" attrs="{'readonly': [('state', 'in', ['sale','done','cancel'])]}"/>
+                <field name="sign_man" attrs="{'readonly': [('state', 'in', ['sale','done','cancel'])]}"/>
+                <field name="curr_change_untaxed" />
+                <field name="curr_change_total" />
+                <field name="receive_state" />
+                
+            </xpath>
+            <xpath expr="//field[@name='sale_order_option_ids']/tree" position="inside">
+                <field name="bom_ok"/>
+                <field name="check" />
+                <field name="flow"/>
+                <field name="flow_uom_id"/>
+                <field name="head"/>
+                <field name="Type"/>
+                <field name="Type_dr"/>
+                <field name="Type_con"/>
+                <field name="manu"/>
+                <field name="manu_dr"/>
+                <field name="manu_con"/>
+                <field name="model"/>
+                <field name="model_dr"/>
+                <field name="listing"/>
+                <field name="listing_dr"/>
+                <field name="listing_con"/>
+                <field name="con"/>
+                <field name="supply_dr"/>
+                <field name="supply_con"/>
+                <field name="enc_dr"/>
+                <field name="enc_con"/>
+                <field name="frame"/>
+                <field name="acc"/>
+                <field name="speed"/>
+                <field name="speed_uom_id"/>
+                <field name="speed_dr"/>
+                <field name="speed_uom_id_dr"/>
+                <field name="rate_dr"/>
+                <field name="rate_uom_id_dr"/>
+                <field name="rate_con"/>
+                <field name="rate_uom_id_con"/>
+                <field name="Pro_type"/>
+                <field name="Pro_type_dr"/>
+                <field name="Pro_type_con"/>
+                <field name="bom_nam"/>
+                <field name="Pro_type_ger"/>
+                <field name="Type_ger"/>
+                <field name="manu_gear"/>
+                <field name="model_gear"/>
+                <field name="ratio_gear"/>
+                <field name="approval_gear"/>
+            </xpath>
+    <xpath expr="//button[@name='action_confirm']" position="after">
+                <!-- <button name="action_confirm" id="ask_approve"
+                        string="Ask for Approve" class="btn-primary" type="object"
+                        attrs="{'invisible': [('state', 'not in', ['sent','draft'])]}"/> -->
+                <button name="action_approve" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': ['|',('test', '!=',True),('state','not in','approve')]}"/>
+                <button name="action_to_approve" type="object" states="draft,sent" string="Send to Approve" class="oe_highlight"/>
+                <button name="action_to_final" type="object" states="approved" string="Send To Final Approve" attrs="{'invisible': ['|',('test', '=',True),('state','not in','approved')]}" class="oe_highlight"/>
+                <button name="action_to_finalapp" type="object" states="final" string="Approve" class="oe_highlight" groups="wf_updates.group_sale_top_manager"/>
+                <button name="send_to_draft" type="object" states="final" string="Set to Draft" groups="wf_updates.group_sale_top_manager"/>
+            </xpath>
+            <button name="action_confirm" position="replace">
+                <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['finalapp'])]}"/>
+            </button>
+            <xpath expr="//button[@name='action_cancel']" position="replace">
+                <button name="action_cancel" states="draft,sent,approve,approved,final,finalapp,sale" type="object" string="Cancel"/>            
+            </xpath>
+
+
+            <!-- additional fields for the enhacement in note details -->
+                <xpath expr="//field[@name='note']" position="replace">
+                    <label for="scope" string="Scope Of Work:"/>
+                    <field name="scope" placeholder="Add your Scope of work Detail"/>
+                    <label for="terms" string="Terms:"/>
+                    <field name="terms" placeholder="Add your Terms Detail"/>
+                    <label for="notess" string="Notes:"/>
+                    <field name="notess" placeholder="Add your Notes Detail"/>
+                    <label for="exclue" string="Exclusions:"/>
+                    <field name="exclue" placeholder="Add your Exclusions Detail"/>
+                </xpath>
+
+            <!-- additional fields for the enhacement in note details -->
+            
+            
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="dtoday" invisible="1"/>
+                <field name="text" invisible="1"/>
+                <field name="version_date"/>
+                <field name="version"/>
+                <field name="old"/>
+ 		            <field name="country"/>			
+            </xpath>
+            
+            <xpath expr="//field[@name='commitment_date']" position="attributes">
+                
+                <attribute name="string">Delivery Date</attribute>
+                
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                
+                <attribute name="attrs">{'readonly': [('test', '=',True)]}</attribute>
+                
+            </xpath>
+
+            <!-- new changes ziad -->
+
+            <xpath expr="//page[@name='other_information']" position="after">
+                <page string="Specification Sheet" name="Specification_Sheet">
+                    <group>
+                        <group >
+                            <field name="submittal_ref" />
+                            <field name="pump_capacity" />
+                            <field name="pressure_bar" />
+                        </group>
+                        <group>
+                            
+                            <field name="listing" />
+                            <field name="ttype" />
+                            <field name="specification_date" />
+                        </group>
+
+                    </group>
+                    <group><field name="sp_remark" /></group>
+                </page>
+                
+            </xpath>
+
+            <!-- new changes ziad -->
+        </field>
+    </record>
+    
+    <record id="crm_lead_cus_form01" model="ir.ui.view">
+        <field name="name">crm.lead.cus.form01</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                <field name="project_name"/>
+                <field name="consultant_name"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_move_line_cus_form01" model="ir.ui.view">
+        <field name="name">stock.move.line.cus.form01</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="onhand"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_move_line_cus_form01" model="ir.ui.view">
+        <field name="name">stock.move.line.cus.form01</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="onhand"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_bom_cus_form01" model="ir.ui.view">
+        <field name="name">mrp.bom.cus.form01</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_validate" string="To approve" type="object" states="draft"/>
+                    <button name="button_approve" string="Approve" type="object" states="approve" groups="wf_updates.group_mrp_top_manager"/>
+                    <button name="action_draft" string="Set to Draft" type="object" states="done" groups="mrp.group_mrp_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+            </xpath>
+            <xpath expr="//page[1]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state','in',['approve'])]}</attribute>            
+            </xpath>
+            <button name="%(mrp.action_report_mrp_bom)d" position="replace">
+                <button name="%(mrp.action_report_mrp_bom)d" type="action" class="oe_stat_button" icon="fa-bars" string="Structure &amp; Cost" attrs="{'invisible': [('bom_line_ids', '=', [])]}" groups="account.group_account_invoice,account.group_account_manager,account.group_account_user,account.group_account_manager,wf_updates.group_mrp_top_manager"/>
+            </button>
+            <xpath expr="//field[@name='product_tmpl_id']" position="after">
+                <field name="bom_nam" attrs="{'readonly': [('state','in',['done'])]}"/>
+            </xpath>
+            <xpath expr="//field[@name='bom_line_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='product_tmpl_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='product_uom_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='product_qty']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='routing_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='code']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='type']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>    
+            </xpath>
+        </field>
+    </record>
+    <record id="mrp_bom_cus_tree" model="ir.ui.view">
+        <field name="name">mrp.bom.cus.tree</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='routing_id']" position="after">
+                <field name="state"/>
+            </xpath>
+        </field>
+    </record>
+<!-- ############################################################################################## -->
+<!-- Reserved section -->
+    <!-- <record id="view_stock_level_forecast_filter_form" model="ir.ui.view">
+        <field name="name">view.stock.level.forecast.filter.form</field>
+        <field name="model">report.stock.forecast</field>
+        <field name="arch" type="xml">
+            <form string="Reserved">
+                <field name="virtual_available"/>
+                <field name="mo_ref"/>
+            </form>
+        </field>
+    </record> -->
+    <record id="view_stock_level_forecast_filter_tree" model="ir.ui.view">
+        <field name="name">view.stock.level.forecast.filter.tree</field>
+        <field name="model">report.stock.forecast.two</field>
+        <field name="arch" type="xml">
+            <tree string="Reserved">
+                <field name="mo_no"/>
+                <field name="mo_ref" />
+		 <field name="mo_ref2" invisible="1"/>
+		<field name="lot_no"/>
+		        <field name="product_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_stock_level_forecast_filter_search" model="ir.ui.view">
+        <field name="name">view.stock.level.forecast.filter.search</field>
+        <field name="model">report.stock.forecast.two</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="product_id" filter_domain="[('product_id','ilike',self)]" string="Product"/>
+                <!--<filter string="product" name="product_id" domain="[('active','=',True)]"/>-->
+            </search>
+        </field>
+    </record>
+
+    <record id="action_stock_level_forecast_report_template_two" model="ir.actions.act_window">
+        <field name="name">Reserved Qty</field>
+        <field name="res_model">report.stock.forecast.two</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="search_view_id" ref="stock.view_stock_level_forecast_filter"/> -->
+        <field name="context">{'search_default_product_id': [active_id]}</field>
+        <field name="view_id" ref="view_stock_level_forecast_filter_tree"/>
+    </record>
+
+<!-- ################################################################################################ -->
+<!-- all Product done QTY in Purchased -->
+
+    <record id="view_purchase_report_tree1" model="ir.ui.view">
+        <field name="name">view.purchase.report.tree1</field>
+        <field name="model">purchase.report.tw</field>
+        <field name="arch" type="xml">
+            <tree string="Done Purchased">
+                <field name="po_noo"/>
+                <field name="poo_ref"/>
+                <field name="poo_ref2" invisible="1"/>
+		<field name="product_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_purchase_report_search" model="ir.ui.view">
+        <field name="name">view.purchase.report.search</field>
+        <field name="model">purchase.report.tw</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="product_id" filter_domain="[('product_id','ilike',self)]" string="Product"/>
+                <!--<filter string="product" name="product_id" domain="[('active','=',True)]"/>-->
+            </search>
+        </field>
+    </record>
+
+    <!-- ????????????????????????????????????????????????????????????????????????????????? -->
+
+    <record id="view_manufacture_report_tree1" model="ir.ui.view">
+        <field name="name">view.manufacture.report.tree1</field>
+        <field name="model">manufacture.report.tw</field>
+        <field name="arch" type="xml">
+            <tree string="Done Purchased">
+                <field name="po_noo"/>
+                <field name="poo_ref" invisible="1"/>
+                <field name="poo_ref2"/>
+                <field name="lot_no" />
+		<field name="product_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_manufacture_report_search" model="ir.ui.view">
+        <field name="name">view.manufacture.report.search</field>
+        <field name="model">manufacture.report.tw</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="product_id" filter_domain="[('product_id','ilike',self)]" string="Product"/>
+                <!--<filter string="product" name="product_id" domain="[('active','=',True)]"/>-->
+            </search>
+        </field>
+    </record>
+
+    <record id="action_view_manufacture_report_tree0" model="ir.actions.act_window">
+        <field name="name">Open MO Items</field>
+        <field name="res_model">manufacture.report.tw</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="search_view_id" ref="stock.view_stock_level_forecast_filter"/> -->
+        <!-- <field name="context">{'search_default_product_tmpl_id': active_id, 'group_by': ['company_id']}</field> -->
+        <field name="context">{'search_default_product_id': [active_id]}</field>
+        <field name="view_id" ref="view_manufacture_report_tree1"/>
+    </record>
+
+    <!-- ????????????????????????????????????????????????????????????????????????????????????? -->
+
+    <record id="view_purchase_report_tree2" model="ir.ui.view">
+        <field name="name">view.purchase.report.tree2</field>
+        <field name="model">purchase.report.one</field>
+        <field name="arch" type="xml">
+            <tree string="Open Purchase Order">
+                <field name="op_po_no" />
+                <field name="op_po_ref" />
+                <field name="op_po_ref2" invisible="1"/>
+		<field name="product_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_purchase_report_search1" model="ir.ui.view">
+        <field name="name">view.purchase.report.search1</field>
+        <field name="model">purchase.report.one</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="product_id" filter_domain="[('product_id','ilike',self)]" string="Product"/>
+                <!--<filter string="product" name="product_id" domain="[('active','=',True)]"/>-->
+            </search>
+        </field>
+    </record>
+
+    <record id="action_view_purchase_report_tree0" model="ir.actions.act_window">
+        <field name="name">Open SO Items</field>
+        <field name="res_model">purchase.report.tw</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="search_view_id" ref="stock.view_stock_level_forecast_filter"/> -->
+        <!-- <field name="context">{'search_default_product_tmpl_id': active_id, 'group_by': ['company_id']}</field> -->
+        <field name="context">{'search_default_product_id': [active_id]}</field>
+        <field name="view_id" ref="view_purchase_report_tree1"/>
+    </record>
+    <record id="action_view_purchase_report_tree2" model="ir.actions.act_window">
+        <field name="name">Open PO Items</field>
+        <field name="res_model">purchase.report.one</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="search_view_id" ref="stock.view_stock_level_forecast_filter"/> -->
+        <!-- <field name="context">{'search_default_product_tmpl_id': active_id, 'group_by': ['company_id']}</field> -->
+        <field name="context">{'search_default_product_id': [active_id]}</field>
+        <field name="view_id" ref="view_purchase_report_tree2"/>
+    </record>
+
+<!-- ################################################################################################ -->
+<!-- Inventory Adjustment Approve -->
+    <record id="stock_inventory_cus_form01" model="ir.ui.view">
+        <field name="name">stock.inventory.cus.form01</field>
+        <field name="model">stock.inventory</field>
+        <field name="inherit_id" ref="stock.view_inventory_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_start']" position="after">
+                <button name="button_approve" type="object" states='approve' string="Approve" class="oe_highlight" 
+                groups="wf_updates.group_stock_top_manager"/>
+            
+            </xpath>
+            <xpath expr="//button[@name='action_cancel_draft']" position="replace">
+                <button name="action_cancel_draft" states="cancel,approve" string="Set to Draft" type="object"/>            
+            </xpath>
+            <xpath expr="//page/field[@name='line_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in','approve')]}</attribute>           
+            </xpath>
+        </field>
+    </record>
+
+<!-- ################################################################################################ -->
+<!-- PLM Approve -->
+    <!-- <record id="mrp_eco_cus_form01" model="ir.ui.view">
+        <field name="name">mrp.eco.cus.form01</field>
+        <field name="model">mrp.eco</field>
+        <field name="inherit_id" ref="mrp_plm.mrp_eco_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_new_revision']" position="after">
+                <button name="button_approve" type="object" states='approve' string="Approve" class="oe_highlight" 
+                groups="wf_updates.group_mrp_top_manager"/>
+            
+            </xpath>
+        </field>
+    </record> -->
+
+<!-- ################################################################################################ -->
+<!-- Manufacture Approve -->
+    <record id="mrp_unbuild_cus_form01" model="ir.ui.view">
+        <field name="name">mrp.unbuild.cus.form01</field>
+        <field name="model">mrp.unbuild</field>
+        <field name="inherit_id" ref="mrp.mrp_unbuild_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_validate']" position="after">
+                <button name="button_approve" type="object" states='approve' string="Approve" class="oe_highlight" 
+                groups="wf_updates.group_mrp_top_manager"/>
+            
+            </xpath>
+        </field>
+    </record>
+<!-- ################################################################################################ -->
+<!-- Routing Approve -->
+    <record id="mrp_routing_cus_form01" model="ir.ui.view">
+        <field name="name">mrp.routing.cus.form01</field>
+        <field name="model">mrp.routing</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_validate" string="To approve" type="object" states="draft" />
+                    <button name="button_approve" string="Approve" type="object" states="approve" groups="wf_updates.group_mrp_top_manager"/>
+                    <field name="state" widget="statusbar" />
+                </header>
+            </xpath>
+            <xpath expr="//page[1]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state','in',['draft','approve'])]}</attribute>            
+            </xpath>
+        </field>
+    </record>
+    <record id="mrp_routing_cus_tree" model="ir.ui.view">
+        <field name="name">mrp.routing.cus.tree</field>
+        <field name="model">mrp.routing</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="state"/>
+            </xpath>
+        </field>
+    </record>
+   <!-- FFFF -->
+    <record id="maintenance_request_cus_form01" model="ir.ui.view">
+        <field name="name">maintenance.request.cus.form01</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='production_id']" position="replace">
+                
+                <field name="order_cus_ids" options="{'no_create': True}"/>     
+                <field name="production_id" options="{'no_create': True}"/> 
+                   
+            </xpath>
+            <xpath expr="//field[@name='priority']" position="after">
+                <field name="project_loc" />         
+                <field name="customer_name" />         
+                <field name="product_name" />         
+                <field name="product_serial" />         
+            </xpath>
+        </field>
+    </record>
+    <record id="maintenance_request_cus_tree01" model="ir.ui.view">
+        <field name="name">maintenance.request.cus.tree01</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="customer_name"/>
+                <field name="product_name"/>
+                <field name="project_loc"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- chang string name for lot field in Scrap screen -->
+
+    <record id="scrap_cus_form01" model="ir.ui.view">
+        <field name="name">scrap.cus.form01</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_id']" position="replace">
+                <field name="lot_id" string="Lot/Serial Number" attrs="{'invisible': [('tracking', '=', 'none')], 'required': [('tracking', '!=', 'none')]}" groups="stock.group_production_lot"/>       
+            </xpath>
+        </field>
+    </record>
+
+    <!-- chang string name for lot field in Scrap screen -->
+
+    <record id="account_invoice_form01" model="ir.ui.view">
+        <field name="name">account.invoice.form01</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="decimal" invisible="1"/>
+                <field name="entire" invisible="1"/>
+                <field name="decimal_tax" invisible="1"/>
+                <field name="entire_tax" invisible="1"/>
+                <field name="curr_change_untaxed" />
+                <field name="curr_change_total" />
+            </xpath>
+        </field>
+    </record>
+    <record id="account_invoice_cuss_tree" model="ir.ui.view">
+        <field name="name">account.invoice.cuss.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_currency_id']" position="after">
+                <field name="curr_change_untaxed" sum="Untaxed Amount"/>
+                <field name="curr_change_total" sum="Total Amount"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="sale_order_cusss_tree" model="ir.ui.view">
+        <field name="name">sale.order.cusss.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="curr_change_untaxed" sum="Untaxed Amount"/>
+                <field name="curr_change_total" sum="Total Amount"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="sale_order_cuss_tree" model="ir.ui.view">
+        <field name="name">sale.order.cuss.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="curr_change_untaxed" sum="Untaxed Amount"/>
+                <field name="curr_change_total" sum="Total Amount"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--FFF by fouad report NCR screen qlty_cntrl   quality_control-->
+
+        <record id="quality_alert_report_detalss" model="ir.ui.view">
+            <field name="name">quality.alert.report.detalss</field>
+            <field name="model">quality.alert</field>
+            <field name="inherit_id" ref="qlty_cntrl.quality_alert_view_form"/>
+            <field name="arch" type="xml">
+
+                <!-- <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name_seq" string="Reference" />       
+                </xpath> -->
+                
+
+
+                <xpath expr="//form/sheet/notebook/page[2]" position="attributes">
+                    <attribute name="string">Immediate/Action Taken</attribute>
+                </xpath>
+
+                <xpath expr="//form/sheet/notebook/page[3]" position="attributes">
+                    <attribute name="string">Corrective Action</attribute>
+                </xpath>
+
+                <xpath expr="//form/sheet/notebook/page[4]" position="attributes">
+                    <attribute name="string">Vendor/Provider</attribute>
+                </xpath>
+
+                <notebook position="inside">
+                    <page string="Report Details">
+                        <group>
+                            <group>
+                                <field name="name_seq" string="Report No"/> 
+                                <field name="dtoday"/>  
+                            </group>
+                            <group>
+                                <field name="reported_by"/>  
+                                <field name="designation"/>  
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="discovered_at"/>
+                                <field name="qty_affected"/>   
+                            </group>
+                            <group>
+                                <field name="type_of_non_con"/>  
+                            </group>
+                        </group>
+                        <group>
+                                <field name="prepared_by"/>  
+                                <field name="reviewed_by"/>  
+                            </group>
+                    </page>
+                </notebook>
+
+                <notebook position="inside">
+                    <page string="Disposition">
+                        <group>
+                            <group>
+                                <field name="use_as_is"/>  
+                                <field name="re_work"/> 
+                                <field name="other_specify"/>   
+                            </group>
+                            <group>
+                                <field name="replac"/>  
+                                <field name="scrap"/> 
+                                <field name="return_to_provider"/>   
+                            </group>
+                            <group>
+                                <field name="approved_by"/>
+                                <field name="closed_by"/>
+                                <field name="close_date" invisible="1"/>
+                                <field name="approv_date" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="remarks"/>
+                                <field name="verification"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>  
+
+                <xpath expr="//field[@name='lot_id']" position="after">
+                        <field name="p_o_no"/>  
+                </xpath>   
+                <xpath expr="//field[@name='p_o_no']" position="after">
+                        <field name="other"/>  
+                </xpath>      
+
+            </field>
+        </record>
+    <!-- end by fouad report NCR screen -->
+
+    <!-- Start adjesment for report PRICE COMPARISON tree -->
+
+
+        <record id="price_comparison_report_detalss_form" model="ir.ui.view">
+            <field name="name">price.comparison.report.detalss.form</field>
+            <field name="model">product.supplierinfo</field>
+            <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_code']" position="after">
+                    <field name="payment_terms" string="Payment Terms" />       
+                </xpath>
+
+                <xpath expr="//field[@name='payment_terms']" position="after">
+                    <field name="warranty" string="Warranty" />       
+                </xpath>
+
+                <xpath expr="//field[@name='warranty']" position="after">
+                    <field name="delivery_terms" string="Delivery Terms" />       
+                </xpath>
+
+            </field>
+        </record>
+
+        
+        <record id="price_comparison_report_detalss_tree" model="ir.ui.view">
+            <field name="name">price.comparison.report.detalss.tree</field>
+            <field name="model">product.supplierinfo</field>
+            <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="product_name" string="Product Name" />       
+                </xpath>
+
+                <xpath expr="//field[@name='product_name']" position="after">
+                    <field name="payment_terms" string="Payment Terms" />       
+                </xpath>
+
+                <xpath expr="//field[@name='payment_terms']" position="after">
+                    <field name="warranty" string="Warranty" />       
+                </xpath>
+
+                <xpath expr="//field[@name='warranty']" position="after">
+                    <field name="delivery_terms" string="Delivery Terms" />       
+                </xpath>
+                
+                 
+            </field>
+        </record>
+
+     <!-- End adjesment for report PRICE COMPARISON tree -->
+                
+
+
+</odoo>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_wf_packing_list_arabic_document">
+    <t t-call="web.external_layout">
+        <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+        <t t-set="address">
+          <span  style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;">: التاريخ  </span><span style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-field="doc.scheduled_date" t-options-widget="&quot;date&quot;"/><br/>
+              <span  style=" text-align: right; float:right;width:100%; font-size: 20px; font-family: ARIAL;"><span  t-field="doc.origin"/>: رقم الطلب  </span>
+          <br/><br/><br/>
+          <br/>
+            <strong style="text-align: right; float:right; width:100%; margin-right: 5px; font-size: 20px; font-family: ARIAL;">:تفاصيل المرسل إليه</strong><br/>
+            <div style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-field="doc.partner_id.vendor_name_arabic"/>
+            <p  style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'الرقم الضريبي'"/>: <span t-field="doc.partner_id.vat"/></p>
+        </t>
+        <!--<t t-if="doc.partner_shipping_id == doc.partner_invoice_id                              and doc.partner_invoice_id != doc.partner_id                              or doc.partner_shipping_id != doc.partner_invoice_id">-->
+        <!--    <t t-set="information_block">-->
+        <!--        <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and shipping address:</strong>-->
+        <!--        <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing address:</strong>-->
+        <!--        <div t-field="doc.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
+        <!--        <t t-if="doc.partne
+            r_shipping_id != doc.partner_invoice_id">-->
+        <!--            <strong>Shipping address:</strong>-->
+        <!--            <div t-field="doc.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
+        <!--        </t>-->
+        <!--    </t>-->
+        <!--</t>                             position: relative; left: 120px; -->
+        <t>
+            <t t-set="information_block">
+              <br/><br/>
+              <br/>
+              <h2 style="white-space: nowrap;">
+                <strong style=" text-align: right; float:right; position: relative; left: 350px;"> # قائمة التعبئة</strong><span  style="position: relative; left: 200px;" t-field="doc.name"/>
+            </h2>
+            
+                    
+                <strong  style="margin-left:80px; font-size: 20px; font-family: ARIAL; text-align: right; float:right;">:تفاصيل البائع</strong><br/>
+                <span style="white-space: nowrap; font-size: 20px; font-family: ARIAL; text-align: right; float:right; position: relative; left: 170px;">واترفول لصناعة المضخات</span><br/>
+                <span style="white-space: nowrap; font-size: 20px; font-family: ARIAL; text-align: right; float:right;">منطقة الطى مستودع 1-5</span><br/>
+                <span style="white-space: nowrap; font-size: 20px; font-family: ARIAL; text-align: right; float:right; position: relative; left: 170px; top: 6px;">الامارات العربية المتحدة- دبي</span><br/>
+                <span style="white-space: nowrap; font-size: 20px; font-family: ARIAL; text-align: right; float:right;">P.O.BOX: 371219 | 446054</span><br/>
+                <span style="white-space: nowrap; font-size: 20px; font-family: ARIAL; text-align: right; float:right;">+971 4 2633 325 | +971 43944 982</span><br/>
+                <span style="white-space: nowrap; font-size: 20px; font-family: ARIAL; text-align: right; float:right;">TRN : 10036722250003</span><br/>
+                <!--<div t-if="o.dest_address_id">-->
+                <!--    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>-->
+                <!--</div>-->
+                
+
+            </t>
+        </t>
+        <!-- @font-face {
+                font-family: 'Calibri';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(/home/ubuntu/.fonts/calibrii.ttf) format('truetype');
+              } -->
+        
+        <div class="page">
+            <style type="text/css">
+            
+              /* United */
+
+              
+              @font-face {
+                font-family: 'ARIAL';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(wf_updates/static/src/fonts/ARIAL.ttf) format('truetype');
+              }
+              
+              @font-face {
+                font-family: 'PWSignaturetwo';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(https://ff.static.1001fonts.net/p/w/pwsignaturetwo.medium.ttf) format('truetype');
+              }
+      
+            
+          </style>
+            <div class="oe_structure"/>
+
+            
+
+            <div class="row mt32 mb32" id="informations">
+                <div t-if="doc.po_number" class="col-auto mw-100 mb-2">
+                    <strong style="white-space: nowrap; font-size: 20px; font-family: ARIAL;">:#طلب شراء</strong>
+                    <p class="m-0" t-field="doc.po_number"/>
+                </div>
+                <div t-if="doc.scheduled_date" class="col-auto mw-100 mb-2">
+                    <strong style="white-space: nowrap; font-size: 20px; font-family: ARIAL;">:تاريخ الطلب</strong>
+                    <p class="m-0" t-field="doc.scheduled_date" t-options-widget="&quot;date&quot;"/>
+                </div>
+                <div t-if="doc.comm" class="col-auto mw-100 mb-2">
+                    <strong style="white-space: nowrap; font-size: 20px; font-family: ARIAL;">:فاتورة تجارية</strong>
+                    <p class="m-0" t-field="doc.comm"/>
+                </div>
+                <div t-if="doc.name" class="col-auto mw-100 mb-2">
+                    <strong style="white-space: nowrap; font-size: 20px; font-family: ARIAL;">: #مذكرة تسليم</strong>
+                    <p class="m-0" t-field="doc.name"/>
+                </div>
+                <div t-if="doc.hs_code" class="col-auto mw-100 mb-2">
+                    <strong style="white-space: nowrap; font-size: 20px; font-family: ARIAL;">:HS رمز</strong>
+                    <p class="m-0" t-field="doc.hs_code"/>
+                </div>
+                <!-- <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto mw-100 mb-2">
+                    <strong style="white-space: nowrap;">Expiration Date:</strong>
+                    <p class="m-0" t-field="doc.validity_date"/>
+                </div> -->
+                <!--<div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">-->
+                <!--    <strong style="white-space: nowrap;">Customer Ref:</strong>-->
+                <!--    <p class="m-0" t-field="doc.client_order_ref"/>-->
+                <!--</div>-->
+            </div>
+
+            <!-- Is there a discount on at least one line? -->
+            <!-- <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/> -->
+
+            <!--<table class="table table-sm o_main_table">-->
+            <!--    <thead>-->
+            <!--        <tr>-->
+                        <!-- TODO: remove in master -->
+            <!--            <t t-set="colspan" t-value="5"/>-->
+            <!--            <th class="text-left">PACKAGE #</th>-->
+            <!--            <th class="text-left">DESCRIPTION</th>-->
+            <!--            <th class="text-left">QTY</th>-->
+            <!--            <th class="text-left">DIMENSION</th>-->
+            <!--            <th class="text-left">NET WGT.</th>-->
+            <!--            <th class="text-left">GROSS WGT.</th>-->
+            <!--        </tr>-->
+            <!--    </thead>-->
+            <!--    <tbody class="sale_tbody">-->
+            <!--        <t t-set="j" t-value="0"/>-->
+                    <!--<t t-foreach="doc.package_line_ids" t-as="line">-->
+                    <!--  <t t-foreach="doc.package_line_id" t-as="l">-->
+                    <!--    <t t-if="line.name == l.package_ids.name">-->
+                    <!--      <t t-set="j" t-value="j+1"/>-->
+                    <!--    </t>-->
+                    <!--  </t>-->
+                    <!--</t>-->
+
+
+            <!--        <t t-foreach="doc.package_line_ids" t-as="line">-->
+            <!--            <t t-foreach="doc.package_line_id" t-as="l">-->
+            <!--              <t t-if="line.name == l.package_ids.name">-->
+            <!--                <t t-set="j" t-value="j+1"/>-->
+            <!--              </t>-->
+            <!--           </t>  -->
+            <!--            <t t-foreach="doc.package_line_id" t-as="l">-->
+            <!--            <tr>-->
+            <!--                <td class="text-left" rowspan="2">-->
+            <!--                    <span t-field="line.name"/>-->
+            <!--                </td>-->
+            <!--                    <td class="text-right">-->
+            <!--                        <span t-field="l.package_des"/>-->
+            <!--                    </td>-->
+            <!--                    <td class="text-right">-->
+            <!--                        <t t-esc="int(l.package_qty)" t-sum="QTY"/>-->
+            <!--                    </td>-->
+            <!--                <td class="text-right" rowspan="2">-->
+            <!--                    <span t-field="line.package_dim"/>-->
+            <!--                </td>-->
+            <!--                    <td class="text-right">-->
+            <!--                        <span t-field="l.package_net"/>-->
+            <!--                    </td>-->
+                            
+            <!--                <td class="text-right" rowspan="2">-->
+            <!--                    <span t-field="line.package_gross"/>-->
+            <!--                </td>-->
+            <!--            </tr>-->
+            <!--            </t>-->
+            <!--        </t>-->
+            <!--    </tbody>-->
+            <!--</table>-->
+            <t t-foreach="doc.package_line_ids" t-as="line">
+            <table class="table table-sm o_main_table">
+                <thead>
+                    <tr>
+                        <!-- TODO: remove in master    font-family: ARIAL;-->
+                        <t t-set="colspan" t-value="5"/>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">#صفقة </th>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الحجم</th>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">.الوزن الاجمالي</th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody"> 
+                        <tr>
+                            <td class="text-right">
+                                <span t-field="line.name"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.package_dim"/>
+                            </td>
+                            <td class="text-right">
+                                <t t-esc="int(line.package_gross)"/>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm o_main_table">
+                <thead>
+                    <tr>
+                        <!-- TODO: remove in master -->
+                        <t t-set="colspan" t-value="5"/>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الوصف</th>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الكمية </th>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">.الوزن الصافي</th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                        <t t-foreach="line.Package_detail" t-as="l">
+                          <!-- <t t-if="line.name == l.package_ids.name"> -->
+                            <tr>
+                                <td class="text-right">
+                                    <span t-field="l.package_des"/>
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="int(l.package_qty)"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="l.package_net"/>
+                                </td>
+                            </tr>
+                          <!-- </t> -->
+                        </t>
+                        <!--<tr>-->
+                        <!--        <td class="text-left">-->
+                                    
+                        <!--        </td>-->
+                        <!--        <td class="text-center">-->
+                        <!--            <t t-esc="int(doc.total_qty)"/>-->
+                        <!--        </td>-->
+                        <!--        <td class="text-center">-->
+                        <!--            <span t-field="doc.total_net"/>-->
+                        <!--        </td>-->
+                        <!--    </tr>-->
+                </tbody>
+            </table>
+            <br/>
+            </t>
+            
+            
+            <table class="table table-sm o_main_table">
+                <thead>
+                    <tr>
+                        <!-- TODO: remove in master -->
+                        <t t-set="colspan" t-value="5"/>
+                        <th class="text-center" style="font-size: 20px; font-family: ARIAL;">الوصف</th>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الوزن الإجمالي الكلي</th>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">إجمالي الوزن الصافي</th>
+                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">إجمالي الكمية</th>
+                        
+                    </tr>
+                </thead>
+
+                <tbody class="sale_tbody">
+                        <tr>
+                                <!-- <t t-foreach="doc.package_line_ids" t-as="line">
+                                <t t-foreach="line.Package_detail" t-as="l"> -->
+                                <td class="text-right">
+                                    <span style="text-align: center;" t-field="doc.package_line_ids.Package_detail.package_des"/>
+                                </td>
+                                <!-- </t>
+                                </t> -->
+
+                                <td class="text-right">
+                                    <t t-esc="int(doc.total_gross)"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="doc.total_net"/>
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="int(doc.total_qty)"/>
+                                </td>
+                                
+                            </tr>
+                </tbody>
+            </table>
+            <br/>
+            <div>
+                <p  style="font-size: 16px; float:right; font-size: 20px; font-family: ARIAL; text-align: right; width:100%;"><t t-esc="int(doc.package_number)"/> : مجموع الطرود </p><br/>
+                <p  style="font-size: 16px; float:right; font-size: 20px; font-family: ARIAL; text-align: right; width:100%;"><span t-field="doc.mode_tran"/> : وسيلة التنقل  </p><br/>
+                <p style="font-size: 16px; float:right; font-size: 20px; font-family: ARIAL; text-align: right; width:100%;">.صنع في الإمارات  </p><br/>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+
+
+            <!-- <p t-field="doc.note"/> class="text-right float-right" -->
+            <div style="clear: both;position: relative;height: 200px;margin-top: -40px;">
+                <div style="float:right;width:50%">
+                  <span style=" float:right; text-align: right; width:100%; font-size: 20px; font-family: ARIAL;">: ملاحظات خاصة</span> <br/>
+                  <b><span t-field="doc.note"/></b>
+                </div>
+                <div >
+                <br/>
+                <br/>
+                 <span style=" float:right; text-align: right; width:100%; font-size: 20px; font-family: ARIAL;">FOR WATERFALL PUMPS MANUFACTURING</span><br/>
+                 <span style=" float:right; text-align: right; width:100%; font-size: 20px; font-family: ARIAL;">THANK YOU FOR YOUR BUSINESS!</span><br/>
+                                      
+                </div>
+            </div>
+    
+            <!-- <div t-if="doc.signature" class="mt32 ml16 mr16" name="signature">
+                <div class="offset-8">
+                    <strong>Signature</strong>
+                </div>
+                <div class="offset-8">
+                    <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+                </div>
+                <div class="offset-8 text-center">
+                    <p t-field="doc.signed_by"/>
+                </div>
+            </div> -->
+
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+
+<template id="report_wf_packing_list_arabic">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="wf_updates.report_wf_packing_list_arabic_document" t-lang="doc.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+</odoo>

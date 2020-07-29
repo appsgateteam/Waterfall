@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Assets for reports -->
+
+    <template id="web.report_assets_common">
+        <link rel="stylesheet" type="text/scss" href="/web/static/src/scss/layout_clean.scss"/>
+    </template>
+
+    <!-- Private templates used internally by reports -->
+    <template id="web.external_layout_clean">
+        <div class="header">
+            <div class="o_clean_header">
+            <div >
+                <div style="margin-bottom:5px;">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="left: 0;right: 0;"/>
+                </div>
+                <!--<div class="col-5 offset-1" name="company_address">-->
+                    <!--<ul class="list-unstyled">-->
+                        <!--<strong style="margin-top:70px;margin-left:80%">QUOTATION</strong>-->
+                        <!--<li t-if="company.vat"><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>-->
+                        <!--<li t-if="company.phone">Tel: <span t-field="company.phone"/></li>-->
+                        <!--<li t-if="company.email"><span t-field="company.email"/></li>-->
+                        <!--<li t-if="company.website"><span t-field="company.website"/></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            </div>
+            </div>
+        </div>
+
+        <div class="article o_report_layout_clean" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+
+        <div class="footer o_clean_footer">
+            <div >
+                <div style="float:left;">
+                  <p></p>
+                    <p style="font-size:10px;"><span t-field="company.report_footer"/></p>
+                </div>
+                <!--<div class="col-4 text-right">-->
+                <!--    <span class="company_address" t-field="company.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: true}"/>-->
+                <!--</div>-->
+                <!--<div class="col-4">-->
+                <!--    <h4 class="mt0 mb0 text-uppercase" t-field="company.report_header"/>-->
+                <!--</div>-->
+                <div style="float:right;">
+                    <!--<ul t-if="report_type == 'pdf'" style="margin-left:100%;" class="float-right">-->
+                    <!--    <li class="list-inline-item" ><strong><span class="page"/></strong></li>-->
+                    <!--</ul>-->
+                    <p></p>
+                    <img src="/sale/static/img/ul.jpg"/>
+                    <img src="/sale/static/img/fm.jpg"/>
+                    <img src="/sale/static/img/NFPA.jpg"/>
+                    <img src="/sale/static/img/BSI.jpg"/>
+                    <img src="/sale/static/img/AD.jpg"/>
+                    <ul t-if="report_type == 'pdf'" style="margin-left:100%;" class="float-right">
+                        <li class="list-inline-item" ><strong><span class="page"/></strong></li>
+                    </ul>
+                    
+                    <!--<img src="/sale/static/img/kussay.jpg"/>-->
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

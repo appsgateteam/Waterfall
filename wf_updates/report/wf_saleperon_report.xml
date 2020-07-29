@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="sale_report" model="report.paperformat">
+        <field name="name">Leaves Summary</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">30</field>
+        <field name="margin_left">1</field>
+        <field name="margin_right">1</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+    <report id="sale_summary_report"
+        model="quotations.seals"
+        string="Custom Sale Report"
+        report_type="qweb-pdf"
+        name="wf_updates.sale_summary_report_view"
+        paperformat="sale_report"
+        menu="False"/>
+
+        <template id="sale_summary_report_view">
+                <t t-call="web.external_layout">
+                <t t-call="web.html_container">
+                    <div class="article mt0 o_report_layout_standard">
+                        <table class="table table-condensed table-bordered">
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <div  style="border-bottom: 1px solid black;">
+                                <h3 class="text-center">Sales Report </h3>
+                                <span style="font-size: 14px;"  ><strong>From</strong>: <t t-esc="date_start" t-options='{"widget": "date"}'/> <strong>To</strong>: <t t-esc="date_end" t-options='{"widget": "date"}'/></span>
+                                <!-- <span class="text-center" style="font-size: 14px;">Salesperson: <t t-esc="sale"/></span> -->
+                            </div>
+                            <br></br>
+                            <br></br>
+                            <thead style="font-size: 10px">
+                                <th class="text-center" style="width: 8% ">Salesperson</th>
+                                <th class="text-center" style="width: 8% ">Date</th>
+                                <th class="text-center" style="width: 8% ">Product</th>
+                                <th class="text-center" style="width: 8% ">Partner</th>
+                                <th class="text-center" style="width: 8%">Sales Order No</th>
+                                <th class="text-center" style="width: 10% ">Customer P.O. No</th>
+                                <th class="text-center" style="width: 10% ">PO Date</th>
+                                <th class="text-center" style="width: 8% ">Value</th>
+                                <th class="text-center" style="width: 8% ">Current Status</th>
+                                <th class="text-center" style="width: 12% ">Country of Destination</th>
+                                <th class="text-center" style="width: 12% ">Paid Amount and Date</th>
+                                <th class="text-center" style="width: 12% ">Balance Amount and Date</th>
+                                <th class="text-center" style="width: 8% ">Invoice Date</th>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="doc">
+                                    <tr>
+                                        <td style="font-size: 10px"><span t-esc="doc['salesperson']"/></td>
+                                        <td style="font-size: 10px"><span t-esc="doc['date']" /></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['Product']"/></td>
+                                        <td class="text-center" style="font-size: 10px">
+                                            <span t-esc="doc['partner']"/>
+                                        </td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['sales order no']"/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['po_no']"/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['po_date']" t-options='{"widget": "date"}'/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['value']" t-options='{"widget": "monetary", "display_currency": doc["company"].currency_id}'/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['state']"/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['country']"/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['paid_amount']" t-options='{"widget": "monetary", "display_currency": doc["company"].currency_id}'/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['bal_amount']" t-options='{"widget": "monetary", "display_currency": doc["company"].currency_id}'/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['inv_date']" t-options='{"widget": "date"}'/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="footer o_standard_footer" style="border-top: 1px solid black;">
+                        <div class="row text-center">
+                            <div class="col col-12 text-center">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">Page:</li>
+                                    <li class="list-inline-item">
+                                        <span class="page"/>
+                                    </li>
+                                    <li class="list-inline-item">/</li>
+                                    <li class="list-inline-item">
+                                        <span class="topage"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> -->
+                </t>
+                </t>
+        </template>
+</odoo>

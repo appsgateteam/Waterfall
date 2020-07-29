@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record id="view_project_payment_wizard" model="ir.ui.view">
+      <field name="name">Project Payment</field>
+      <field name="model">project.payment.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Project Payment">
+          <group>
+            <field name="all_project"/>
+          </group>
+          <group>
+            <field name="direct_investment" attrs="{'invisible':[('all_project', '=', True)]}"/>
+          </group>
+          <group col="4" colspan="2">
+            <field name="date_from" />
+            <field name="date_to" />
+          </group>
+          <group>
+            <field name="project_ids" widget="many2many_tags"  attrs="{'invisible':[('all_project', '=', True)]}" domain="[('funding_type','=',direct_investment)]"/>
+          </group>
+        <group>
+        <footer>
+          <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+          <button string="Cancel" special="cancel"/>
+        </footer>
+        </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="project_payment_wizard_action_window">
+      <field name="name">project payment window</field>
+      <field name="res_model">project.payment.wizard</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+    <menuitem name="Project Payment" id="project_payment_wizrd" parent="account.menu_finance_legal_statement"
+              action="project_payment_wizard_action_window"/>    
+  </data>
+</odoo>

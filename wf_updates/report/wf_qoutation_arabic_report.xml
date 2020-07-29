@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- <template id="report_assets_common_custom_fonts" name="qweb_fonts less backend assets" inherit_id="web.report_assets_common">
+    <xpath expr="." position="inside">
+      <link href="/wf_updates/static/src/less/fonts.less" rel="stylesheet" type="text/less"/>
+    </xpath>
+</template> -->
+
+
+<template id="report_wf_quotation_arabic_document">
+    <t t-call="web.external_layout">
+        <div class="page">
+          <style type="text/css">
+            
+              /* United */
+              @font-face {
+                font-family: 'ARIAL';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(wf_updates/static/src/fonts/ARIAL.ttf) format('truetype');
+              }
+              @font-face {
+                font-family: 'PWSignaturetwo';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(wf_updates/static/src/fonts/PWSignaturetwo.ttf) format('truetype');
+              }
+      
+            
+          </style>
+            <div class="oe_structure"/>
+            <div style="margin :0%;">
+              <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+              <t t-set="address">
+                <strong class="text-right" style="text-align: right; font-size: 20px; font-family: ARIAL; margin-left:70%;">العرض التقديمي</strong>
+                <br/>
+                <span style="font-size: 20px; text-align: right; white-space: nowrap; margin-left: 20%;" t-field="doc.name"/><b><span class="text-right" style="text-align: right; font-size: 20px; font-family: ARIAL; white-space: nowrap;">:الرقم المرجعي  </span></b>
+                <br/>
+                <span style="font-size: 20px; margin-left: 38%; white-space: nowrap;" t-field="doc.create_date" t-options-widget="&quot;date&quot;"/><b><span style="font-size: 20px; font-family: ARIAL; white-space: nowrap; position: absolute;  left: 260px; ">:التاريخ </span></b>
+                <!-- <b><span style="margin-left:25%;font-family: Calibri;white-space: nowrap;">Version  No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/> -->
+                <br/>
+                <!-- <b><span  style="font-family: Calibri;white-space: nowrap; text-align: left;">:التاريخ </span></b> <span t-field="doc.create_date"  style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/> -->
+                <br/>
+                <br/>
+                <br/>
+                </t>
+            </div>
+
+
+            
+            
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td  style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;"><span t-field="doc.contact_person"/></td>
+                            <td style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;">:اسم الشخص الذي يمكن الاتصال به</td>
+                        </tr>
+                        <tr>
+                            <td  style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;"><span t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: ['name'], &quot;no_marker&quot;: True}"/></td>
+                            <td style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;">:اسم الشركة</td>
+                        </tr>
+                        <tr>
+                            <td  style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;"><span t-field="doc.project_name"/></td>
+                            <td style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;">:اسم المشروع</td>
+                        </tr>
+                        <tr>
+                            <td  style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;"><span t-field="doc.project_loc"/></td>
+                            <td style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;">:موقع المشروع</td>
+                        </tr>
+                        <tr>
+                            <td  style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;"><span t-field="doc.client_order_ref"/></td>
+                            <td style="font-size: 20px; font-family: ARIAL; text-align: right; font-size: 20px; padding: 3px;">:الرقم المرجعي للعميل</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <!-- </t> -->
+           
+            
+                
+                  <!-- <div class="row address">
+                    
+                    <div class="text-right">
+                      <p style="text-align: right;" t-if="doc.contact_person">اسم الشخص الذي يمكن الاتصال به: <span t-field="doc.contact_person"/></p>
+                      <p style="text-align: right;">اسم الشركة: <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: ['name'], &quot;no_marker&quot;: True}"/></p>
+                      <p style="text-align: right;" t-if="doc.project_name">اسم المشروع: <span t-field="doc.project_name"/></p>
+                      <p style="text-align: right;" t-if="doc.project_loc">موقع المشروع: <span t-field="doc.project_loc"/></p>
+                      <p style="text-align: right;" t-if="doc.client_order_ref">الرقم المرجعي للعميل: <span t-field="doc.client_order_ref"/></p>
+                    </div> -->
+                    <!-- <div class="col-5 offset-2"/> -->
+                  <!-- </div>  -->
+                  <!--<div style="float:left;" t-field="doc.partner_id" />-->
+                  <!--<p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="doc.partner_id.vat"/></p>-->
+              
+            <br/>
+            <p style="font-size: 20px; font-family: Arial, Helvetica, sans-serif; text-align: right;"> نشكرك على استفسارك القيم. إنه لمن دواعي سرورنا أن نقدم عرض الأسعار  لدينا لتطلع عليه. فيما يلي مواصفات  المواد / المعدات </p>
+            
+            <span class="text-right" style="font-size: 20px; float:right; font-family: ARIAL; text-align: right;"><u><b>المعدات</b></u></span>
+            <br/>
+            <!-- <t t-foreach="doc.order_line" t-as="line"> -->
+            <span style="font-size: 20px; float:right; font-family: ARIAL; text-align: right;">نحن نقدم </span><span t-field="doc.pro_nam" style="font-size: 20px; font-family: ARIAL; text-align: left; margin-left:51%;"/><span style="font-size: 20px; float:right; font-family: ARIAL; text-align: right;"> تطبيقات الحماية من الحرائق</span>
+            <!-- </t> -->
+            <br/>
+            <t t-set="i" t-value="1"/>
+            <t t-foreach="doc.sale_order_option_ids" t-as="line">
+                <t t-if="line.check == 1">
+                  <t t-if="line.bom_nam">
+                <span class="text-right" style="font-size: 20px; float:right; font-family: ARIAL; text-align: right;">:(<span t-esc="i"/>)المادة</span><span class="text-right" t-field="line.bom_nam" style="font-size: 20px; font-family: Arial; margin-left:45%;"/>
+                <t t-set="i" t-value="i+1"/><br/>
+                </t>
+                </t>
+              
+            </t>
+            <span style="font-size: 20px; float:right; font-family: ARIAL; text-align: right;">المادة(<span t-esc="i"/>):السعر,الأحكام والشروط</span><br/>
+            <br/>
+            <p style="font-size: 20px; font-family: ARIAL; text-align: right;">.عندما تنتهي من فحص العرض ، يسعدنا تلقي دعوتك لمناقشة عرضنا بمزيد من التفاصيل</p>
+            <b><span class="text-right" style="font-size: 20px; font-family: ARIAL; float:right; text-align: right;">المخلص لك</span></b><br/>
+            <!--<b><span class="text-left" style="font-family: ARIAL;">WATERFALL Pumps</span></b>-->
+            
+          
+            <br/>
+            <br/>
+            <br/>
+<!---->
+            <div>
+                <div style="float:left;margin-left:10%;">
+                  <b><span t-field="doc.sign_sale" style="font-size: 20px; font-family:PWSignaturetwo;font-size:50px;white-space: nowrap;"/></b>
+                </div>
+                <div style="margin-left:55%;">
+                  <t t-if="doc.sign_man">
+                  <b><span t-field="doc.sign_man" style="font-size: 20px; font-family:PWSignaturetwo;font-size:50px;white-space: nowrap;"/></b>
+                  </t>
+                  <t t-else=""><p style="font-size: 20px; font-family:PWSignaturetwo;font-size:38px;color:white;">.</p></t>
+                  
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;">
+                  <span class="text-left" style="font-size: 20px; font-family: Calibri;"><span t-esc="doc.user_id.name" style="font-size: 20px; font-family: Calibri;white-space: nowrap;"/></span>
+                </div>
+                <div style="margin-left:55%;">
+                  <span class="text-left" style="font-size: 20px; font-family: ARIAL;"><span t-esc="doc.sign_man.name" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;"/></span>
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;width:40%">
+                    <span class="text-left" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;">
+                      <span t-field="doc.user_id.function" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;"/>
+                    </span>
+                </div>
+                <div style="margin-left:55%;">
+                    <span class="text-left" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;">
+                      <span t-field="doc.sign_man.function" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;"/>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;">
+                    <span class="text-left" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;"> <span t-field="doc.user_id.mobile" style="font-size: 20px; font-family: ARIAL;"/>:موبايل</span>
+                    <!-- <span  style="font-family: Calibri;white-space: nowrap;">موبايل: <span   t-field="doc.user_id.mobile"  style="font-family: Calibri;"/></span> -->
+                </div>
+                <div style="margin-left:55%;">
+                    <span  style="font-size: 20px; font-family: ARIAL;white-space: nowrap;"> <span   t-field="doc.sign_man.mobile"  style="font-size: 20px; font-family: ARIAL;"/>:موبايل</span>
+                </div>
+            </div>
+            <div>
+                <div style="float:left;margin-left:10%;">
+                    <span class="text-left" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;"> <span  t-esc="doc.user_id.login" style="font-size: 20px; font-family: ARIAL;"/>:الأيمل</span>
+                </div>
+                <div style="margin-left:55%;">
+                    <!--<img t-att-src="'/sale/static/src/img/kussay.jpeg'" />-->
+                    <span class="text-left" style="font-size: 20px; font-family: ARIAL;white-space: nowrap;"> <span  t-esc="doc.sign_man.login" style="font-size: 20px; font-family: ARIAL;"/>:الأيمل</span>
+                </div>
+                
+            </div>
+            <!---->
+            <div class="oe_structure"/>
+        </div>
+        
+        <t t-set="j" t-value="1"/>
+        <t t-foreach="doc.sale_order_option_ids" t-as="line">
+          <t t-if="line.bom_ok == True">
+          <t t-if="line.check == 1">
+        <p style="page-break-after:always"/>
+        <div class="page">
+          <div class="oe_structure"/>
+            <strong class="text-right" style="font-size: 20px; text-align: right; font-family: ARIAL;color:black; margin-left:88%;">العرض التقديمي</strong>
+            <br/>
+            <span style="font-size: 20px; text-align: right; white-space: nowrap; margin-left: 68%;" t-field="doc.name"/><b><span class="text-right" style="font-size: 20px; text-align: right; font-family: ARIAL;white-space: nowrap;">:الرقم المرجعي  </span></b>
+            <!-- <br/> -->
+            <!-- <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">الرقم المرجعي:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/> -->
+            <!-- <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Version  No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/> -->
+            <span style="font-size: 20px; margin-left: 75%; white-space: nowrap;" t-field="doc.create_date" t-options-widget="&quot;date&quot;"/><b><span style="font-size: 20px; font-family: ARIAL;white-space: nowrap; position: absolute;  left: 787px; ">:التاريخ </span></b>
+            <!-- <b><span  style="margin-left:70%;font-family: Calibri;white-space: nowrap; position: absolute; left: 60px;">التاريخ:</span></b><span   t-field="doc.create_date" style="position: absolute;  left: 730px; float:left; white-space: nowrap;" t-options-widget="&quot;date&quot;"/> -->
+            <br/>
+            <br/>
+            <br/>
+            <u><b><strong class="text-center" style="font-size: 20px; font-family: ARIAL;margin-left:30%;color:black; ">(<span t-esc="j"/>)المادة:<span t-field="line.bom_nam"/></strong></b></u><b><strong style="font-size: 20px; font-family: Arial;margin-left:20%;color:black; ">الكمية:<t t-esc="int(line.quantity)"/></strong></b>
+            
+            <!-- <t t-foreach="doc.sale_order_options_ids" t-as="line"> -->
+            
+            <!-- <t t-if="line.check == 0">
+              <t t-if="line.num == j"> -->
+                <!--<t t-if="line.bom_ok == True">-->
+                <t t-if="line.Pro_type">
+                <u><b><span  style="font-size: 16px; font-family: ARIAL; text-align: right; position: relative;  left: 95%;">المضخة</span></b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                    <div t-if="line.flow">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">التدفق</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="int(line.flow)" style="font-size: 16px; font-family: ARIAL;"/> <t t-esc="line.flow_uom_id.name" style="font-size: 16px; font-size:10px;font-family: ARIAL, Helvetica, sans-serif;"/></div></div> 
+                    </div>
+
+                    <div t-if="line.head">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">الرأس</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.head" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.Type">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">النوع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.manu">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">المصنع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.model">
+                        <div style="float:right;margin-right:20%"><span style="font-size: 16px; font-family: ARIAL;">النموذج</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.model" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.no_of_stages">
+                        <div style="float:right;margin-right:20%"><span style="font-size: 16px;font-family: ARIAL;">عدد المراحل</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.no_of_stages" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.speed">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">السرعة</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="int(line.speed)" style="font-size: 16px; font-family: ARIAL;"/> <t t-esc="line.speed_uom_id.name" style="font-family: Calibri;"/></div></div> 
+                    </div>
+                    <div t-if="line.listing">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">القائمة</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.listing" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.con">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">اعمال </span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.con" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.acc">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">مستلزمات</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.acc" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    
+                </div>
+                </t>
+                <t t-if="line.Pro_type_dr">
+                <u><b><span  style="font-size: 18px; font-family: ARIAL; text-align: right; position: relative;  left: 91%;">:ناقل الحركة</span></b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                  
+                    <div t-if="line.Type_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">النوع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type_dr" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.manu_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">المصنع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu_dr" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.model_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">النموذج</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.model_dr" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.speed_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">السرعة</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="int(line.speed_dr)" style="font-size: 16px; font-family: ARIAL;"/> <t t-esc="line.speed_uom_id_dr.name" style="font-size: 16px; font-family: ARIAL;"/></div></div>  
+                    </div>
+                    <div t-if="line.frame">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">حجم الاطار</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.frame" style="font-size: 16px; font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.rate_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">التقييم</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="line.rate_dr" style="font-size: 16px; font-family: ARIAL;"/> <t t-esc="line.rate_uom_id_dr.name" style="font-size: 16px; font-family: ARIAL;"/></div></div>  
+                    </div>
+                    <div t-if="line.listing_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px; font-family: ARIAL;">القائمة</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.listing_dr" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.supply_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">المزود</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.supply_dr" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.enc_dr">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">البنية</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.enc_dr" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                </div>
+                </t>
+                <!-- add by fouad -->
+
+                <t t-if="line.Pro_type_ger">
+                <u><b><span  style="font-size: 18px; font-family: ARIAL; text-align: right;  position: relative;  left: 91%;">:دافع التروس</span></b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                    <div t-if="line.Type_ger">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL ;">النوع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type_ger" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.manu_gear">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">المصنع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu_gear" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.model_gear">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">النموذج</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="line.model_gear" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.ratio_gear">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">سلسلة</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.ratio_gear" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.approval_gear">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">الموافقة</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.approval_gear" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                </div>
+                </t>
+
+
+                <!--end add by fouad -->
+
+
+
+
+                <t t-if="line.Pro_type_con">
+                <u><b><span  style="font-size: 16px;font-family: ARIAL; text-align: right; position: relative;  left: 95%;">:المتحكم</span></b></u>  
+                <!--<span style="margin-left:70%">Qty: <span t-field="l.quantity"/></span>-->
+                <div style="width:100%;height:100%;border: 2px solid black;">
+                  <!--<div style="display:grid;grid-template-columns:1fr 1fr;grid-gap: 1rem;">-->
+                    <div t-if="line.Type_con">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">النوع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.Type_con" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.manu_con">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">المصنع</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.manu_con" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.rate_con">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">التقييم</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><t t-esc="line.rate_con" style="font-size: 16px;font-family: ARIAL;"/> <t t-esc="line.rate_uom_id_con.name" style="font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.listing_con">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">القائمة</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.listing_con" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.supply_con">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">المزود</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.supply_con" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                    <div t-if="line.enc_con">
+                        <div style="float:right;margin-right:20%;"><span style="font-size: 16px;font-family: ARIAL;">البنية</span></div>
+                        <div style="margin-right:40%;"><div style="float:right;"><span>:</span></div><div style="padding-left:100px;"><span t-field="line.enc_con" style="font-size: 16px;font-family: ARIAL;"/></div></div>
+                    </div>
+                </div>
+                </t>
+                <!-- </t>
+                </t> -->
+                <!--</t>-->
+                <!-- </t> -->
+                <!-- <br/> -->
+            <!-- </t> -->
+            <div class="oe_structure"/>
+        </div>
+        <t t-set="j" t-value="j+1"/>
+        </t>
+        </t>
+        </t>
+        <p style="page-break-after:always"/>
+        <div class="page">
+          <div class="oe_structure"/>
+            <strong class="text-right" style="font-size: 20px; text-align: right;font-family: ARIAL;color:black; margin-left:86%;">العرض التقديمي</strong>
+            <!-- <strong class="text-right" style="text-align: right; font-family: Calibri;color:black; margin-left:61%;">العرض التقديمي</strong> -->
+            <br/>
+            <span style="text-align: right; white-space: nowrap; margin-left: 70%;" t-field="doc.name"/><b><span class="text-right" style="text-align: right; font-size: 20px; font-family: ARIAL;white-space: nowrap;">:الرقم المرجعي  </span></b>
+            <!-- <span style="text-align: right; white-space: nowrap; margin-left: 20%;" t-field="doc.name"/><b><span class="text-right" style="text-align: right; font-family: Calibri;white-space: nowrap;">:الرقم المرجعي  </span></b> -->
+         
+            <!-- <strong style="font-family: Calibri;color:black;margin-left:61%;">العرض</strong>
+            <span style="text-align: right; white-space: nowrap; margin-left: 20%;" t-field="doc.name"/><b><span class="text-right" style="text-align: right; font-family: Calibri;white-space: nowrap;">:الرقم المرجعي  </span></b> -->
+            <!-- <strong style="margin-left:70%;font-family: Calibri;color:black;">العرض</strong>
+            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;"> الرقم المرجعي:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/> -->
+            <!-- <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Version  No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/> -->
+            <br/>
+            <span style=" margin-left: 75%; white-space: nowrap;" t-field="doc.create_date" t-options-widget="&quot;date&quot;"/><b><span style="font-size: 20px; font-family: ARIAL;white-space: nowrap; position: absolute;  left: 765px; ">:التاريخ </span></b>
+            <!-- <span style=" margin-left: 38%; white-space: nowrap;" t-field="doc.create_date" t-options-widget="&quot;date&quot;"/><b><span style="font-family: Calibri;white-space: nowrap; position: absolute;  left: 222px; ">:التاريخ </span></b> -->
+            <!-- <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap; position: absolute;  left: 60px;">التاريخ: </span></b><span t-field="doc.create_date" style="position: absolute;  left: 730px; white-space: nowrap; float:left;" t-options-widget="&quot;date&quot;"/> -->
+            
+            <br/>
+            <br/>
+            <br/>
+            <!-- <h4 class="text-center" style="font-family: Calibri;"><u><b>Price,Terms and Conditions</b></u></h4> -->
+            <u><b><strong class="text-center" style="font-size: 20px;font-family: ARIAL;margin-left:35%;color:black;">المادة(<span t-esc="j"/>):السعر,الأحكام والشروط</strong></b></u>
+            <br/>
+            <span class="text-right" style="display:block; float:right;font-size: 20px; font-family: ARIAL;"><b>:السعر</b></span>
+            <br/>
+            <div style="white-space: nowrap;">
+            <span class="text-right" t-field="doc.text" style="text-align: right; margin-left:5%;font-family: ARIAL;text-transform:uppercase;"/><span t-field="doc.amount_total" style="font-size: 20px;text-align: right; padding-left:100px;font-family: ARIAL;"/> فقط<br/><br/>
+            </div>
+            <!-- <p t-field="doc.note" style="margin-left:10%;font-family: Calibri;"/> -->
+            <span class="text-right" style="display:block; float:right; font-size: 20px; font-family: ARIAL;"><b>:مجال العمل</b></span>
+            <br/>
+            <p t-field="doc.scope" class="text-right" style="font-size: 20px; margin-left:5%;font-family: ARIAL;"/>
+            <span class="text-right" style="display:block; float:right; font-size: 20px; font-family: ARIAL;"><b>:شروط</b></span>
+            <br/>
+            <p t-field="doc.terms" class="text-right" style="margin-left:5%;font-size: 20px;font-family: ARIAL;"/>
+            <span class="text-right" style="display:block; float:right;font-size: 20px; font-family: ARIAL;"><b>:ملاحظات</b></span>
+            <br/>
+            <p t-field="doc.notess" class="text-right" style="font-size: 20px; margin-left:5%;font-family: ARIAL;"/>
+            <span class="text-right" style="display:block; float:right; font-size: 20px; font-family: ARIAL;"><b>:الاستثناءات</b></span>
+            <br/>
+            <p t-field="doc.exclue" class="text-right" style="font-size: 20px; margin-left:5%;font-family: ARIAL;"/>
+            <div class="oe_structure"/>
+        </div>
+    </t>
+    
+</template>
+
+
+<template id="report_wf_quotation_arabic">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="wf_updates.report_wf_quotation_arabic_document" t-lang="doc.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+</odoo>

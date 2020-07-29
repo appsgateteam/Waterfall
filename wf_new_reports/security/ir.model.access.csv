@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prod_schedule_report_manager,prod.schedule.report,model_prod_schedule_report,base.group_user,1,1,1,1
+access_finished_product_report_manager,finished.product.report,model_finished_product_report,base.group_user,1,1,1,1
+access_qc_inspection_report_manager,qc.inspection.report,model_qc_inspection_report,base.group_user,1,1,1,1

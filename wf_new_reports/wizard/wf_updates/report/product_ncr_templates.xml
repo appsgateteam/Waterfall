@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="wf_updates.report_product_ncr_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+
+            <style type="text/css">
+            
+              /* United */
+              @font-face {
+                font-family: 'Calibri';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(/home/ubuntu/.fonts/calibrii.ttf) format('truetype');
+              }
+              @font-face {
+                font-family: 'PWSignaturetwo';
+                font-style: heavy;
+                font-weight: 400;
+                src: url(wf_updates/static/src/fonts/PWSignaturetwo.ttf) format('truetype');
+              }
+      
+            
+            </style>
+
+                <div class="oe_structure"/>
+                <div>
+                        <h3 class="text-center">PRODUCT NON-CONFORMITY REPORT</h3>
+                </div>
+		<br/>
+
+                <t t-foreach="docs" t-as="o">
+                    <table class="table table-bordered" style="font-family: Calibri;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th colspan="2">1.Non-Conformance Information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="mt0 mb0">
+                                    <td class="mt0 mb0" colspan="1" style="padding: 3px; width: 50%; border: 1px solid #000000;">Report No. : <span t-esc="o.name_seq"> </span> </td>
+                                    <td class="mt0 mb0" colspan="1" style="padding: 3px; width: 50%; border: 1px solid #000000;">Date : <span t-esc="o.dtoday" t-options="{&quot;widget&quot;: &quot;date&quot;}"> </span></td>
+                                </tr>
+                                <tr class="mt0 mb0">
+                                    <td class="mt0 mb0" colspan="1" style="width: 50%;padding: 3px;  border: 1px solid #000000;">Reported by : <span t-esc="o.reported_by"/></td>
+                                    <td class="mt0 mb0" colspan="1" style="width: 50%;padding: 3px;  border: 1px solid #000000;">Designation : <span t-esc="o.designation"/></td>
+                                </tr>
+                                <tr class="mt0 mb0">
+                                    <td class="mt0 mb0" colspan="2" style="border: 1px solid #000000;padding: 3px; ">Discovered at: <span t-esc="o.discovered_at"/></td>
+                                </tr>
+                                <tr class="mt0 mb0">
+                                    <td class="mt0 mb0" colspan="1" style="width: 50%; border: 1px solid #000000;padding: 3px; ">Type of Non-Conformance : <span t-esc="o.type_of_non_con"/> </td>
+                                    <td class="mt0 mb0" colspan="1" style="width: 50%; border: 1px solid #000000;padding: 3px; ">Qty.Affected :  <span t-esc="o.qty_affected"/> </td>
+                                </tr>
+                            </tbody>
+                    </table>
+                
+                    
+                    <table class="table table-bordered" style="font-family: Calibri;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th colspan="2">2.Description of Non-Conformity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--<tr class="mt0 mb0">-->
+                                <!--    <td class="mt0 mb0" colspan="2" class="text-center" style="border: 1px solid #000000;"> <span>Product / Material Details</span> </td>-->
+                                    
+                                <!--</tr>-->
+                                <tr class="mt0 mb0">
+                                    <td colspan="1" class="mt0 mb0" style="width: 50%; border: 1px solid #000000padding: 3px; ;">Product/Material Model :<span t-esc="o.product_tmpl_id.name"> </span> </td>
+                                    <td colspan="1" class="mt0 mb0" style="width: 50%; border: 1px solid #000000;padding: 3px; ">P.O. No.: <span t-esc="o.p_o_no"> </span> </td>
+                                </tr>
+                                <tr class="mt0 mb0">
+                                    <td colspan="1" class="mt0 mb0" style="width: 50%; border: 1px solid #000000;padding: 3px; ">Code /Serial No : <span t-esc="o.lot_id.name"> </span> </td>
+                                    <td colspan="1" class="mt0 mb0" style="width: 50%; border: 1px solid #000000;padding: 3px; ">Other(s) :  <span t-esc="o.other"> </span> </td>
+                                </tr>
+
+                            </tbody>            
+                    </table>
+                    
+                    <div class="text-left" style="width:100%;  min-height:100px; "> <span t-field="o.description" /></div>
+                    <!--                  
+                    <div style="width:100%; height: 170px;">
+                     <span t-field="o.description" t-field-options='{"widget": "image","class": "oe_avatar"}'   class="oe_no_empty"></span>
+                    </div> -->
+                    <!--  style="border: 1px solid #000000; <div t-field="o.description" class="text-left text-wrap oe_no_empty" style="max-height:30px; max-width: 900px;">style="min-width:100%; min-height: 170px; max-height:700px; max-width:900px;"</div> style="max-height:30px; max-width: 60px;" -->
+               
+                    <div>
+		    
+                    <table class="table" style="font-family: Calibri;">
+
+                            <thead class="thead-light">
+                                <tr>
+                                    <th colspan="2">3.Immediate Action/Action Taken</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td class="text-wrap" style="border: 1px solid #000000;"><span t-field="o.action_corrective" class="oe_no_empty"> </span></td>
+                                </tr>
+                            </tbody>
+                    </table>
+                    </div>
+		   
+
+                    <div>
+                    <table class="table table-bordered" style="font-family: Calibri;">
+
+                            <thead class="thead-light">
+                                <tr>
+                                    <th colspan="1">Prepared by:</th>
+                                    <th colspan="1">Reviewed by:</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="width: 100% " class="text-center">
+                                    <td style="width: 50%; border: 1px solid #000000;"><span t-esc="o.prepared_by.name"/></td>
+                                    <td style="width: 50%; border: 1px solid #000000;"><span t-esc="o.reviewed_by.name"/></td>
+                                    
+                                </tr>
+                    </tbody>
+                    </table>
+                    </div>
+               	
+                
+
+                <p style="page-break-after:always"/>
+                <h3 class="text-center" style="font-family: Calibri;">DISPOSITION</h3>
+                <br/>
+                <div style="font-family: Calibri;">
+                    <div>
+                        <span t-if="o.use_as_is == True" style="font-size: 16px;">
+                            <img t-att-src="'/wf_updates/static/src/img/yes.png'" width="25" height="25"/> USE AS IS 
+                        </span>
+                        <span t-if="o.use_as_is == False" style="font-size: 16px;">
+                            <img t-att-src="'/wf_updates/static/src/img/no.png'" width="25" height="25"/> USE AS IS 
+                        </span>
+                    </div>
+
+                    <div>
+                        <span t-if="o.re_work == True" style="font-size: 16px; ">
+                            <img t-att-src="'/wf_updates/static/src/img/yes.png'" width="25" height="25"/> RE-WORK / REPAIR 
+
+                        </span>
+                        <span t-if="o.re_work == False" style="font-size: 16px; ">
+                            <img t-att-src="'/wf_updates/static/src/img/no.png'" width="25" height="25"/> RE-WORK / REPAIR
+                        </span>
+                    </div>
+                    <div>
+                        <span t-if="o.replac == True" style="font-size: 16px; ">
+                            <img t-att-src="'/wf_updates/static/src/img/yes.png'" width="25" height="25"/> REPLACEMENT
+
+                        </span>
+                        <span t-if="o.replac == False" style="font-size: 16px; ">
+                            <img t-att-src="'/wf_updates/static/src/img/no.png'" width="25" height="25"/> REPLACEMENT
+
+                        </span>
+                    </div>
+                    <div>
+                        <span t-if="o.scrap == True" style="font-size: 16px; ">
+                            <img t-att-src="'/wf_updates/static/src/img/yes.png'" width="25" height="25"/> SCRAP
+
+                        </span>
+                        <span t-if="o.scrap == False" style="font-size: 16px;">
+                                <img t-att-src="'/wf_updates/static/src/img/no.png'" width="25" height="25"/> SCRAP
+
+                        </span>
+                    </div>
+
+                    <div>
+                        <span t-if="o.return_to_provider == True" style="font-size: 16px;">
+                            <img t-att-src="'/wf_updates/static/src/img/yes.png'" width="25" height="25"/> RETURN TO PROVIDER
+
+                        </span>
+                        <span t-if="o.return_to_provider == False" style="font-size: 16px;">
+                                <img t-att-src="'/wf_updates/static/src/img/no.png'" width="25" height="25"/> RETURN TO PROVIDER
+
+                        </span>
+                    </div>
+
+                    <div>
+                        <span t-if="o.other_specify == True" style="font-size: 16px;">
+                            <img t-att-src="'/wf_updates/static/src/img/yes.png'" width="25" height="25"/> OTHERS (Specify)
+
+                        </span>
+                        <span t-if="o.other_specify == False" style="font-size: 16px;">
+                                <img t-att-src="'/wf_updates/static/src/img/no.png'" width="25" height="25"/> OTHERS (Specify)
+
+                        </span>
+                    </div>
+                </div>
+                
+
+                
+               
+                <br/>
+                    <h4>Remarks:</h4>
+                    
+                    <br/>
+		    
+                    <div style="font-family: Calibri;  width: 80%;" class="text-wrap">
+			
+                        <div class="page" t-attf-style="background-image:url('/wf_updates/static/src/img/lines.png'); background-size:1000px 60px; width:1000px; height:60px; "><span style="position: relative; bottom: 16px; font-size: 16px; " t-field="o.remarks"/></div>
+
+                    </div>
+
+
+                
+                   
+                <br/>
+               	<div style="font-family: Calibri;">
+                        <div style="margin-left:70%;">
+                            <span>Approved by: <span t-esc="o.approved_by.name">
+                                </span></span>
+                               
+                        </div>
+                        <div style="margin-left:70%;">
+                            <span>Date:
+                                <span t-esc="o.approv_date" t-options="{&quot;widget&quot;: &quot;date&quot;}">
+                                </span> </span>
+                        </div>
+                </div>
+                
+                <br/>
+                <br/>
+                
+                <h3 style="font-family: Calibri;" class="text-center">CLOSING THE NON-CONFORMITY REPORT</h3>
+                             
+                <div style="font-family: Calibri;">
+                
+                <br/>
+           
+                <!--<span style="text-decoration: underline;">Closed by:<span t-esc="o.closed_by.name"> </span></span>-->
+                <!--<span style="margin-left:50%; text-decoration: underline;">Date Closed: <span t-esc="o.close_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"> </span></span>-->
+                </div>
+                <br/>
+		<br/>
+
+                <h4>Verification of Disposition: </h4>
+                <br/>
+                
+                <div style="font-family: Calibri; width: 80%;" class="text-wrap;">
+                <div class="page" t-attf-style="background-image:url('/wf_updates/static/src/img/lines.png'); background-size:1000px 60px; width:1000px; height:60px;"><span style="position: relative; bottom: 16px; font-size: 16px;" t-field="o.verification"/></div>
+                   
+                </div>
+                <br/>
+               
+                <div style="font-family: Calibri;">
+                        <div style="margin-left:70%;">
+                            <span style="">Closed by:<span t-esc="o.closed_by.name"> </span></span>
+                
+                        </div>
+                        <div style="margin-left:70%;">
+                            <span >Date Closed: <span t-esc="o.close_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"> </span></span>
+                        </div>
+                </div>
+
+
+                </t>
+                
+               
+                
+                <div class="oe_structure"/>
+            </div>
+        
+        </t>
+    </template>
+
+    <template id="report_product_ncr">
+        <t t-call="web.html_container">
+            <t t-call="wf_updates.report_product_ncr_document"/>
+        </t>
+    </template>
+
+
+</odoo>

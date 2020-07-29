@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_sales_order_acknowledgement_document">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="doc">
+              <div class="oe_structure"/>
+              
+              <div class="page" style="font-size:15px;">
+                  
+                  <style type="text/css">
+              
+                      /* United */
+                      @font-face {
+                          font-family: 'Calibri';
+                          font-style: heavy;
+                          font-weight: 200;
+                          src: url(/home/ubuntu/.fonts/calibrii.ttf) format('truetype');
+                      }
+                      
+                      @font-face {
+                          font-family: 'PWSignaturetwo';
+                          font-style: heavy;
+                          font-weight: 200;
+                          src: url(wf_updates/static/src/fonts/PWSignaturetwo.ttf) format('truetype');
+                      }
+
+                       <!-- table { page-break-inside:auto }
+                       tr    { page-break-inside:avoid; page-break-after:auto }
+                       td    { page-break-inside:avoid; page-break-after:auto }
+                       thead { display:table-header-group }
+                       tfoot { display:table-footer-group } -->
+                    
+                       <!-- td, th {
+                                    overflow: hidden;
+                                } -->
+        
+                  </style>
+                      <div>
+                          <table class="table table-bordered text-nowrap" style="width: 50%; font-size: 15px; margin-top:2px; float: left; margin-left:45%;border: 1px solid black;">                                                                            
+                                      <tbody>
+                                      
+                                          <tr>
+                                              <td colspan="1" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;">SALES ORDER NO :</td>
+                                              <td colspan="2" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;"><span t-field="doc.name" style="font-family: Calibri;"/></td>
+                                          </tr>
+                                          <tr>
+                                              <td colspan="1" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;">Sales Order Date: <span t-field="doc.date_order" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                              <td colspan="2" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;">Terms: <span t-field="doc.payment_term_id" class="text-center" style="font-family: Calibri; display:block;"/></td>
+                                          </tr>
+                                          <tr>
+                                              <td colspan="3" class="text-center" style=" font-family: Calibri; padding: 3px;border: 1px solid black;">Customer ID :<span t-field="doc.partner_id" style="font-family: Calibri;"/></td>
+                                          </tr>
+                                          <tr>
+                                              <td class="text-center" style="font-family: Calibri; font-size: 15px; padding: 3px;border: 1px solid black;">Customer PO no. <span t-field="doc.client_order_ref" class="text-center" style="font-family: Calibri; display:block;"/></td>
+                                              <td class="text-center" style="font-family: Calibri; font-size: 15px; padding: 3px;border: 1px solid black;">Salesperson:   <span t-field="doc.user_id" class="text-center" style="font-family: Calibri; display:block;"/></td>
+                                              <td class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;">Est. Delivery Date: <span t-field="doc.commitment_date" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                          </tr>
+                                      </tbody>
+                          </table>
+                      </div>
+                      <br/>
+  
+                          <h3 class="text-center" style="font-family: Calibri;">ORDER ACKNOWLEDGEMENT</h3>
+                      <div>
+                          <table class="table table-bordered" style="width: 30%; margin-left:10%;  float: left;border: 1px solid black;  ">
+                                      <thead>
+                                          <tr style="border: 1px solid black;">
+                                              <th scope="col" class="text-left" style="font-family: Calibri; padding: 2px;border: 1px solid black;">SOLD TO:</th>
+                                          </tr>
+                                      </thead>                                                      
+                                      <tbody>
+  
+                                          <th scope="col" class="text-left" style="font-family: Calibri;border: 1px solid black;"> 
+                                                      <h5 style="font-family: Calibri; font-size: 15px;"><span t-field="doc.partner_id" style="font-family: Calibri;"/></h5> 
+                                                      <h5 style="font-family: Calibri; font-size: 15px;"><span t-field="doc.partner_id.email" style="font-family: Calibri;"/></h5>
+                                                      <h5 style="font-family: Calibri; font-size: 15px;">Tel: <span t-field="doc.partner_id.phone" style="font-family: Calibri;"/></h5>
+                                                      <h5 style="font-family: Calibri; font-size: 15px;">Fax: <span t-field="doc.partner_id.mobile" style="font-family: Calibri;"/></h5>
+                                          </th>
+                                      </tbody>
+                          </table>
+                          <table class="table table-bordered" style="width: 30%; float: left; margin-left:15%;border: 1px solid black;">
+                                      <thead>
+                                          <tr style="border: 1px solid black;">
+                                              <th scope="col" class="text-left" style="font-family: Calibri; padding: 2px;border: 1px solid black;">SHIP TO:</th>
+                                          </tr>
+                                      </thead>                                                      
+                                      <tbody>
+                                          <th scope="col" class="text-left" style="font-family: Calibri;border: 1px solid black;">
+                                                      <h5 style="font-family: Calibri; font-size: 15px;"><span t-field="doc.partner_id" style="font-family: Calibri;"/></h5> 
+                                                      <h5 style="font-family: Calibri; font-size: 15px;"><span t-field="doc.partner_id.email" style="font-family: Calibri;"/></h5>
+                                                      <h5 style="font-family: Calibri; font-size: 15px;">Tel: <span t-field="doc.partner_id.phone" style="font-family: Calibri;"/> </h5>
+                                                      <h5 style="font-family: Calibri; font-size: 15px;">Fax: <span t-field="doc.partner_id.mobile" style="font-family: Calibri;"/> </h5>
+                                          </th>
+                                      </tbody>
+                          </table>
+                          
+                      </div>
+                      <br/>
+                      <table class="table table-bordered " style="width: 95%;border: 1px solid black;">
+                                                                                                                      
+                                      <tbody>
+                                            
+                                          <tr>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Incoterms<span style="font-family: Calibri; display:block;"/><t t-if="doc.incoterm"><span t-field="doc.incoterm" /></t><t t-else="" >.....</t></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Est. Ship Date<span t-field="doc.expected_date" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Order Date<span t-field="doc.date_order" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Customer PO no<span t-field="doc.client_order_ref" class="text-center" style="font-family: Calibri; display:block;"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri;padding: 3px;">Territory<span class="text-center" style="font-family: Calibri; display:block; "/><span t-field="doc.country" style="font-family: Calibri;"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Shipping Agent<span class="text-center" style="font-family: Calibri; display:block;"/>N/a</td>
+                                          </tr>
+                                      </tbody>
+                      </table>
+  
+  
+                      <t t-set="i" t-value="1"/>
+                      <t t-foreach="doc.order_line" t-as="do">
+                     <span style="font-size: 15px;border: 1px solid black;"></span>
+                      <table class="table table-sm "  style="width: 95%;border: 1px solid black;font-size: 15px">
+                              
+                             
+
+                              <!-- <t t-foreach data t-as list>
+                                <table>
+                                    <tbody>
+                                        <tr t-foreach list t-as elem>
+                                            <span>......<span>
+                                        </tr>
+                                    </tbody>
+                                </table
+                                <p style="page-break-after:always;"/>
+                                </t>             
+ -->
+
+
+                              <tbody style="font-size: 15px; ">
+                             
+                                        <t t-foreach="do" t-as="d">
+                                         
+                          
+                                            <th class="text-center" style="width: 10%;border: 1px solid black; ">ITEM NO.</th>
+                                            <th class="text-center" style="border: 1px solid black; ">DESCRIPTION</th>
+                                            <th class="text-center" style="border: 1px solid black; ">UNIT</th>
+                                            <th class="text-center" style="border: 1px solid black; ">QTY</th>
+                              
+                                     
+                                          
+                                      
+                                          <tr style="border: 1px solid black;">
+                                        
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black;">
+                                                  <span t-esc="i"/> 
+                                                  <t t-set="i" t-value="i+1"/>
+                                              </td>
+                                              <td class="text-left" style="font-size: 15px;border: 1px solid black;  border-collapse: collapse; ">
+                                       
+                                              
+                                              <span t-field="d.name" style="font-family: Calibri;"/> :<br/>
+                                              <t t-foreach="doc.sale_order_option_ids" t-as="line">
+                                              <br/>
+                                              <t t-if="line.bom_ok == True">
+                                              <t t-if="line.check == 1">
+                                              <!-- <p style="page-break-after:right;"/> -->
+                                              
+                                    
+                                                  <li><span t-field="line.bom_nam"/> :</li>
+                                                  <!-- <div style="margin-left:15px; vertical-align:top;"> -->
+                                                  <t t-if="line.Pro_type">
+                                                      <u><b><span t-field="line.Pro_type" style="font-family: Calibri;"/>:</b></u>  <br/>
+                                                      
+                                                          <t t-if="line.flow">
+                                                              Flow:<t t-esc="int(line.flow)" style="font-family: Calibri;"/> <t t-esc="line.flow_uom_id.name" style="font-size:10px;font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.head">
+                                                              Head:<span t-field="line.head" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.Type">
+                                                              Type:<span t-field="line.Type" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.manu">
+                                                              Manufacture:<span t-field="line.manu" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.model">
+                                                              Model:<span t-field="line.model" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.no_of_stages">
+                                                              No.of Stages:<span t-field="line.no_of_stages" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.speed">
+                                                              Speed:<t t-esc="int(line.speed)" style="font-family: Calibri;"/> <t t-esc="line.speed_uom_id.name" style="font-family: Calibri;"/> <br/>
+                                                          </t>
+                                                          <t t-if="line.listing">
+                                                              Listing:<span t-field="line.listing" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.con">
+                                                              Construction:<span t-field="line.con" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.acc">
+                                                              Accessories:<span t-field="line.acc" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          
+                                                  </t>
+                                                  <t t-if="line.Pro_type_dr">
+                                                      <u><b><span t-field="line.Pro_type_dr" style="font-family: Calibri;"/>:</b></u><br/>
+                                                          <t t-if="line.Type_dr">
+                                                              Type:<span t-field="line.Type_dr" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.manu_dr">
+                                                              Manufacture:<span t-field="line.manu_dr" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.model_dr">
+                                                              Model:<span t-field="line.model_dr" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.speed_dr">
+                                                              Speed:<t t-esc="int(line.speed_dr)" style="font-family: Calibri;"/> <t t-esc="line.speed_uom_id_dr.name" style="font-family: Calibri;"/>  <br/>
+                                                          </t>
+                                                          <t t-if="line.frame">
+                                                              FrameSize:<span t-field="line.frame" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.rate_dr">
+                                                              Rating:<t t-esc="line.rate_dr" style="font-family: Calibri;"/> <t t-esc="line.rate_uom_id_dr.name" style="font-family: Calibri;"/> <br/> 
+                                                          </t>
+                                                          <t t-if="line.listing_dr">
+                                                              Listing:<span t-field="line.listing_dr" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.supply_dr">
+                                                              Supply:<span t-field="line.supply_dr" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.enc_dr">
+                                                              Enclosure:<span t-field="line.enc_dr" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                  </t>
+                                                  <t t-if="line.Pro_type_ger">
+                                                      <u><b><span t-field="line.Pro_type_ger" style="font-family: Calibri;"/>:</b></u> <br/>
+                                                          <t t-if="line.Type_ger">
+                                                              Type:<span t-field="line.Type_ger" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.manu_gear">
+                                                              Manufacture:<span t-field="line.manu_gear" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.model_gear">
+                                                              Model:<t t-esc="line.model_gear" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.ratio_gear">
+                                                              Ratio:<span t-field="line.ratio_gear" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.approval_gear">
+                                                              Approval:<span t-field="line.approval_gear" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                  </t>
+                                                  
+                                                  <t t-if="line.Pro_type_con">
+                                                      <u><b><span t-field="line.Pro_type_con" style="font-family: Calibri;"/>:</b></u><br/>
+                                                          <t t-if="line.Type_con">
+                                                              Type:<span t-field="line.Type_con" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.manu_con">
+                                                              Manufacture:<span t-field="line.manu_con" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.rate_con">
+                                                              Rating:<t t-esc="line.rate_con" style="font-family: Calibri;"/> <t t-esc="line.rate_uom_id_con.name" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.listing_con">
+                                                              Listing:<span t-field="line.listing_con" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.supply_con">
+                                                              Supply:<span t-field="line.supply_con" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                          <t t-if="line.enc_con">
+                                                              Enclosure:<span t-field="line.enc_con" style="font-family: Calibri;"/><br/>
+                                                          </t>
+                                                  </t>
+                                                 
+                                                  <!-- </div> -->
+                                          </t>
+                                          </t>
+                                          </t>
+                                          
+                                              </td>
+                                              
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black;"><span t-field="d.price_unit" style="font-family: Calibri;"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black;"><span t-field="d.product_uom_qty" style="font-family: Calibri;"/></td>
+                                          </tr>
+                                      </t>
+                              </tbody>  
+                      </table>
+                      
+  
+                      </t>
+                      
+                  
+  
+                      <div class="oe_structure"/>
+                      </div>
+                      
+          
+              
+            
+      
+          </t>
+        </t>
+        
+    </template>
+
+    <template id="report_sales_order_acknowledgement">
+        <t t-call="web.html_container">
+            <div class="page">
+            <t t-call="wf_updates.report_sales_order_acknowledgement_document"/>
+            </div>
+        </t>
+    </template>
+
+
+</odoo>

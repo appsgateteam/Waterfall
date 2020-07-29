@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_report_stock_forecast_two_manager,report.stock.forecast.two,model_report_stock_forecast_two,base.group_user,1,1,1,1
+access_report_stock_forecast_two_manager,report.stock.forecast.two,model_report_stock_forecast_two,sales_team.group_sale_salesman,1,1,1,1
+access_report_stock_forecast_two_manager,report.stock.forecast.two,model_report_stock_forecast_two,sales_team.group_sale_manager,1,1,1,1
+access_manufacture_report_tw_manager,manufacture.report.tw,model_manufacture_report_tw,base.group_user,1,1,1,1 
+access_purchase_report_tw_manager,purchase.report.tw,model_purchase_report_tw,base.group_user,1,1,1,1 
+access_purchase_report_one_manager,purchase.report.one,model_purchase_report_one,base.group_user,1,1,1,1
+access_package_line_manager,package.line,model_package_line,base.group_user,1,1,1,1
+access_package_line_inh_manager,package.line.inh,model_package_line_inh,base.group_user,1,1,1,1
+access_package_line_inh_manager,package.line.inh,model_package_line_inh,base.group_user,1,1,1,1
+access_product_line_manager,product.line,model_product_line,base.group_user,1,1,1,1
+access_project_location_manager,project.location,model_project_location,base.group_user,1,1,1,1
+access_stock_scrap,stock.scrap,stock.model_stock_scrap,base.group_user,1,1,1,1

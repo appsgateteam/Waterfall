@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="quotations_seals_wizard_view_form" model="ir.ui.view">
+            <field name="name">quotations.seals.form</field>
+            <field name="model">quotations.seals</field>
+            <field name="arch" type="xml">
+                <form string="Select Date">
+                    <group class="oe_title">
+
+                        
+                        <field name="able_to_modify_product"  invisible="1"/>
+                       
+                        <field name="sales_person" attrs="{'readonly' : [('able_to_modify_product','=',False)]}">
+                        </field>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="products" widget="many2many_tags"/>
+                    </group>
+                    <footer>
+                        <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+
+        <record id="quotations_seals_wizard" model="ir.actions.act_window">
+            <field name="name">Quotations Seals</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">quotations.seals</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="quotations_seals_wizard_view_form"/>
+            <field name="target">new</field>
+        </record>
+</odoo>

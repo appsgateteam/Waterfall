@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+    <record id="view_bank_move_wizard" model="ir.ui.view">
+      <field name="name">Bank Move</field>
+      <field name="model">bank.move.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Bank Move">
+          <group>
+            <field name="all_project"/>
+          </group>
+          <group col="4" colspan="2">
+            <field name="date_from" />
+            <field name="date_to" />
+          </group>
+          <group>
+            <field name="bank_id"/> 
+          </group>
+          <group>
+            <field name="project_ids" widget="many2many_tags" attrs="{'invisible':[('all_project', '=', True)]}"/>
+          </group>
+        <group>
+        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+        </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="bank_move_wizard_action_window">
+      <field name="name">bank move window</field>
+      <field name="res_model">bank.move.wizard</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+    <menuitem name="Bank Move" id="bank_move_wizrd" parent="account.menu_finance_legal_statement"
+              action="bank_move_wizard_action_window"/>    
+  </data>
+</odoo>
