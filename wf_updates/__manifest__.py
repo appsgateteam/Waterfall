@@ -4,7 +4,7 @@
 {
     'name': 'wf Updates',
     'summary': 'all customization of the wfpumps',
-    'depends': ['sale','product','mrp','stock','sale_management','sales_team'],
+    'depends': ['base','sale','product','mrp','stock','sale_management','sales_team'],
     'data': [
         'wizard/quotations_seals.xml',
         'views/test_view.xml',
