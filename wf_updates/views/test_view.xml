@@ -1659,7 +1659,7 @@
     </record>
 
 
-    <record id="res_partner_fromcus" model="ir.ui.view">
+    <!-- <record id="res_partner_fromcus" model="ir.ui.view">
         <field name="name">res.partner.formcus</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
@@ -1672,7 +1672,7 @@
             </xpath>
              
         </field>
-    </record>
+    </record> -->
 
 
 </odoo>
