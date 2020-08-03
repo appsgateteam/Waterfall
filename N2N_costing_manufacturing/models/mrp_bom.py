@@ -49,13 +49,13 @@ class MrpBom(models.Model):
     labour_cost_ids = fields.One2many(
         'bom.job.cost.line',
         'bom_id',
-        string="Direct Material",
+        string="Labour Line",
         domain=[('job_type','=','labour')],
     )
     overhead_cost_ids = fields.One2many(
         'bom.job.cost.line',
         'bom_id',
-        string="Direct Material",
+        string="Overhead Line",
         domain=[('job_type','=','overhead')],
     )
     labor_total = fields.Float(
