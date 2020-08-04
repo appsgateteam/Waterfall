@@ -32,10 +32,10 @@
             <div style="margin-right:90%;">
               <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
               <t t-set="address">
-                <strong style="margin-left:25%;font-family: Calibri;color:black;">QUOTATION</strong>
-                <b><span style="margin-left:25%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
-                <b><span style="margin-left:25%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
-                <b><span style="margin-left:25%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+                <strong style="margin-left:17%;font-family: Calibri;color:black;">QUOTATION</strong>
+                <b><span style="margin-left:17%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
+                <b><span style="margin-left:17%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
+                <b><span style="margin-left:17%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
                 <br/>
                 <br/>
                 <br/>
@@ -146,12 +146,12 @@
         <p style="page-break-after:always"/>
         <div class="page">
           <div class="oe_structure"/>
-            <strong style="margin-left:70%;font-family: Calibri;color:black;">QUOTATION</strong>
-            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
-            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
-            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+            <strong style="margin-left:65%;font-family: Calibri;color:black;">QUOTATION</strong>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
             <br/>
-            <u><b><strong class="text-center" style="font-family: Calibri;margin-left:30%;color:black;">ITEM(<span t-esc="j"/>):<span t-field="line.bom_nam"/></strong></b></u><b><strong style="font-family: Calibri;margin-left:20%;color:black;">QTY:<t t-esc="int(line.quantity)"/></strong></b>
+            <u><b><strong class="text-center" style="font-family: Calibri;margin-left:30%;color:black;">ITEM(<span t-esc="j"/>):<span t-field="line.bom_nam"/></strong></b></u><b><strong style="font-family: Calibri;margin-left:12%;color:black;">QTY:<t t-esc="int(line.quantity)"/></strong></b>
             <br/>
             <!-- <t t-foreach="doc.sale_order_options_ids" t-as="line"> -->
             
@@ -331,10 +331,10 @@
         <p style="page-break-after:always"/>
         <div class="page">
           <div class="oe_structure"/>
-            <strong style="margin-left:70%;font-family: Calibri;color:black;">QUOTATION</strong>
-            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
-            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
-            <b><span style="margin-left:70%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+            <strong style="margin-left:65%;font-family: Calibri;color:black;">QUOTATION</strong>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
             <br/>
             <br/>
             <br/>
