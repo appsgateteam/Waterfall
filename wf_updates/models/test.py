@@ -1655,12 +1655,13 @@ class StockMove(models.Model):
         states={'done': [('readonly', True)]})
 
     def unlink(self):
+        res = super(StockMove, self).unlink()
         if any(move.state not in ('draft', 'cancel') for move in self):
             self.mapped('move_line_ids').unlink()
             # raise UserError(_('You can only delete draft moves.'))
         # With the non plannified picking, draft moves could have some move lines.
         self.mapped('move_line_ids').unlink()
-        return super(StockMove, self).unlink()
+        return res
 
 class stock_line_inherit(models.Model):
     _inherit = "stock.move.line"
