@@ -16,7 +16,7 @@
                   </h3>
                   <br/><br/>
                     <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
-                    <div t-if="o.partner_id.vat" class="mt16"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></div>
+                    <div t-if="o.partner_id.vat" class="mt16">Customer TRN: <span t-field="o.partner_id.vat"/></div>
                 </t>
                  <t>
             <t t-set="information_block">
@@ -31,12 +31,12 @@
                         <span t-field="o.number"/>
                     </h2>
                     
-                  <span style="white-space: nowrap;">Waterfall Pumps Manufacturing</span><br/>
-                <span style="white-space: nowrap;">Warehouse 1-5, Al T'tay Area</span><br/>
-                <span style="white-space: nowrap;">Dubai, United Arab Emirates</span><br/>
-                <span style="white-space: nowrap;">P.O.BOX: 371219 | 446054</span><br/>
-                <span style="white-space: nowrap;">+971 4 2633 325 | +971 43944 982</span><br/>
-                <span style="white-space: nowrap;">TRN : 10036722250003</span><br/>
+                  <span style="white-space: nowrap;"><span t-field="res_company.name" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.street" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.street2" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.zip" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.phone" /></span><br/>
+                <span style="white-space: nowrap;">TRN : <span t-field="res_company.vat" /></span><br/>
                 <!--<div t-if="o.dest_address_id">-->
                 <!--    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>-->
                 <!--</div>-->
@@ -98,7 +98,7 @@
                                     <!-- TODO: remove in master -->
                                     <t t-set="colspan" t-value="colspan+1"/>
                                 </th>
-                                <th t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>VAT</span></th>
+                                <th t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>VAT</span></th>
                                 <th class="text-right">
                                     <span groups="account.group_show_line_subtotals_tax_excluded">Amount</span>
                                     <span groups="account.group_show_line_subtotals_tax_included">Total Price</span>
@@ -127,12 +127,13 @@
                                         <td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                             <span t-field="line.discount"/>
                                         </td>
-                                        <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.invoice_line_tax_ids))"/>
+                                        <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <t t-set="vat_value" t-value="(line.price_subtotal * (line.invoice_line_tax_ids.amount or 0.0) / 100.0)"/><span t-esc="vat_value" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
                                         </td>
                                         <td class="text-right o_price_total">
-                                            <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                            <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                          <t t-set="price_subtotal" t-value="vat_value + line.price_subtotal" />
+                                            <span t-esc="price_subtotal" groups="account.group_show_line_subtotals_tax_excluded" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
+                                            <span t-esc="price_subtotal" groups="account.group_show_line_subtotals_tax_included" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
                                         </td>
                                     </t>
                                     <t t-if="line.display_type == 'line_section'">
@@ -228,14 +229,14 @@
             <!--<br />-->
             <p style="margin-left:60%;white-space: nowrap;"><b>for Waterfall Pumps Manufacturing</b></p><br/>
             <p style="margin-left:60%;white-space: nowrap;">Authorised Signatory </p><br/>
-            <div style="margin-top:70px;position:relative;">
-              <pre>
-                <span>Bank Account Name : Waterfall Pumps Manufacturing</span>
-                <span>Bank Name : Abu Dhabi Islamic Bank</span>
-                <span>Bank Account Number : 001-848030-8</span>
-                <span>IBAN : AE-49-050-0000000018480308</span>
-                <span>SWIFT : ABDIAEAD</span>
-                <span>Branch : Al Buhaira, Sharjah, U.A.E</span></pre>
+            <div style="margin-top:70px;position:relative;margin-left:10px;">
+              <p>
+                <span>Bank Account Name : Waterfall Pumps Manufacturing</span><br />
+                <span>Bank Name : Abu Dhabi Islamic Bank</span><br />
+                <span>Bank Account Number : 001-848030-8</span><br />
+                <span>IBAN : AE-49-050-0000000018480308</span><br />
+                <span>SWIFT : ABDIAEAD</span><br />
+                <span>Branch : Al Buhaira, Sharjah, U.A.E</span></p>
             </div>
                     <!--<p t-if="o.reference">-->
                     <!--    Please use the following communication for your payment : <b><span t-field="o.reference"/></b>-->

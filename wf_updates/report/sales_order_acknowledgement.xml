@@ -45,7 +45,7 @@
                                               <td colspan="2" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;"><span t-field="doc.name" style="font-family: Calibri;"/></td>
                                           </tr>
                                           <tr>
-                                              <td colspan="1" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;">Sales Order Date: <span t-field="doc.date_order" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                              <td colspan="1" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;">Sales Order Date: <span t-field="doc.dtoday" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                               <td colspan="2" class="text-center" style="font-family: Calibri; padding: 3px;border: 1px solid black;">Terms: <span t-field="doc.payment_term_id" class="text-center" style="font-family: Calibri; display:block;"/></td>
                                           </tr>
                                           <tr>
@@ -97,14 +97,14 @@
                           
                       </div>
                       <br/>
-                      <table class="table table-bordered " style="width: 95%;border: 1px solid black;">
+                      <table class="table table-bordered " style="width: 100%;border: 1px solid black;">
                                                                                                                       
                                       <tbody>
                                             
                                           <tr>
-                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Incoterms<span style="font-family: Calibri; display:block;"/><t t-if="doc.incoterm"><span t-field="doc.incoterm" /></t><t t-else="" >.....</t></td>
-                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Est. Ship Date<span t-field="doc.expected_date" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
-                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Order Date<span t-field="doc.date_order" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Incoterms<span style="font-family: Calibri; display:block;"/><t t-if="doc.incoterm"><span t-field="doc.incoterm"/></t><t t-else="">.....</t></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Est. Ship Date<span t-field="doc.commitment_date" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Order Date<span t-field="doc.cus_date" class="text-center" style="font-family: Calibri; display:block;" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                                               <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Customer PO no<span t-field="doc.client_order_ref" class="text-center" style="font-family: Calibri; display:block;"/></td>
                                               <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri;padding: 3px;">Territory<span class="text-center" style="font-family: Calibri; display:block; "/><span t-field="doc.country" style="font-family: Calibri;"/></td>
                                               <td class="text-center" style="font-size: 15px;border: 1px solid black; font-family: Calibri; padding: 3px;">Shipping Agent<span class="text-center" style="font-family: Calibri; display:block;"/>N/a</td>
@@ -115,8 +115,8 @@
   
                       <t t-set="i" t-value="1"/>
                       <t t-foreach="doc.order_line" t-as="do">
-                     <span style="font-size: 15px;border: 1px solid black;"></span>
-                      <table class="table table-sm "  style="width: 95%;border: 1px solid black;font-size: 15px">
+                     <!--<span style="font-size: 15px;border: 1px solid black;"/>-->
+                      <table class="table table-sm " style="width: 100%;border: 1px solid black;font-size: 15px">
                               
                              
 
@@ -140,8 +140,8 @@
                           
                                             <th class="text-center" style="width: 10%;border: 1px solid black; ">ITEM NO.</th>
                                             <th class="text-center" style="border: 1px solid black; ">DESCRIPTION</th>
-                                            <th class="text-center" style="border: 1px solid black; ">UNIT</th>
                                             <th class="text-center" style="border: 1px solid black; ">QTY</th>
+                                            <th class="text-center" style="border: 1px solid black; ">UNIT</th>
                               
                                      
                                           
@@ -278,8 +278,8 @@
                                           
                                               </td>
                                               
-                                              <td class="text-center" style="font-size: 15px;border: 1px solid black;"><span t-field="d.price_unit" style="font-family: Calibri;"/></td>
                                               <td class="text-center" style="font-size: 15px;border: 1px solid black;"><span t-field="d.product_uom_qty" style="font-family: Calibri;"/></td>
+                                              <td class="text-center" style="font-size: 15px;border: 1px solid black;"><span t-field="d.product_uom" style="font-family: Calibri;"/></td>
                                           </tr>
                                       </t>
                               </tbody>  

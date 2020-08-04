@@ -4,7 +4,7 @@
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="o">
             <t t-call="web.internal_layout">
-                <div class="page">
+                <div class="page" style="font-size:15px;">
                     
                     <div class="oe_structure"/>
                     <h2 class="text-center">Work Order Information</h2>
@@ -26,13 +26,13 @@
                             <span t-field="o.origin"/>
                         </div>
                         <t t-foreach="request.env['sale.order'].search([('name','=',o.origin)])" t-as="li">
-                            <div class="col-3">
+                            <div class="col-5">
                                 <strong>Customer:</strong><br/>
                                 <span t-field="li.partner_id.name"/>
                             </div>
                             <div class="col-3">
                                 <strong>Ref. PO</strong><br/>
-                                <span t-field="li.client_order_ref" />
+                                <span t-field="li.client_order_ref"/>
                             </div>
                         </t>
                        
@@ -43,7 +43,7 @@
                             <strong>Work Order No.:</strong><br/>
                             <span t-field="o.worker_order_number"/>
                         </div>
-                        <div class="col-3">
+                        <div class="col-5">
                             <strong>Pump Capacity</strong><br/>
                             <span t-field="o.product_id.name"/>
                         </div>
@@ -68,59 +68,62 @@
                             <tr>
                                 <td class="text-center" colspan="99" style="padding: 2px;width:100%;background-color:#d2d4d6;border: 1px solid black;text-transform:uppercase;">FIRE PUMP UNIT DETAILS</td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Qty:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.product_qty"/> </td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Pump Serial No.</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.pump_serial_no"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Qty:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.product_qty"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Pump Serial No.</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.pump_serial_no"/> </td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Pump Model:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model"/> </td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">No.Of stages</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.no_of_stages"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Pump Model:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.model"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">No.Of stages</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.product_id.product_tmpl_id.no_of_stages"/> </td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Impeller Size -1:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.impeller_size_1"/> </td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Impeller Size -2:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.impeller_size_2"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Impeller Size -1:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.impeller_size_1"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Impeller Size -2:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.impeller_size_2"/> </td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Impeller Size -3:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.impeller_size_3"/> </td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Impeller Size -4:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.impeller_size_4"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Impeller Size -3:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.impeller_size_3"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Impeller Size -4:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.impeller_size_4"/> </td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Driver:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span><span t-field="o.product_id.product_tmpl_id.manu_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.rate_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.rate_uom_id_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.frame"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.supply_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.model_dr"/></span> </td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Skid Size.:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.skid_size"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Driver:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span><span t-field="o.product_id.product_tmpl_id.manu_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.rate_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.rate_uom_id_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.frame"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.supply_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.model_dr"/></span> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Skid Size.:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.skid_size"/> </td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Coupling Model:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.coupling_model"/> </td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Coupling Guard:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.coupling_guard"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Coupling Model:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.coupling_model"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Coupling Guard:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.coupling_guard"/> </td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Riser:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-field="o.riser"/> </td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Rated Speed:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id.name" style="font-family: Calibri;"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Riser:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.riser"/> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Rated Speed:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id.name" style="font-family: Calibri;"/> </td>
                             </tr>
-                            <tr>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">Test Speed:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed_dr)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id_dr.name" style="font-family: Calibri;"/> </td>
+                            <tr style="height:50px;">
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Test Speed:</td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-esc="int(o.product_id.product_tmpl_id.speed_dr)"/>&amp;nbsp;<t t-esc="o.product_id.product_tmpl_id.speed_uom_id_dr.name" style="font-family: Calibri;"/> </td>
                                 <!--<td class="text-left" style="margin-left:10px;padding: 2px;width:15%;border: 1px solid black;">REMARKS:</td>-->
-                                <td class="text-left" colspan="2" style="margin-left:10px;padding: 2px;width:35%;border: 1px solid black;"></td>
+                                <td class="text-left" colspan="2" style="margin-left:10px;padding: 2px;width:50%;border: 1px solid black;"/>
                             </tr>
-                        </table><br/>
+                        </table>
                     </div>
-                    <t t-if="o.remark">
+                    <!--<t t-if="o.remark">-->
+                    <div style="height:200px;border: 1px solid black;">
                     <b><span class="text-left">Remarks:</span></b><br/>
-                    <p t-field="o.remark" style="margin-left:20px;"/> </t>
+                    <p t-field="o.remark" style="margin-left:20px;"/> 
+                    <!--</t>-->
+                    </div>
                     <div class="oe_structure"/>
                 </div>
             </t>

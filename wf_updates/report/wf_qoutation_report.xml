@@ -35,7 +35,7 @@
                 <strong style="margin-left:17%;font-family: Calibri;color:black;">QUOTATION</strong>
                 <b><span style="margin-left:17%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
                 <b><span style="margin-left:17%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
-                <b><span style="margin-left:17%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+                <b><span style="margin-left:17%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.version_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
                 <br/>
                 <br/>
                 <br/>
@@ -149,7 +149,7 @@
             <strong style="margin-left:65%;font-family: Calibri;color:black;">QUOTATION</strong>
             <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
             <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
-            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.version_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
             <br/>
             <u><b><strong class="text-center" style="font-family: Calibri;margin-left:30%;color:black;">ITEM(<span t-esc="j"/>):<span t-field="line.bom_nam"/></strong></b></u><b><strong style="font-family: Calibri;margin-left:12%;color:black;">QTY:<t t-esc="int(line.quantity)"/></strong></b>
             <br/>
@@ -334,7 +334,7 @@
             <strong style="margin-left:65%;font-family: Calibri;color:black;">QUOTATION</strong>
             <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Reference No:  </span></b><span style="white-space: nowrap;" t-field="doc.name"/>
             <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Version No: </span></b><span t-field="doc.version" style="white-space: nowrap;"/>
-            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.create_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
+            <b><span style="margin-left:65%;font-family: Calibri;white-space: nowrap;">Date: </span></b><span t-field="doc.version_date" style="white-space: nowrap;" t-options-widget="&quot;date&quot;"/>
             <br/>
             <br/>
             <br/>
