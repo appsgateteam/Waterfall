@@ -518,6 +518,11 @@ class sale_wf_inherit(models.Model):
     ttype = fields.Char('Type')
     sp_remark = fields.Text('General Remarks')
     specification_date = fields.Date('Specification Date')
+    commitment_date = fields.Datetime('Commitment Date',
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+        copy=False, oldname='requested_date', readonly=False,
+        help="This is the delivery date promised to the customer. If set, the delivery order "
+             "will be scheduled based on this date rather than product lead times.")
     # new changes ziad
 
     receive_state = fields.Selection(string='Current State', selection=[
