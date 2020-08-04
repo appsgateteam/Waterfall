@@ -1646,7 +1646,7 @@ class mrp_production_inherit(models.Model):
                     so = self.env['sale.order'].search([('name','=',com.origin)])
                     rec.customer_name = so.partner_id
 
-class stock_move_inherit(models.Model):
+class StockMove(models.Model):
     _inherit = "stock.move"
 
     product_id = fields.Many2one(
@@ -1655,11 +1655,12 @@ class stock_move_inherit(models.Model):
         states={'done': [('readonly', True)]})
 
     def unlink(self):
-        # if any(move.state not in ('draft', 'cancel') for move in self):
+        if any(move.state not in ('draft', 'cancel') for move in self):
+            self.mapped('move_line_ids').unlink()
             # raise UserError(_('You can only delete draft moves.'))
         # With the non plannified picking, draft moves could have some move lines.
         self.mapped('move_line_ids').unlink()
-        return super(stock_move_inherit, self).unlink()
+        return super(StockMove, self).unlink()
 
 class stock_line_inherit(models.Model):
     _inherit = "stock.move.line"
