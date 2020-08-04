@@ -166,38 +166,39 @@ class stock_picking_inherit(models.Model):
     @api.multi
     def write(self, vals):
         res = super(stock_picking_inherit, self).write(vals)
+        for recs in self:
         # Change locations of moves if those of the picking change
-        after_vals = {}
-        if vals.get('location_id'):
-            after_vals['location_id'] = vals['location_id']
-        if vals.get('location_dest_id'):
-            after_vals['location_dest_id'] = vals['location_dest_id']
-        if after_vals:
-            self.mapped('move_lines').filtered(lambda move: not move.scrapped).write(after_vals)
-        if vals.get('move_lines'):
-            # Do not run autoconfirm if any of the moves has an initial demand. If an initial demand
-            # is present in any of the moves, it means the picking was created through the "planned
-            # transfer" mechanism.
-            pickings_to_not_autoconfirm = self.env['stock.picking']
-            for picking in self:
-                if picking.state != 'draft':
-                    continue
-                for move in picking.move_lines:
-                    if not float_is_zero(move.product_uom_qty, precision_rounding=move.product_uom.rounding):
-                        pickings_to_not_autoconfirm |= picking
-                        break
-            (self - pickings_to_not_autoconfirm)._autoconfirm_picking()
-        if self.move_ids_without_package :
-            for rec in self.move_ids_without_package:
-                if rec.quantity_done != rec.product_uom_qty:
-                    if rec.product_uom_qty == 0:
+            after_vals = {}
+            if vals.get('location_id'):
+                after_vals['location_id'] = vals['location_id']
+            if vals.get('location_dest_id'):
+                after_vals['location_dest_id'] = vals['location_dest_id']
+            if after_vals:
+                self.mapped('move_lines').filtered(lambda move: not move.scrapped).write(after_vals)
+            if vals.get('move_lines'):
+                # Do not run autoconfirm if any of the moves has an initial demand. If an initial demand
+                # is present in any of the moves, it means the picking was created through the "planned
+                # transfer" mechanism.
+                pickings_to_not_autoconfirm = self.env['stock.picking']
+                for picking in self:
+                    if picking.state != 'draft':
                         continue
-                    elif rec.product_uom_qty == rec.reserved_availability and rec.product_uom_qty !=0 :
-                        continue
-                    elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability !=0:
-                        rec.write({'state':'partially_available'})
-                    elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability == 0:
-                        rec.write({'state':'confirmed'})
+                    for move in picking.move_lines:
+                        if not float_is_zero(move.product_uom_qty, precision_rounding=move.product_uom.rounding):
+                            pickings_to_not_autoconfirm |= picking
+                            break
+                (self - pickings_to_not_autoconfirm)._autoconfirm_picking()
+            if recs.move_ids_without_package :
+                for rec in recs.move_ids_without_package:
+                    if rec.quantity_done != rec.product_uom_qty:
+                        if rec.product_uom_qty == 0:
+                            continue
+                        elif rec.product_uom_qty == rec.reserved_availability and rec.product_uom_qty !=0 :
+                            continue
+                        elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability !=0:
+                            rec.write({'state':'partially_available'})
+                        elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability == 0:
+                            rec.write({'state':'confirmed'})
         
 
         return res
