@@ -52,8 +52,8 @@
                     <img src="/wf_updates/static/img/ul.jpg"/>
                     <img src="/wf_updates/static/img/fm.jpg"/>
                     <img src="/wf_updates/static/img/NFPA.jpg"/>
-                    <img src="/wf_updates/static/img/BSI.jpg"/>
-                    <img src="/wf_updates/static/img/AD.jpg"/>
+                    <!-- <img src="/wf_updates/static/img/BSI.jpg"/> -->
+                    <!-- <img src="/wf_updates/static/img/AD.jpg"/> -->
                     <ul t-if="report_type == 'pdf'" style="margin-left:100%;" class="float-right">
                         <li class="list-inline-item" ><strong><span class="page"/></strong></li>
                     </ul>
