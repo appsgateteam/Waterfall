@@ -12,20 +12,22 @@
                     <tbody>
                         
                         <tr>
-                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:25;  padding: 3px;">Source Document</td>
-                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:25;  padding: 3px;">Type of Inspection</td>
+                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:20%;  padding: 3px;">Source Document</td>
+                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:20%;  padding: 3px;">Origin Source</td>
+                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:20%;  padding: 3px;">Type of Inspection</td>
                             <!-- <td class="text-left" style="font-size: 15px;border: 1px solid black;width:40;  padding: 3px;">Control Point</td> -->
-                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:25;  padding: 3px;">Location</td>
-                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:25; padding: 3px;">Inspection Date</td>
+                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:20%;  padding: 3px;">Location</td>
+                            <td class="text-left" style="font-size: 15px;border: 1px solid black;width:20%; padding: 3px;">Inspection Date</td>
                             
                         </tr>
                         <tr>
                             <!-- <t t-foreach="doc" t-as="line"> -->
-                                <td class="text-left" style="font-size: 15px;width:25;border: 1px solid black;  padding: 3px;"><span t-esc="pick_name" /></td>
-                                <td class="text-left" style="font-size: 15px;width:25;border: 1px solid black;  padding: 3px;"><span t-esc="type" /></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="pick_name" /></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="source" /></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="type" /></td>
                                 <!-- <td class="text-left" style="font-size: 15px;width:40;border: 1px solid black;  padding: 3px;"><span t-esc="quality_point" /></td> -->
-                                <td class="text-left" style="font-size: 15px;width:25;border: 1px solid black;  padding: 3px;"><span t-esc="location" /></td>
-                                <td class="text-left" style="font-size: 15px;width:25;border: 1px solid black; padding: 3px;"><span t-esc="date" t-options="{&quot;widget&quot;: &quot;date&quot;}" /></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="location" /></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black; padding: 3px;"><span t-esc="date" t-options="{&quot;widget&quot;: &quot;date&quot;}" /></td>
                             <!-- </t> -->
                         </tr>
                     </tbody>

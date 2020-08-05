@@ -95,6 +95,24 @@ class quality_check_inherit(models.Model):
         ('fail', 'Failed'),('close', 'closed')], string='Status', track_visibility='onchange',
         default='none', copy=False)
     notes = fields.Text('Note')
+    source_origin = fields.Char('Source',related='picking_id.origin',readonly=True,store=True)
+    source_origin_mo = fields.Many2one('mrp.production',string='Source MO',related='workorder_id.production_id',readonly=True,store=True)
+    lot_name = fields.Char('Lot Number',compute='_get_lot')
+
+    @api.depends('picking_id')
+    def _get_lot(self):
+        for rec in self:
+            lot = ''
+            coms = self.env['stock.picking'].search([('id','=',rec.picking_id.id)])
+            for x in coms:
+                for pro in x.move_ids_without_package:
+                    for line in pro.move_line_ids:
+                        if line.lot_id:
+                            if lot == '':
+                                lot = line.lot_id.name
+                            else:
+                                lot = line.lot_id.name + ',' + lot
+            rec.lot_name = lot
 
     @api.depends('point_id')
     def _compute_attach(self):
@@ -528,8 +546,9 @@ class sale_wf_inherit(models.Model):
     receive_state = fields.Selection(string='Current State', selection=[
         ('New','New'),
         ('Ready','Ready'),
-        ('Partial Receive','Partial Receive'),
-        ('Closed','Closed')],
+        ('Partially Available','Partially Available'),
+        ('Partially Delivery','Partially Delivery'),
+        ('Delivered','Delivered')],
         copy=False, index=True, readonly=True,compute="ready_state")
 
 
@@ -555,31 +574,40 @@ class sale_wf_inherit(models.Model):
                 if len(com) == 1:
                     for line in com:
                         if line.state == 'done':
-                            rec.receive_state = 'Closed'
+                            rec.receive_state = 'Delivered'
                         else:
                             y = 0
                             x = 0
                             z = len(line.move_ids_without_package)
                             for l in line.move_ids_without_package:
-                                if l.product_uom_qty == l.quantity_done:
-                                    y = y + 1
-                                    continue
+                                if l.reserved_availability == 0.0 and l.quantity_done == 0.0:
+                                    if (rec.expected_date and rec.expected_date.date() <= current_date):
+                                        rec.receive_state = 'Ready'
+                                    else:
+                                        rec.receive_state = 'New'
+                                    
                                 else:
-                                    x = x + 1
-                            if z == x:
-                                if (rec.expected_date and rec.expected_date.date() <= current_date):
-                                    rec.receive_state = 'Ready'
-                                else:
-                                    rec.receive_state = 'New'
-                            else:
-                                rec.receive_state = 'Partial Receive'
+                                    rec.receive_state = 'Partially Available'
+                                #     if l.product_uom_qty == l.reserverd_availability:
+                                #         y = y + 1
+                                #         continue
+                                #     else:
+                                #         x = x + 1
+                                # else:
+                            # if z == x:
+                            #     if (rec.expected_date and rec.expected_date.date() <= current_date):
+                            #         rec.receive_state = 'Ready'
+                            #     else:
+                            #         rec.receive_state = 'New'
+                            # else:
+                            #     rec.receive_state = 'Partially Available'
                 else:
                     for line in com:
                         if line.state != 'done':
-                            rec.receive_state = 'Partial Receive'
+                            rec.receive_state = 'Partially Delivery'
                             break
                         else:
-                            rec.receive_state = 'Closed'
+                            rec.receive_state = 'Delivered'
 
 
 
@@ -2032,7 +2060,7 @@ class StockProductionLot_inherit(models.Model):
 
     _sql_constraints = [
         ('name_uniq', 'unique (name)', 'The combination of serial number must be unique !'),
-        ('name_ref_uniq', 'unique ()', 'The combination of serial number must be unique !'),
+        ('name_ref_uniq', 'unique ()', 'The combination of serial number and product must be unique !'),
     ]
 
 class StockQuantityHistoryinh(models.TransientModel):

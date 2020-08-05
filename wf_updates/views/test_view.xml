@@ -33,6 +33,11 @@
                 <field name="quality_att" />
                 <field name="quality_attac" readonly="1" invisible="1" string="Quality attchment of employee"/>
             </xpath>
+            <xpath expr="//field[@name='team_id']" position="after">
+                <field name="source_origin" />
+                <field name="source_origin_mo" />
+                <field name="lot_name" />
+            </xpath>
             <xpath expr="//group[1]" position="after">
                 <label for="notes" />
                 <field name="notes"/>
