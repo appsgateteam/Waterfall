@@ -2095,10 +2095,10 @@ class StockQuantityHistoryinh(models.TransientModel):
         else:
             return self.env.ref('stock_account.product_valuation_action').read()[0]
 
-# class ResPartner_inherit(models.Model):
-#     _inherit = "res.partner"
+class Partner(models.Model):
+    _inherit = "res.partner"
 
-#     vendor_name_arabic = fields.Text('Vendor Name in arabic')
+    vendor_name_arabic = fields.Text('Vendor Name in arabic')
 
 class productproductinh(models.Model):
     _inherit = "product.product"
