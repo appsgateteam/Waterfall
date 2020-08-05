@@ -44,12 +44,14 @@ class ReportQualityCheckRe(models.AbstractModel):
                     for pro in x.move_ids_without_package:
                         if l.product_id.id == pro.product_id.id:
                             qty = pro.product_uom_qty
-                        for line in pro.move_line_ids:
-                            if line.lot_id:
-                                if lot == '':
-                                    lot = line.lot_id.name
-                                else:
-                                    lot = line.lot_id.name + ',' + lot
+                            for line in pro.move_line_ids:
+                                if line.lot_id:
+                                    if lot == '':
+                                        lot = line.lot_id.name
+                                    else:
+                                        lot = line.lot_id.name + ',' + lot
+                            break
+                        
                 vals = {
                         'team':l.team_id.name,
                         'quality_point' :quality_point,
