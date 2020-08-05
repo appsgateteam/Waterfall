@@ -106,12 +106,14 @@ class quality_check_inherit(models.Model):
             coms = self.env['stock.picking'].search([('id','=',rec.picking_id.id)])
             for x in coms:
                 for pro in x.move_ids_without_package:
-                    for line in pro.move_line_ids:
-                        if line.lot_id:
-                            if lot == '':
-                                lot = line.lot_id.name
-                            else:
-                                lot = line.lot_id.name + ',' + lot
+                    if rec.product_id.id == pro.product_id.id:
+                        for line in pro.move_line_ids:
+                            if line.lot_id:
+                                if lot == '':
+                                    lot = line.lot_id.name
+                                else:
+                                    lot = line.lot_id.name + ',' + lot
+                        break
             rec.lot_name = lot
 
     @api.depends('point_id')
