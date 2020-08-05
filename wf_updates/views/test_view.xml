@@ -913,7 +913,7 @@
                 <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['finalapp'])]}"/>
             </button>
             <xpath expr="//button[@name='action_cancel']" position="replace">
-                <button name="action_cancel" states="draft,sent,approve,approved,final,finalapp,sale" type="object" string="Cancel"/>            
+                <button name="action_cancel" states="draft,sent,approve,approved,final,finalapp,sale" type="object" string="Cancel" confirm="Are you sure you want to cancel this?"/>            
             </xpath>
 
 

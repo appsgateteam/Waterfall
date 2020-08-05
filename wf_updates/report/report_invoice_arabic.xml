@@ -16,7 +16,7 @@
                   </h3>
                   <br/><br/>
                     <!-- <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/> -->
-                    <div style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-field="o.partner_id.name"/>
+                    <div style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-field="o.partner_id.vendor_name_ar"/>
                     <!--<div t-if="o.partner_id.vat" class="mt16"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></div>-->
                     <p  style=" text-align: right; float:right; font-size: 20px; font-family: ARIAL;" t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'الرقم الضريبي'"/>: <span t-field="o.partner_id.vat"/></p>
                 </t>
@@ -37,9 +37,9 @@
                   <span style="white-space: nowrap;">واترفول لصناعة المضخات</span><br/>
                 <span style="white-space: nowrap;">منطقة الطى مستودع 1-5</span><br/>
                 <span style="white-space: nowrap;">الامارات العربية المتحدة- دبي</span><br/>
-                <span style="white-space: nowrap;">P.O.BOX: 371219 | 446054</span><br/>
-                <span style="white-space: nowrap;">+971 4 2633 325 | +971 43944 982</span><br/>
-                <span style="white-space: nowrap;">TRN : 10036722250003</span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.zip" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.phone" /></span><br/>
+                <span style="white-space: nowrap;">TRN : <span t-field="res_company.vat" /></span><br/>
                 <!--<div t-if="o.dest_address_id">-->
                 <!--    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>-->
                 <!--</div>-->
