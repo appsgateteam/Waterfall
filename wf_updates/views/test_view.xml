@@ -235,6 +235,7 @@
                                     <!-- <field name="package_id" invisible="1"/> -->
                                     <field name="package_ids" invisible="1"/>
                                     <field name="package_des"/>
+                                    <field name="package_des_arabic"/>
                                     <field name="package_qty"/>
                                     <field name="package_net"/>
                                 </tree>
@@ -279,6 +280,7 @@
                         <!-- <field name="package_id" /> -->
                         <field name="package_ids"/>
                         <field name="package_des"/>
+                        <field name="package_des_arabic"/>
                         <field name="package_qty"/>
                         <field name="package_net"/>
                     </group>
@@ -295,6 +297,7 @@
                 <!-- <field name="package_id" /> -->
                 <field name="package_ids"/>
                 <field name="package_des"/>
+                <field name="package_des_arabic"/>
                 <field name="package_qty"/>
                 <field name="package_net"/>
             </tree>

@@ -1944,6 +1944,7 @@ class package_line_inh(models.Model):
     # package_id = fields.Char('Package #',invisible=True)
     package_ids = fields.Many2one('package.line','Package #')
     package_des = fields.Text('Description')
+    package_des_arabic = fields.Text('Description Arabic')
     package_qty = fields.Integer('Qty')
     package_net = fields.Float('Net Wgt.')
 
