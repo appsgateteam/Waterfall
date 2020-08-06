@@ -1391,66 +1391,87 @@ class product_inh(models.Model):
         return action
 
     def action_open_pos(self):
+        for rec in self:
+            inv_obj = self.env['purchase.report.tw']
+            values = []
+            self.env.cr.execute("""delete from purchase_report_tw where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""SELECT 
+                                    sm.product_id as product,
+                                    sm.product_uom_qty as qty,
+                                    sm.picking_id as pick, 
+                                    sm.date_expected as expected_date,
+                                    so.name as ref,
+                                    so.date_order as so_order_date
+                                    FROM stock_move sm
+                                    join sale_order_line s_line on s_line.id=sm.sale_line_id
+                                    join sale_order so on so.id=s_line.order_id
+                                    join product_product pp on pp.id=sm.product_id
+                                    join product_template pt on pt.id=pp.product_tmpl_id
+                                    WHERE sm.state not in ('done','cancel') and sm.picking_type_id=1 and pt.id=%s
+                """ % (rec.id))
+            res = self.env.cr.dictfetchall() 
+            # raise UserError(res)
+            for x in res:
+                vals = {'po_noo': x['qty'],'poo_ref':x['ref'],'product_id':x['product']}
+                values.append(vals)
+            inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_purchase_report_tree0').read()[0]
         return action
 
     def action_open_oppos(self):
+        for rec in self:
+            inv_obj = self.env['purchase.report.one']
+            values = []
+            self.env.cr.execute("""delete from purchase_report_one where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""SELECT 
+                                    sm.product_id as product,
+                                    sm.product_uom_qty as qty,
+                                    sm.picking_id as pick,
+                                    sm.date_expected as expected_date,
+                                    po.name as ref,
+                                    po.date_order as po_order_date
+                                    FROM stock_move sm
+                                    join purchase_order_line p_line on p_line.id=sm.purchase_line_id
+                                    join purchase_order po on po.id=p_line.order_id
+                                    join product_product pp on pp.id=sm.product_id
+                                    join product_template pt on pt.id=pp.product_tmpl_id
+                                    WHERE sm.state not in ('done','cancel') and sm.picking_type_id=1 and pt.id=%s
+                """ % (rec.id))
+            res = self.env.cr.dictfetchall() 
+            # raise UserError(res)
+            for x in res:
+                vals = {'op_po_no': x['qty'],'op_po_ref':x['ref'],'product_id':x['product']}
+                values.append(vals)
+            inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_purchase_report_tree2').read()[0]
         return action
 
+    @api.model_cr
     def action_open_moss(self):
         for rec in self:
             inv_obj = self.env['manufacture.report.tw']
-            com = self.env['mrp.production'].search([])
-            y = 0.0
-            x = 0.0
             values = []
-            
-            if com:
-                for line in com:
-                    if line.state == 'done':
-                        cos = self.env['manufacture.report.tw'].search([])
-                        for k in cos:
-                            if k.poo_ref2 == line.name :
-                                k.unlink()
-                    elif line.state == 'cancel':
-                        cos = self.env['manufacture.report.tw'].search([])
-                        for k in cos:
-                            if k.poo_ref2 == line.name :
-                                k.unlink()
-                    else:
-                        for l in line.move_raw_ids:
-                            lot_no = ''
-                            if l.active_move_line_ids:
-                                # lot_no = ''
-                                for k in l.active_move_line_ids:
-                                    # if len(k) == 1:
-                                    # lot_no = k.lot_id.name
-                                # else:
-                                    
-                                    if k.lot_id:
-                                        lot_no = lot_no + '  \n ' + str(k.lot_id.name)
-                                    else:
-                                        continue
-                            if rec.default_code == l.product_id.default_code:
-                                if l.product_uom_qty == 0.0 :
-                                    continue
-                                else:
-                                    y = l.product_uom_qty
-                                    x = x + y
-                                    rec.poo_ref = line.origin
-                                    rec.po_noo2 = y
-                                    cod = self.env['manufacture.report.tw'].search([('poo_ref2','=',line.name),('product_id','=',rec.default_code)])
-                                    if cod:
-                                        for k in cod:
-                                            k.write({'po_noo': rec.po_noo2,'lot_no':lot_no})
-                                    if not cod:
-                                        # raise UserError(_('empty'))
-
-                                        vals = {'po_noo': rec.po_noo2,'poo_ref':rec.poo_ref2,'poo_ref2':line.name,'lot_no':lot_no,'product_id':rec.id}
-                                        values.append(vals)
-                inv_obj.create(values)
-                # rec.mo_num = x
+            self.env.cr.execute("""delete from manufacture_report_tw where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""SELECT 
+                                    mp.name as ref,
+                                    mp.origin as origin,
+                                    mp.state as state,
+                                    sm.product_id as product,
+                                    sm.product_uom_qty as qty,
+                                    --sml.lot_id as lot
+                                    FROM stock_move sm
+                                    --join stock_move_line sml on sml.move_id=sm.id
+                                    join mrp_production mp on mp.id=sm.raw_material_production_id
+                                    join product_product pp on pp.id=sm.product_id
+                                    join product_template pt on pt.id=pp.product_tmpl_id
+                                    WHERE mp.state not in ('done','cancel') and pt.id=%s
+                """ % (rec.id))
+            res = self.env.cr.dictfetchall() 
+            # raise UserError(res)
+            for x in res:
+                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'poo_ref2':x['ref'],'lot_no':x['ref'],'product_id':x['product']}
+                values.append(vals)
+            inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_manufacture_report_tree0').read()[0]
         return action
             
@@ -1478,8 +1499,9 @@ class manufacture_report_tw_inherit(models.Model):
 
     po_noo = fields.Char('Done Qty')
     poo_ref = fields.Char('MO Reference')
+    state = fields.Char('State')
     poo_ref2 = fields.Char('MO Reference')
-    lot_no = fields.Char('Lot/Serial Number')
+    lot_no = fields.Many2one('stock.production.lot',string='Lot/Serial Number')
     product_id = fields.Many2one('product.template',string='Product')
 
 class purchase_report_one_inherit(models.Model):

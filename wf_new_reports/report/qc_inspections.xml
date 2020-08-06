@@ -5,7 +5,7 @@
         <t t-call="web.external_layout">
             <div class="page" style="font-size: 14px;">
                 <div class="oe_structure"/>
-                <h2 class="text-center" style="color:black;">Quality Control Inspection Report</h2><br />
+                <h2 class="text-center" style="color:black;">Quality Control Inspection Report</h2><br/>
 
                 <table class="table table-bordered " style="width: 100%;border: 1px solid black;">
                                                                                                                         
@@ -22,27 +22,27 @@
                         </tr>
                         <tr>
                             <!-- <t t-foreach="doc" t-as="line"> -->
-                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="pick_name" /></td>
-                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="source" /></td>
-                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="type" /></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="pick_name"/></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="source"/></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="type"/></td>
                                 <!-- <td class="text-left" style="font-size: 15px;width:40;border: 1px solid black;  padding: 3px;"><span t-esc="quality_point" /></td> -->
-                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="location" /></td>
-                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black; padding: 3px;"><span t-esc="date" t-options="{&quot;widget&quot;: &quot;date&quot;}" /></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black;  padding: 3px;"><span t-esc="location"/></td>
+                                <td class="text-left" style="font-size: 15px;width:20%;border: 1px solid black; padding: 3px;"><span t-esc="date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
                             <!-- </t> -->
                         </tr>
                     </tbody>
-                </table><br/>
+                </table>
 
                 <table style="width:100%;border: 1px solid black;">
                     <thead style="border: 1px solid black;">
-                        <th class="text-center" style="color:black;padding: 2px;width:3%;background-color:#d2d4d6;border: 1px solid black;">#</th>
-                        <th style="color:black;padding: 2px;width:25%;background-color:#d2d4d6;border: 1px solid black;">Product</th>
-                        <th style="color:black;padding: 2px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Control Point</th>
-                        <th style="color:black;padding: 2px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Lot/Serial No.</th>
-                        <th style="color:black;padding: 2px;width:4%;background-color:#d2d4d6;border: 1px solid black;">Qty</th>
-                        <th style="color:black;padding: 2px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Checked By</th>
-                        <th style="color:black;padding: 2px;width:5%;background-color:#d2d4d6;border: 1px solid black;">Status</th>
-                        <th style="color:black;padding: 2px;width:33%;background-color:#d2d4d6;border: 1px solid black;">Note</th>
+                        <th class="text-center" style="color:black;padding: 1px;width:3%;background-color:#d2d4d6;border: 1px solid black;">#</th>
+                        <th style="color:black;padding: 1px;width:25%;background-color:#d2d4d6;border: 1px solid black;">Product</th>
+                        <th style="color:black;padding: 1px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Control Point</th>
+                        <th style="color:black;padding:1px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Lot/Serial No.</th>
+                        <th style="color:black;padding: 1px;width:4%;background-color:#d2d4d6;border: 1px solid black;">Qty</th>
+                        <th style="color:black;padding: 1px;width:10%;background-color:#d2d4d6;border: 1px solid black;">Checked By</th>
+                        <th style="color:black;padding: 1px;width:5%;background-color:#d2d4d6;border: 1px solid black;">Status</th>
+                        <th style="color:black;padding: 1px;width:33%;background-color:#d2d4d6;border: 1px solid black;">Note</th>
                         
                         
                     </thead>
@@ -50,19 +50,19 @@
                         <t t-set="i" t-value="1"/>
                         <t t-foreach="docs" t-as="lines">
                             <tr style="border: 1px solid black;">
-                                <td class="text-center" style="padding: 2px;width:3%;border: 1px solid black;"><span t-esc="i"/></td>
-                                <td class="text-left" style="padding: 2px;width:25%;border: 1px solid black;"><span t-esc="lines['product']"/></td>
-                                <td class="text-left" style="padding: 2px;width:10%;border: 1px solid black;"><span t-esc="lines['quality_point']"/></td>
-                                <td class="text-left" style="padding: 2px;width:10%;border: 1px solid black;"><span t-esc="lines['lot']"/></td>
-                                <td class="text-center" style="padding: 2px;width:4%;border: 1px solid black;"><span t-esc="lines['qty']"/></td>
-                                <td class="text-left" style="padding: 2px;width:10%;border: 1px solid black;"><span t-esc="lines['employee']"/></td>
-                                <td class="text-left" style="padding: 2px;width:5%;border: 1px solid black;"><span t-esc="lines['state']"/></td>
-                                <td class="text-left" style="padding: 2px;width:33%;border: 1px solid black;"><span t-esc="lines['note']"/></td>
+                                <td class="text-center" style="padding: 1px;width:3%;border: 1px solid black;"><span t-esc="i"/></td>
+                                <td class="text-left" style="padding: 1px;width:25%;border: 1px solid black;"><span t-esc="lines['product']"/></td>
+                                <td class="text-left" style="padding: 1px;width:10%;border: 1px solid black;"><span t-esc="lines['quality_point']"/></td>
+                                <td class="text-left" style="padding: 1px;width:10%;border: 1px solid black;"><span t-esc="lines['lot']"/></td>
+                                <td class="text-center" style="padding: 1px;width:4%;border: 1px solid black;"><span t-esc="lines['qty']"/></td>
+                                <td class="text-left" style="padding: 1px;width:10%;border: 1px solid black;"><span t-esc="lines['employee']"/></td>
+                                <td class="text-left" style="padding: 1px;width:5%;border: 1px solid black;"><span t-esc="lines['state']"/></td>
+                                <td class="text-left" style="padding: 1px;width:33%;border: 1px solid black;"><span t-esc="lines['note']"/></td>
                             </tr>
                             <t t-set="i" t-value="i + 1"/>
                         </t>
                     </tbody>
-                </table><br/><br/>
+                </table>
                 <!-- <t t-if="note"> -->
                 <!-- <b><span class="text-left">Narration/Notes:</span></b><br/>
                 <span t-esc="note" /> -->

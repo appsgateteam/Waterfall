@@ -1204,10 +1204,12 @@
         <field name="arch" type="xml">
             <tree string="Done Purchased">
                 <field name="po_noo"/>
-                <field name="poo_ref" invisible="1"/>
                 <field name="poo_ref2"/>
+                <field name="poo_ref"/>
                 <field name="lot_no" />
-		<field name="product_id" />
+		        <field name="product_id" />
+                
+                <field name="state"/>
             </tree>
         </field>
     </record>
