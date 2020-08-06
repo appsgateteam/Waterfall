@@ -1455,7 +1455,7 @@ class product_inh(models.Model):
             self.env.cr.execute("""SELECT 
                                     mp.name as ref,
                                     mp.origin as origin,
-                                    mp.state as state,
+                                    sm.state as state,
                                     sm.product_id as product,
                                     sm.product_uom_qty as qty
                                     --sml.lot_id as lot
@@ -1498,7 +1498,7 @@ class manufacture_report_tw_inherit(models.Model):
     _name = "manufacture.report.tw"
 
     po_noo = fields.Char('Done Qty')
-    poo_ref = fields.Char('MO Reference')
+    poo_ref = fields.Char('Main Source')
     state = fields.Char('State')
     poo_ref2 = fields.Char('MO Reference')
     lot_no = fields.Many2one('stock.production.lot',string='Lot/Serial Number')
