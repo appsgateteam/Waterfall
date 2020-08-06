@@ -1394,7 +1394,7 @@ class product_inh(models.Model):
         for rec in self:
             inv_obj = self.env['purchase.report.tw']
             values = []
-            # self.env.cr.execute("""delete from purchase_report_tw where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""delete from purchase_report_tw where product_id=%s """ % (rec.id))
             self.env.cr.execute("""SELECT 
                                     sm.product_id as product,
                                     sm.product_uom_qty as qty,
@@ -1412,7 +1412,7 @@ class product_inh(models.Model):
             res = self.env.cr.dictfetchall() 
             # raise UserError(res)
             for x in res:
-                vals = {'po_noo': x['qty'],'poo_ref':x['ref'],'product_id':x['product']}
+                vals = {'po_noo': x['qty'],'poo_ref':x['ref'],'product_id':rec.id}
                 values.append(vals)
             inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_purchase_report_tree0').read()[0]
@@ -1422,7 +1422,7 @@ class product_inh(models.Model):
         for rec in self:
             inv_obj = self.env['purchase.report.one']
             values = []
-            # self.env.cr.execute("""delete from purchase_report_one where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""delete from purchase_report_one where product_id=%s """ % (rec.id))
             self.env.cr.execute("""SELECT 
                                     sm.product_id as product,
                                     sm.product_uom_qty as qty,
@@ -1440,7 +1440,7 @@ class product_inh(models.Model):
             res = self.env.cr.dictfetchall() 
             # raise UserError(res)
             for x in res:
-                vals = {'op_po_no': x['qty'],'op_po_ref':x['ref'],'product_id':x['product']}
+                vals = {'op_po_no': x['qty'],'op_po_ref':x['ref'],'product_id':rec.id}
                 values.append(vals)
             inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_purchase_report_tree2').read()[0]
@@ -1451,7 +1451,7 @@ class product_inh(models.Model):
         for rec in self:
             inv_obj = self.env['manufacture.report.tw']
             values = []
-            # self.env.cr.execute("""delete from manufacture_report_tw where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""delete from manufacture_report_tw where product_id=%s """ % (rec.id))
             self.env.cr.execute("""SELECT 
                                     mp.name as ref,
                                     mp.origin as origin,
@@ -1469,7 +1469,7 @@ class product_inh(models.Model):
             res = self.env.cr.dictfetchall() 
             # raise UserError(res)
             for x in res:
-                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'poo_ref2':x['ref'],'product_id':x['product']}
+                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'poo_ref2':x['ref'],'product_id':rec.id}
                 values.append(vals)
             inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_manufacture_report_tree0').read()[0]
