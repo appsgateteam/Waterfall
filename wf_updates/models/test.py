@@ -1457,7 +1457,7 @@ class product_inh(models.Model):
                                     mp.origin as origin,
                                     mp.state as state,
                                     sm.product_id as product,
-                                    sm.product_uom_qty as qty,
+                                    sm.product_uom_qty as qty
                                     --sml.lot_id as lot
                                     FROM stock_move sm
                                     --join stock_move_line sml on sml.move_id=sm.id
@@ -1469,7 +1469,7 @@ class product_inh(models.Model):
             res = self.env.cr.dictfetchall() 
             # raise UserError(res)
             for x in res:
-                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'poo_ref2':x['ref'],'lot_no':x['ref'],'product_id':x['product']}
+                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'poo_ref2':x['ref'],'product_id':x['product']}
                 values.append(vals)
             inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_manufacture_report_tree0').read()[0]
