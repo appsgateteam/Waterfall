@@ -38,19 +38,19 @@ class ReportQualityCheckRe(models.AbstractModel):
                     note = l.notes
                 source = l.source_origin
                 loc = l.picking_id.location_dest_id.name
-                lot = ''
+                lot = l.lot_name
                 coms = self.env['stock.picking'].search([('id','=',pick)])
                 for x in coms:
                     for pro in x.move_ids_without_package:
                         if l.product_id.id == pro.product_id.id:
                             qty = pro.product_uom_qty
-                            for line in pro.move_line_ids:
-                                if line.lot_id:
-                                    if lot == '':
-                                        lot = line.lot_id.name
-                                    else:
-                                        lot = line.lot_id.name + ',' + lot
-                            break
+                            # for line in pro.move_line_ids:
+                            #     if line.lot_id:
+                            #         if lot == '':
+                            #             lot = line.lot_id.name
+                            #         else:
+                            #             lot = line.lot_id.name + ',' + lot
+                            # break
                         
                 vals = {
                         'team':l.team_id.name,
