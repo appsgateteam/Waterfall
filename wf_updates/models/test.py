@@ -1489,7 +1489,7 @@ class purchase_report_tw_inherit(models.Model):
 
     po_noo = fields.Char('Done Qty')
     poo_ref = fields.Char('SO Reference')
-    pick = fields.Many2one('stock.picking',string='SO Reference')
+    pick = fields.Many2one('stock.picking',string='Picking Reference')
     poo_ref2 = fields.Char('SO Reference')
     product_id = fields.Many2one('product.template',string='Product')
 
@@ -1949,6 +1949,7 @@ class package_line(models.Model):
 
     package_id = fields.Char('Package #',invisible=True)
     name = fields.Char('Package #',required=True)
+    name_arabic = fields.Char('Package Name Arabic')
     package_dim = fields.Char('Dimension')
     package_gross = fields.Float('Gross Wgt.')
     Package_detail = fields.One2many('package.line.inh','package_ids',string='Package Details')

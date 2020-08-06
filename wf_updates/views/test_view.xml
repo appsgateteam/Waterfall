@@ -222,6 +222,7 @@
                         <group>
                             <field name="package_id" invisible="1"/>
                             <field name="name"/>
+                            <field name="name_arabic"/>
                         </group>
                         <group>
                             <field name="package_dim"/>
@@ -254,6 +255,7 @@
             <tree string="Package Lines">
                 <field name="package_id" />
                 <field name="name"/>
+                <field name="name_arabic"/>
                 <field name="package_dim"/>
                 <field name="package_gross"/>
             </tree>
