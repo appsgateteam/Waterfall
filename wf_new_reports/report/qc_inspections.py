@@ -39,6 +39,7 @@ class ReportQualityCheckRe(models.AbstractModel):
                 source = l.source_origin
                 loc = l.picking_id.location_dest_id.name
                 lot = l.lot_name
+                date = l.control_date
                 coms = self.env['stock.picking'].search([('id','=',pick)])
                 for x in coms:
                     for pro in x.move_ids_without_package:
@@ -117,7 +118,7 @@ class ReportQualityCheckRe(models.AbstractModel):
             'type' :types,
             'location' :loc,
             # 'note' :note,
-            'date' :date.today(),
+            'date' :date,
             'docs': appointment_list,
             'doc': array,
         }

@@ -97,7 +97,7 @@ class quality_check_inherit(models.Model):
     notes = fields.Text('Note')
     source_origin = fields.Char('Source',related='picking_id.origin',readonly=True,store=True)
     source_origin_mo = fields.Many2one('mrp.production',string='Source MO',related='workorder_id.production_id',readonly=True,store=True)
-    lot_name = fields.Char('Lot Number',compute='_get_lot')
+    lot_name = fields.Text('Lot Number',compute='_get_lot')
 
     @api.depends('picking_id')
     def _get_lot(self):
@@ -112,7 +112,7 @@ class quality_check_inherit(models.Model):
                                 if lot == '':
                                     lot = line.lot_id.name
                                 else:
-                                    lot = line.lot_id.name + ',' + lot
+                                    lot = line.lot_id.name + '\n' + lot
                         break
             rec.lot_name = lot
 
