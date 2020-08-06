@@ -72,7 +72,7 @@
             </style>
                     
 
-                    <div id="informations" class="row mt32 mb32">
+                    <div id="informations" class="row mt32 mb32" dir="rtl">
                         <div class="col-auto mw-100 mb-2" t-if="o.name" name="description">
                             <strong style="white-space: nowrap; text-align: right; float:right; font-size: 20px; font-family: ARIAL;">:مرجع العميل</strong>
                             <p class="m-0" t-field="o.name" />
@@ -109,7 +109,7 @@
 
                     <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
 
-                    <table class="table table-sm o_main_table" name="invoice_line_table">
+                    <table class="table table-sm o_main_table" name="invoice_line_table" dir="rtl">
                         <thead>
                             <tr>
                                 <!-- TODO: remove in master -->
