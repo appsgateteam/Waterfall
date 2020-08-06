@@ -80,7 +80,7 @@
 
             
 
-            <div class="row mt32 mb32" id="informations">
+            <div class="row mt2 mb1" id="informations">
                 <div t-if="doc.po_number" class="col-auto mw-100 mb-2">
                     <strong style="white-space: nowrap; font-size: 20px; font-family: ARIAL;">:#طلب شراء</strong>
                     <p class="m-0" t-field="doc.po_number"/>
@@ -171,51 +171,51 @@
             <!--    </tbody>-->
             <!--</table>-->
             <t t-foreach="doc.package_line_ids" t-as="line">
-            <table class="table table-sm o_main_table">
+            <table class="table table-sm o_main_table" style="padding:1px;">
                 <thead>
-                    <tr>
+                    <tr style="padding:1px;">
                         <!-- TODO: remove in master    font-family: ARIAL;-->
                         <t t-set="colspan" t-value="5"/>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">#صفقة </th>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الحجم</th>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">.الوزن الاجمالي</th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">#صفقة </th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">الحجم</th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">.الوزن الاجمالي</th>
                     </tr>
                 </thead>
                 <tbody class="sale_tbody"> 
                         <tr>
-                            <td class="text-right">
+                            <td class="text-right" style="padding:1px;">
                                 <span t-field="line.name"/>
                             </td>
-                            <td class="text-right">
+                            <td class="text-right" style="padding:1px;">
                                 <span t-field="line.package_dim"/>
                             </td>
-                            <td class="text-right">
+                            <td class="text-right" style="padding:1px;">
                                 <t t-esc="int(line.package_gross)"/>
                             </td>
                         </tr>
                 </tbody>
             </table>
-            <table class="table table-sm o_main_table">
+            <table class="table table-sm o_main_table" style="padding:1px;">
                 <thead>
-                    <tr>
+                    <tr style="padding:1px;">
                         <!-- TODO: remove in master -->
                         <t t-set="colspan" t-value="5"/>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الوصف</th>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الكمية </th>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">.الوزن الصافي</th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">الوصف</th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">الكمية </th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">.الوزن الصافي</th>
                     </tr>
                 </thead>
                 <tbody class="sale_tbody">
                         <t t-foreach="line.Package_detail" t-as="l">
                           <!-- <t t-if="line.name == l.package_ids.name"> -->
-                            <tr>
-                                <td class="text-right">
+                            <tr style="padding:1px;">
+                                <td class="text-right" style="padding:1px;">
                                     <span t-field="l.package_des_arabic"/>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right" style="padding:1px;">
                                     <t t-esc="int(l.package_qty)"/>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right" style="padding:1px;">
                                     <span t-field="l.package_net"/>
                                 </td>
                             </tr>
@@ -238,21 +238,21 @@
             </t>
             
             
-            <table class="table table-sm o_main_table">
+            <table class="table table-sm o_main_table" style="padding:1px;">
                 <thead>
                     <tr>
                         <!-- TODO: remove in master -->
                         <t t-set="colspan" t-value="5"/>
                         <!-- <th class="text-center" style="font-size: 20px; font-family: ARIAL;">الوصف</th> -->
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الوزن الإجمالي الكلي</th>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">إجمالي الوزن الصافي</th>
-                        <th class="text-right" style="font-size: 20px; font-family: ARIAL;">إجمالي الكمية</th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">الوزن الإجمالي الكلي</th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">إجمالي الوزن الصافي</th>
+                        <th class="text-right" style="padding:1px;font-size: 20px; font-family: ARIAL;">إجمالي الكمية</th>
                         
                     </tr>
                 </thead>
 
                 <tbody class="sale_tbody">
-                        <tr>
+                        <tr style="padding:1px;">
                                 <!-- <t t-foreach="doc.package_line_ids" t-as="line">
                                 <t t-foreach="line.Package_detail" t-as="l"> -->
                                 <!-- <td class="text-right">
@@ -261,13 +261,13 @@
                                 <!-- </t>
                                 </t> -->
 
-                                <td class="text-right">
+                                <td class="text-right" style="padding:1px;">
                                     <t t-esc="int(doc.total_gross)"/>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right" style="padding:1px;">
                                     <span t-field="doc.total_net"/>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right" style="padding:1px;">
                                     <t t-esc="int(doc.total_qty)"/>
                                 </td>
                                 
@@ -288,7 +288,7 @@
 
 
             <!-- <p t-field="doc.note"/> class="text-right float-right" -->
-            <div style="clear: both;position: relative;height: 200px;margin-top: -40px;">
+            <div style="clear: both;">
                 <div style="float:right;width:50%">
                   <span style=" float:right; text-align: right; width:100%; font-size: 20px; font-family: ARIAL;">: ملاحظات خاصة</span> <br/>
                   <b><span t-field="doc.note"/></b>
