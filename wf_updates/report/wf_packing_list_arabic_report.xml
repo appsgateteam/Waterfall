@@ -243,7 +243,7 @@
                     <tr>
                         <!-- TODO: remove in master -->
                         <t t-set="colspan" t-value="5"/>
-                        <th class="text-center" style="font-size: 20px; font-family: ARIAL;">الوصف</th>
+                        <!-- <th class="text-center" style="font-size: 20px; font-family: ARIAL;">الوصف</th> -->
                         <th class="text-right" style="font-size: 20px; font-family: ARIAL;">الوزن الإجمالي الكلي</th>
                         <th class="text-right" style="font-size: 20px; font-family: ARIAL;">إجمالي الوزن الصافي</th>
                         <th class="text-right" style="font-size: 20px; font-family: ARIAL;">إجمالي الكمية</th>
@@ -255,9 +255,9 @@
                         <tr>
                                 <!-- <t t-foreach="doc.package_line_ids" t-as="line">
                                 <t t-foreach="line.Package_detail" t-as="l"> -->
-                                <td class="text-right">
+                                <!-- <td class="text-right">
                                     <span style="text-align: center;" t-field="doc.package_line_ids.Package_detail.package_des"/>
-                                </td>
+                                </td> -->
                                 <!-- </t>
                                 </t> -->
 
