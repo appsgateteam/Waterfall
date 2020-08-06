@@ -65,7 +65,8 @@ class quality_alert_report_detals(models.Model):
     @api.onchange('closed_by')
     def _app_date(self):
         for rec in self :
-            rec.close_date =  date.today()
+            if rec.closed_by:
+                rec.close_date =  date.today()
 
 
     
@@ -1395,24 +1396,21 @@ class product_inh(models.Model):
             inv_obj = self.env['purchase.report.tw']
             values = []
             self.env.cr.execute("""delete from purchase_report_tw where product_id=%s """ % (rec.id))
-            self.env.cr.execute("""SELECT 
+            self.env.cr.execute("""SELECT  
                                     sm.product_id as product,
                                     sm.product_uom_qty as qty,
-                                    sm.picking_id as pick, 
+                                    sm.picking_id as pick,
                                     sm.date_expected as expected_date,
-                                    so.name as ref,
-                                    so.date_order as so_order_date
+                                    sm.origin as ref
                                     FROM stock_move sm
-                                    join sale_order_line s_line on s_line.id=sm.sale_line_id
-                                    join sale_order so on so.id=s_line.order_id
                                     join product_product pp on pp.id=sm.product_id
                                     join product_template pt on pt.id=pp.product_tmpl_id
-                                    WHERE sm.state not in ('done','cancel') and sm.picking_type_id=1 and pt.id=%s
+                                    WHERE sm.state not in ('done','cancel') and sm.picking_type_id=2 and pt.id=%s
                 """ % (rec.id))
             res = self.env.cr.dictfetchall() 
             # raise UserError(res)
             for x in res:
-                vals = {'po_noo': x['qty'],'poo_ref':x['ref'],'product_id':rec.id}
+                vals = {'po_noo': x['qty'],'poo_ref':x['ref'],'pick':x['pick'],'product_id':rec.id}
                 values.append(vals)
             inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_purchase_report_tree0').read()[0]
@@ -1491,6 +1489,7 @@ class purchase_report_tw_inherit(models.Model):
 
     po_noo = fields.Char('Done Qty')
     poo_ref = fields.Char('SO Reference')
+    pick = fields.Many2one('stock.picking',string='SO Reference')
     poo_ref2 = fields.Char('SO Reference')
     product_id = fields.Many2one('product.template',string='Product')
 
