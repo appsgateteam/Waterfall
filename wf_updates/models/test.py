@@ -1394,7 +1394,7 @@ class product_inh(models.Model):
         for rec in self:
             inv_obj = self.env['purchase.report.tw']
             values = []
-            self.env.cr.execute("""delete from purchase_report_tw where product_id=%s """ % (rec.id))
+            # self.env.cr.execute("""delete from purchase_report_tw where product_id=%s """ % (rec.id))
             self.env.cr.execute("""SELECT 
                                     sm.product_id as product,
                                     sm.product_uom_qty as qty,
@@ -1422,7 +1422,7 @@ class product_inh(models.Model):
         for rec in self:
             inv_obj = self.env['purchase.report.one']
             values = []
-            self.env.cr.execute("""delete from purchase_report_one where product_id=%s """ % (rec.id))
+            # self.env.cr.execute("""delete from purchase_report_one where product_id=%s """ % (rec.id))
             self.env.cr.execute("""SELECT 
                                     sm.product_id as product,
                                     sm.product_uom_qty as qty,
@@ -1451,7 +1451,7 @@ class product_inh(models.Model):
         for rec in self:
             inv_obj = self.env['manufacture.report.tw']
             values = []
-            self.env.cr.execute("""delete from manufacture_report_tw where product_id=%s """ % (rec.id))
+            # self.env.cr.execute("""delete from manufacture_report_tw where product_id=%s """ % (rec.id))
             self.env.cr.execute("""SELECT 
                                     mp.name as ref,
                                     mp.origin as origin,
