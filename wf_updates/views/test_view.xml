@@ -85,7 +85,7 @@
     </record>
     <!-- ###################################################### -->
     <!-- hide inventory valuation value field -->
-    <record id="valuation_cus_tree" model="ir.ui.view">
+    <!-- <record id="valuation_cus_tree" model="ir.ui.view">
         <field name="name">valuation.cus.tree</field>
         <field name="model">product.product</field>
         <field name="inherit_id" ref="stock_account.view_stock_product_tree2"/>
@@ -94,7 +94,7 @@
                 <field name="stock_value" sum="Stock Valuation" widget="monetary" options="{'currency_field': 'cost_currency_id'}" groups="account.group_account_manager"/>
             </xpath>
         </field>
-    </record>
+    </record> -->
     <!-- FFF hide inventory valuation value field -->
 
 
@@ -1620,7 +1620,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='stock_value']" position="after">
-                <field name="stock_value_num" invisible="1"/>       
+                <field name="stock_value2" invisible="1"/>       
             </xpath>
              
         </field>
@@ -1637,7 +1637,7 @@
                 <field name="currency_id"/>
                 <field name="cost_currency_id"/>
                 <field name="stock_value" />
-                <field name="stock_value_num" type="measure"/>
+                <field name="stock_value2" type="measure"/>
                 <field name="cost_method"/>
             </pivot>
         </field>
