@@ -77,11 +77,11 @@
                     <div id="informations" class="row mt32 mb2" dir="rtl">
                         <div class="col-auto mw-100 mb-2" t-if="o.name" name="name" dir="rtl">
                             <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">مرجع العميل:</strong>
-                            <p class="m-0" t-field="o.name" />
+                            <p class="m-0 text-right" t-field="o.name"/>
                         </div>
                         <div class="col-auto mw-100 mb-2" t-if="o.date_invoice" name="invoice_date" dir="rtl">
-                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">تاريخ الفاتورة:</strong>
-                            <p class="m-0" t-field="o.date_invoice"/>
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;font-family: ARIAL;">تاريخ الفاتورة:</strong>
+                            <p class="m-0" t-field="white-space: nowrap;o.date_invoice"/>
                         </div>
                         <div class="col-auto mw-100 mb-2" t-if="o.date_due and o.type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')" name="due_date" dir="rtl">
                             <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">تاريخ الاستحقاق:</strong>
