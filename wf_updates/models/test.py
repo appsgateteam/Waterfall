@@ -13,7 +13,7 @@ from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 class quality_alert_report_detals(models.Model):
     _inherit = "quality.alert"
 
-    name_seq = fields.Char('Name',copy=False, readonly=True, default='New')
+    name_seq = fields.Char('Name',copy=False, default='New')
     report_n = fields.Char('Report No')
     dtoday = fields.Date('Date' , compute="_com_today")
     reported_by  = fields.Char('Reported by')
@@ -38,7 +38,9 @@ class quality_alert_report_detals(models.Model):
     approv_date = fields.Date('Date')
     close_date = fields.Date('Date')
 
-
+    _sql_constraints = [
+        ('name_seq_uniq', 'unique(name_seq)', "The sequence should be uniqe !"),
+    ]
 
     @api.model
     def create(self, vals):
