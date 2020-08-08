@@ -1460,10 +1460,10 @@ class product_inh(models.Model):
                                     sm.product_id as product,
                                     sm.product_uom_qty as qty,
                                     --sml.lot_id as lot
-                                    (select distinct sml.lot_id
+                                    (select string_agg( spl.name, ',')
                                         from stock_move_line sml
-                                        where sml.move_id=sm.id
-                                        AND sml.lot_id is not null) as lot_id
+                                        join stock_production_lot spl on spl.id=sml.lot_id
+                                        where sml.move_id=sm.id and sml.lot_id is not null) as lot_no
                                     FROM 	stock_move sm,
                                         product_product pp ,
                                         product_template pt,
@@ -1477,7 +1477,7 @@ class product_inh(models.Model):
             res = self.env.cr.dictfetchall() 
 
             for x in res:
-                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'lot_no':x['lot_id'],'poo_ref2':x['ref'],'product_id':rec.id}
+                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'lot_no':x['lot_no'],'poo_ref2':x['ref'],'product_id':rec.id}
                 values.append(vals)
             inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_manufacture_report_tree0').read()[0]
@@ -1510,7 +1510,7 @@ class manufacture_report_tw_inherit(models.Model):
     poo_ref = fields.Char('Main Source')
     state = fields.Char('State')
     poo_ref2 = fields.Char('MO Reference')
-    lot_no = fields.Many2one('stock.production.lot',string='Lot/Serial Number')
+    lot_no = fields.Char(string='Lot/Serial Number')
     product_id = fields.Many2one('product.template',string='Product')
 
 class purchase_report_one_inherit(models.Model):

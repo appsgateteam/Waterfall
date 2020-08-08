@@ -14,32 +14,34 @@
                   <h3 t-if="o.type == 'in_refund'" class="text-left" style="white-space: nowrap;margin-left:-200px;">
                     <strong>ملاحظة الائتمان الضريبي</strong>
                   </h3>
-                  <h2>
+                  <h2 style="white-space: nowrap;">
                         <span t-if="o.type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')" style="font-size: 20px; font-family: ARIAL;"><span style="font-size: 25px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; ">فاتورة</span></span>
                         <span t-if="o.type == 'out_invoice' and o.state == 'draft'" style="white-space: nowrap; font-size: 20px; font-family: ARIAL;"><span style="font-size: 25px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;">مسودة فاتورة</span></span>
                         <span t-if="o.type == 'out_invoice' and o.state == 'cancel'" style="white-space: nowrap; font-size: 20px; font-family: ARIAL;"><span style="font-size: 25px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; ">فاتورة ملغاة</span></span>
                         <span t-if="o.type == 'out_refund'" style="white-space: nowrap; font-size: 20px; font-family: ARIAL;"><span style="font-size: 25px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;">اشعار دائن</span></span>
                         <span t-if="o.type == 'in_refund'" style="white-space: nowrap; font-size: 20px; font-family: ARIAL;"><span style="font-size: 25px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;">اشعار ائتمان البائع</span></span>
                         <span t-if="o.type == 'in_invoice'" style="white-space: nowrap; font-size: 20px; font-family: ARIAL;"><span style="font-size: 25px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;">فاتورة البائع</span></span>
-                        <span t-field="o.number"/>
-                    </h2><br/>
+                        <span t-field="o.number" />
+                    </h2>
+                    <div style="float:right;text-align: right;">
+                    <span  style="white-space: nowrap;float:right;text-align: right;">واترفول لصناعة المضخات</span><br/>
+                    <span style="white-space: nowrap;float:right;">منطقة الطى مستودع 1-5</span><br/>
+                    <span style="white-space: nowrap;float:right;">الامارات العربية المتحدة- دبي</span><br/>
+                    <span style="white-space: nowrap;float:right;"><span t-field="res_company.zip"/></span><br/>
+                    <span style="white-space: nowrap;float:right;"><span t-field="res_company.phone"/></span><br/>
+                    <span style="white-space: nowrap;float:right;"><span t-field="res_company.vat"/>:الرقم الضريبي</span><br/></div>
                     <!-- <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/> -->
-                    <div class="text-right" style="font-size: 20px; font-family: ARIAL;" t-field="o.partner_id.vendor_name_ar"/>
-                    <!--<div t-if="o.partner_id.vat" class="mt16"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></div>-->
-                    <p  class="text-right" style="font-size: 20px; font-family: ARIAL;" t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'الرقم الضريبي'"/>: <span t-field="o.partner_id.vat"/></p>
+                    
                 </t>
                  <t>
             <t t-set="information_block">
               <br/><br/><br/>
               <!-- style=" text-align: right; float:right; position: relative; left: 500px;"> -->
               
-                    
-                  <span  style="white-space: nowrap;float:right;">واترفول لصناعة المضخات</span><br/>
-                <span style="white-space: nowrap;float:right;">منطقة الطى مستودع 1-5</span><br/>
-                <span style="white-space: nowrap;float:right;">الامارات العربية المتحدة- دبي</span><br/>
-                <span style="white-space: nowrap;float:right;"><span t-field="res_company.zip"/></span><br/>
-                <span style="white-space: nowrap;float:right;"><span t-field="res_company.phone"/></span><br/>
-                <span style="white-space: nowrap;float:right;"><span t-field="res_company.vat"/>الرقم الضريبي:</span><br/>
+              <div class="text-right" style="margin-right:70px;font-size: 17px; font-family: ARIAL;" t-field="o.partner_id.vendor_name_ar"/>
+              <!--<div t-if="o.partner_id.vat" class="mt16"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></div>-->
+              <p  class="text-right" style="margin-right:70px;font-size: 17px; font-family: ARIAL;" t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'الرقم الضريبي'"/>: <span t-field="o.partner_id.vat"/></p>  
+                  
                 <!--<div t-if="o.dest_address_id">-->
                 <!--    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>-->
                 <!--</div>-->
@@ -72,37 +74,37 @@
             </style>
                     
 
-                    <div id="informations" class="row mt32 mb32" dir="rtl">
-                        <div class="col-auto mw-100 mb-2" t-if="o.name" name="description">
-                            <strong style="white-space: nowrap; text-align: right; float:right; font-size: 20px; font-family: ARIAL;">مرجع العميل:</strong>
-                            <p class="m-0" t-field="o.name"/>
+                    <div id="informations" class="row mt32 mb2" dir="rtl">
+                        <div class="col-auto mw-100 mb-2" t-if="o.name" name="name" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">مرجع العميل:</strong>
+                            <p class="m-0" t-field="o.name" />
                         </div>
-                        <div class="col-auto mw-100 mb-2" t-if="o.date_invoice" name="invoice_date">
-                            <strong style="white-space: nowrap; text-align: right; float:right;font-size: 20px; font-family: ARIAL;">تاريخ الفاتورة:</strong>
+                        <div class="col-auto mw-100 mb-2" t-if="o.date_invoice" name="invoice_date" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">تاريخ الفاتورة:</strong>
                             <p class="m-0" t-field="o.date_invoice"/>
                         </div>
-                        <div class="col-auto mw-100 mb-2" t-if="o.date_due and o.type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')" name="due_date">
-                            <strong style="white-space: nowrap; text-align: right; float:right;font-size: 20px; font-family: ARIAL;">تاريخ الاستحقاق:</strong>
+                        <div class="col-auto mw-100 mb-2" t-if="o.date_due and o.type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')" name="due_date" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">تاريخ الاستحقاق:</strong>
                             <p class="m-0" t-field="o.date_due"/>
                         </div>
-                        <div class="col-auto mw-100 mb-2" t-if="o.origin" name="origin">
-                            <strong style="white-space: nowrap; text-align: right; float:right;font-size: 20px; font-family: ARIAL;">المصدر:</strong>
+                        <div class="col-auto mw-100 mb-2" t-if="o.origin" name="origin" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">المصدر:</strong>
                             <p class="m-0" t-field="o.origin"/>
                         </div>
-                        <div class="col-auto mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
-                            <strong style="white-space: nowrap; text-align: right; float:right;font-size: 20px; font-family: ARIAL;">كود العميل:</strong>
+                        <div class="col-auto mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">كود العميل:</strong>
                             <p class="m-0" t-field="o.partner_id.ref"/>
                         </div>
-                        <div name="reference" class="col-auto mw-100 mb-2" t-if="o.reference">
-                            <strong style="white-space: nowrap; text-align: right; float:right;font-size: 20px; font-family: ARIAL;">مرجع:</strong>
+                        <div name="reference" class="col-auto mw-100 mb-2" t-if="o.reference" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">مرجع:</strong>
                             <p class="m-0" t-field="o.reference"/>
                         </div>
-                        <div name="o.incoterm_id" class="col-auto mw-100 mb-2" t-if="o.incoterm_id">
-                            <strong style="white-space: nowrap; text-align: right; float:right;font-size: 20px; font-family: ARIAL;">مصطلح التجارة الدولية:</strong>
+                        <div name="o.incoterm_id" class="col-auto mw-100 mb-2" t-if="o.incoterm_id" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px;  font-family: ARIAL;">مصطلح التجارة الدولية:</strong>
                             <p class="m-0" t-field="o.incoterm_id"/>
                         </div>
-                        <div name="o.payment_term_id" class="col-auto mw-100 mb-2" t-if="o.payment_term_id">
-                            <strong style="white-space: nowrap; text-align: right; float:right;font-size: 20px; font-family: ARIAL;">شروط الدفع:</strong>
+                        <div name="o.payment_term_id" class="col-auto mw-100 mb-2" t-if="o.payment_term_id" dir="rtl">
+                            <strong style="white-space: nowrap;float:right;font-size: 18px; font-family: ARIAL;">شروط الدفع:</strong>
                             <p class="m-0" t-field="o.payment_term_id"/>
                         </div>
                     </div>
@@ -123,9 +125,9 @@
                                     <!-- TODO: remove in master -->
                                     <t t-set="colspan" t-value="colspan+1"/>
                                 </th>
-                                <th t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>الضريبة</span></th>
+                                <th t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"><span>الضريبة</span></th>
                                 <th class="text-center">
-                                    <span groups="account.group_show_line_subtotals_tax_excluded">الكمية</span>
+                                    <span groups="account.group_show_line_subtotals_tax_excluded">المجموع</span>
                                     <span groups="account.group_show_line_subtotals_tax_included">السعر الكلي</span>
                                 </th>
                             </tr>
@@ -152,12 +154,13 @@
                                         <td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                             <span t-field="line.discount"/>
                                         </td>
-                                        <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.invoice_line_tax_ids))"/>
+                                        <td t-attf-class="text-center ">
+                                             <t t-set="vat_value" t-value="(line.price_subtotal * (line.invoice_line_tax_ids.amount or 0.0) / 100.0)"/><span t-esc="vat_value" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
                                         </td>
-                                        <td class="text-right o_price_total">
-                                            <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                            <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                        <td class="text-center o_price_total">
+                                            <t t-set="price_subtotal" t-value="vat_value + line.price_subtotal"/>
+                                            <span t-esc="price_subtotal" groups="account.group_show_line_subtotals_tax_excluded" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
+                                            <span t-esc="price_subtotal" groups="account.group_show_line_subtotals_tax_included" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
                                         </td>
                                     </t>
                                     <t t-if="line.display_type == 'line_section'">
@@ -189,63 +192,59 @@
                     <div class="clearfix">
                         <div id="total" class="row" style="float:right;margin-right:5px;">
                             <div>
-                                <table class="table table-sm">
+                                <table class="table table-sm" dir="rtl">
                                     <tr class="border-black o_subtotal" style="">
-                                        <td class="text-right">
+                                        <td><strong>المجموع</strong></td>
+                                        <td class="text-left">
                                             <span t-field="o.amount_untaxed"/>
                                         </td>
-                                        <td><strong>المجموع</strong></td>
-                                        
                                     </tr>
                                     <t t-foreach="o.amount_by_group" t-as="amount_by_group">
                                         <tr style="">
                                             <t t-if="len(o.tax_line_ids) == 1 and o.amount_untaxed == amount_by_group[2]">
-                                                <td class="text-right o_price_total">
-                                                    <span t-esc="amount_by_group[3]"/>
-                                                </td>
                                                 <td>الضريبة
                                                   <!--<span t-esc="amount_by_group[0]"/>-->
                                                   </td>
-                                                
-                                            </t>
-                                            <t t-else="">
                                                 <td class="text-right o_price_total">
                                                     <span t-esc="amount_by_group[3]"/>
                                                 </td>
+                                            </t>
+                                            <t t-else="">
                                                 <td>الضريبة
                                                     <!--<span t-esc="amount_by_group[0]"/>-->
                                                     <!--<span>&amp;nbsp;<span>on</span>-->
                                                     <!--    <t t-esc="amount_by_group[4]"/>-->
                                                     <!--</span>-->
                                                 </td>
-                                                
+                                                <td class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[3]"/>
+                                                </td>
                                             </t>
                                         </tr>
                                     </t>
                                     <tr class="border-black o_total">
+                                        <td><strong>المبلغ الكلي</strong></td>
                                         <td class="text-right">
                                             <span t-field="o.amount_total"/>
                                         </td>
-                                        <td><strong>المبلغ الكلي</strong></td>
-                                        
                                     </tr>
                                     <!-- ffff? -->
                                 </table>
                             </div>
                         </div>
-                    <div>
+                    <div style="font-size: 15px;width:65%;">
                             <t t-if="o.amount_total">
-                            <span style="font-size: 20px; font-family: ARIAL;  white-space: nowrap;">(المبلغ المحمل بالكلمات)</span><br/>
-                            <pre><span t-field="o.text" style="font-family: Calibri;text-transform:uppercase; font-size: 20px; font-family:"/> فقط</pre>
+                            <span style="font-size: 17px; font-family: ARIAL;  white-space: nowrap;">(المبلغ المحمل بالكلمات)</span><br/>
+                            <span style="font-size: 15px;"><span t-field="o.text" style="font-family: Calibri;text-transform:uppercase; font-size: 15px;"/> ONLY</span><br />
                             </t>
                             <t t-if="o.amount_tax">
-                            <span style="font-size: 20px; font-family: ARIAL; white-space: nowrap;">(مبلغ ضريبة القيمة المضافة بالكلمات)</span><br/>
-                            <pre><span t-field="o.text_tax" style="font-family: Calibri;text-transform:uppercase; font-size: 20px; font-family:"/> فقط</pre>
+                            <span style="font-size: 17px; font-family: ARIAL; white-space: nowrap;">(مبلغ ضريبة القيمة المضافة بالكلمات)</span><br/>
+                            <span style="font-size: 15px;"><span t-field="o.text_tax" style="font-family: Calibri;text-transform:uppercase; font-size: 15px;"/> ONLY</span>
                             </t>
                         </div>
                     </div>
                     <br/>
-                    <strong style="font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;"><u>إعلان</u></strong><br />
+                    <strong style="font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;"><u>إعلان</u></strong>
             <p style="font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;">نعلن أن هذه الفاتورة تظهر السعر الفعلي للبضائع <br/>وصفها وأن جميع التفاصيل منطقية وصحيحة</p>
             <!--<br />-->
             <!--<br />-->
@@ -255,19 +254,24 @@
             <!--<br />-->
             <!--<br />-->
             <br/>
-            <p style="margin-left:10%;white-space: nowrap;"><b>الى واترفول لصناعة المضخات</b></p><br/>
-            <p style="margin-left:10%;white-space: nowrap;">المفوض بالتوقيع </p><br/>
-            <div style="margin-top:110px;position:relative;">
+            <div style="margin-top:70px;position:relative;font-size: 20px;" dir="rtl">
+                <div style="float:left;">
+                  
+                    <p style="white-space: nowrap;text-align: right;float:right;"><b>الى واترفول لصناعة المضخات</b></p><br/>
+                    <p style="white-space: nowrap;text-align: right;float:right;">المفوض بالتوقيع </p><br/>
+                </div>
+                <div style="float:right;">
+                  <p>
+                    <span style="font-size: 17px;text-align: right;float:right;">اسم الحساب المصرفي: تصنيع مضخات المياه</span><br/>
+                    <span style="font-size: 17px;text-align: right;float:right;">اسم البنك: مصرف أبوظبي الإسلامي</span><br/>
+                    <span style="font-size: 17px;text-align: right;float:right;">رقم الحساب المصرفي : 8-848030-001</span><br/>
+                    <span style="font-size: 17px;text-align: right;float:right;"> رقم الحساب بصيغة  AE-49-050-0000000018480308 :IBAN </span><br/>
+                    <!-- <span style="display: inline-block; font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; position: relative; left: 472px;  top : 10px;">سويفت : أبياد</span><br/> -->
+                    <span style="font-size: 17px;text-align: right;float:right;">الفرع: البحيرة ، الشارقة ، الإمارات العربية المتحدة</span>
+                    <br/></p>
+                </div>
+              </div>
             
-                <span style="display: inline-block; font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap;">اسم الحساب المصرفي: تصنيع مضخات المياه</span><br/>
-                <span style="display: inline-block; font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; position: relative; left: 295px;">اسم البنك: مصرف أبوظبي الإسلامي</span><br/>
-                <span style="display: inline-block; font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; position: relative; left: 530px; top : 6px;">رقم الحساب المصرفي : 001-848030-8</span><br/>
-                <span style="display: inline-block; font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; "> AE-49-050-0000000018480308  : IBAN رقم الحساب بصيغة</span><br/>
-                <!-- <span style="display: inline-block; font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; position: relative; left: 472px;  top : 10px;">سويفت : أبياد</span><br/> -->
-                <span style="display: inline-block; font-size: 20px; font-family: ARIAL; text-align: right; float:right; white-space: nowrap; position: relative; left: 469px;  top : 5px;">الفرع: البحيرة ، الشارقة ، الإمارات العربية المتحدة</span>
-                <br/>
-            
-            </div>
                     <!--<p t-if="o.reference">-->
                     <!--    Please use the following communication for your payment : <b><span t-field="o.reference"/></b>-->
                     <!--</p>-->
