@@ -1496,7 +1496,6 @@
                     <page string="Report Details">
                         <group>
                             <group>
-                                <field name="name_seq" string="Report No"/> 
                                 <field name="dtoday"/>  
                             </group>
                             <group>

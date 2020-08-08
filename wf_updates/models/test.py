@@ -68,6 +68,8 @@ class quality_alert_report_detals(models.Model):
         for rec in self :
             if rec.closed_by:
                 rec.close_date =  date.today()
+            else:
+                rec.close_date = False
 
 
     
@@ -1456,19 +1458,26 @@ class product_inh(models.Model):
                                     mp.origin as origin,
                                     sm.state as state,
                                     sm.product_id as product,
-                                    sm.product_uom_qty as qty
+                                    sm.product_uom_qty as qty,
                                     --sml.lot_id as lot
-                                    FROM stock_move sm
-                                    --join stock_move_line sml on sml.move_id=sm.id
-                                    join mrp_production mp on mp.id=sm.raw_material_production_id
-                                    join product_product pp on pp.id=sm.product_id
-                                    join product_template pt on pt.id=pp.product_tmpl_id
-                                    WHERE mp.state not in ('done','cancel') and pt.id=%s
+                                    (select distinct sml.lot_id
+                                        from stock_move_line sml
+                                        where sml.move_id=sm.id
+                                        AND sml.lot_id is not null) as lot_id
+                                    FROM 	stock_move sm,
+                                        product_product pp ,
+                                        product_template pt,
+                                        mrp_production mp
+                                    WHERE 	pp.id=sm.product_id
+                                    and 	pt.id=pp.product_tmpl_id
+                                    and 	mp.id=sm.raw_material_production_id
+                                    and 	mp.state not in ('done','cancel') 
+                                    and 	pt.id=%s
                 """ % (rec.id))
             res = self.env.cr.dictfetchall() 
-            # raise UserError(res)
+
             for x in res:
-                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'poo_ref2':x['ref'],'product_id':rec.id}
+                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'lot_no':x['lot_id'],'poo_ref2':x['ref'],'product_id':rec.id}
                 values.append(vals)
             inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_manufacture_report_tree0').read()[0]
