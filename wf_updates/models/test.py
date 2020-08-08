@@ -2225,7 +2225,8 @@ class productproductinh(models.Model):
                         value, quantity, aml_ids = fifo_automated_values.get((product.id, valuation_account_id)) or (0, 0, [])
                         product.stock_fifo_real_time_aml_ids = self.env['account.move.line'].browse(aml_ids)
 
-            product.write({'stock_value2':product.stock_value})
+        for rec in self:
+            rec.write({'stock_value2':rec.stock_value})
 
 
 class SaleOrderOptioninh(models.Model):
