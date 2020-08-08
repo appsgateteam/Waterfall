@@ -13,7 +13,7 @@ from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 class quality_alert_report_detals(models.Model):
     _inherit = "quality.alert"
 
-    name_seq = fields.Char('Report No', required=True, copy=False, readonly=True, default='New')
+    name_seq = fields.Char('Name',copy=False, readonly=True, default='New')
     report_n = fields.Char('Report No')
     dtoday = fields.Date('Date' , compute="_com_today")
     reported_by  = fields.Char('Reported by')
@@ -42,13 +42,12 @@ class quality_alert_report_detals(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('name_seq', 'New') == 'New':
-            vals['name_seq'] = self.env['ir.sequence'].next_by_code('quality.alerts.sequence') or 'New'   
+        if 'name' not in vals or vals['name'] == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('quality.alert') or _('New')
+        if vals.get('name_seq', _('New')) == _('New'):
+            vals['name_seq'] = self.env['ir.sequence'].next_by_code('quality.alerts.sequence') or 'New'    
 
-
-        result = super(quality_alert_report_detals, self).create(vals)       
-
-        return result
+        return super(quality_alert_report_detals, self).create(vals) 
 
 
 

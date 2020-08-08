@@ -1473,7 +1473,12 @@
                     <field name="name_seq" string="Reference" />       
                 </xpath> -->
                 
-
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="name_seq" readonly="1"/>
+                </xpath>
 
                 <xpath expr="//form/sheet/notebook/page[2]" position="attributes">
                     <attribute name="string">Immediate/Action Taken</attribute>
