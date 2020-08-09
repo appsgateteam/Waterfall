@@ -1685,8 +1685,8 @@
 
             <xpath expr="//notebook" position="inside">
                 <page name="vendor_arabic" string="Vendor Arabic">
-                    <label for="vendor_name_ar" />
-                    <field name="vendor_name_ar" placeholder="Vendor Name in Arabic..." />
+                    <label for="vendor_name_arrr" />
+                    <field name="vendor_name_arrr" placeholder="Vendor Name in Arabic..." />
                 </page>  
             </xpath>
              
