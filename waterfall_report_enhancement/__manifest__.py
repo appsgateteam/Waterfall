@@ -8,6 +8,7 @@
     'depends': [
         'purchase',
         'base',
+        'account',
     ],
     'description': """
                    """,
@@ -18,6 +19,7 @@
     'data': [
         'security/ir.model.access.csv',
         # 'views/customer_overdue.xml',
+        'views/customer_overdue_cron.xml',
         'views/email_template_customer_overdue.xml',
         'report/n2n_entry_analysis.xml',
         'report/purchase_report_inherit.xml',

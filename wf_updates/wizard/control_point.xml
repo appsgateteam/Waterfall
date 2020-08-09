@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record id="contorl_point_category_form" model="ir.ui.view">
+            <field name="name">contorl.point.category.form</field>
+            <field name="model">contorl.point.category</field>
+            <field name="arch" type="xml">
+                <form string="Control Point by Category">
+                    <h2>Create Control Point by Category</h2>
+                    <group>
+                        <!-- <group> -->
+                            <field name="category"/>
+                            <field name="operations" widget="many2many_tags"/>
+                        <!-- </group>
+                        <group> --> 
+                            <!-- <field name="project" domain="[('group_id','=',event)]" widget="many2many_tags"/> -->
+                        <!-- </group> -->
+                    </group>
+                    <footer>
+						<button name="get_report" string="Create" type="object" class="btn-primary" confirm="It will create control points for all products under this category are you sure you want to create now?"/>
+						<button string="Cancel" class="btn-default" special="cancel"/>
+					</footer>		
+				</form>
+            </field>
+        </record>
+
+        <act_window id="contorl_point_category_action"
+                    name="Control Point by Category"
+                    res_model="contorl.point.category"
+                    view_mode="form"
+                    target="new"/>
+
+        <menuitem
+            id="contorl_point_category_config"
+            name="Control Point by Category"
+            parent = "qlty_cntrl.menu_quality_control"
+            action="contorl_point_category_action"
+            sequence="100"/>
+
+</odoo>
