@@ -11,3 +11,4 @@ access_package_line_inh_manager,package.line.inh,model_package_line_inh,base.gro
 access_product_line_manager,product.line,model_product_line,base.group_user,1,1,1,1
 access_project_location_manager,project.location,model_project_location,base.group_user,1,1,1,1
 access_stock_scrap,stock.scrap,stock.model_stock_scrap,base.group_user,1,1,1,1
+access_contorl_point_category_manager,contorl.point.category,model_contorl_point_category,base.group_user,1,1,1,1

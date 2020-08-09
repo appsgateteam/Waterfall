@@ -7,6 +7,7 @@
     'depends': ['base','sale','product','mrp','stock','sale_management','sales_team'],
     'data': [
         'wizard/quotations_seals.xml',
+        'wizard/control_point.xml',
         'views/test_view.xml',
         'report/wf_saleperson.xml',
         'report/purchase_reports.xml',

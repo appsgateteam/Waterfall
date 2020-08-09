@@ -27,10 +27,11 @@
                                 <th class="text-center" style="width: 8% ">Partner</th>
                                 <th class="text-center" style="width: 8%">Sales Order No</th>
                                 <th class="text-center" style="width: 10% ">Customer P.O. No</th>
-                                <th class="text-center" style="width: 10% ">PO Date</th>
+                                <th class="text-center" style="width: 5% ">PO Date</th>
                                 <th class="text-center" style="width: 8% ">Value</th>
-                                <th class="text-center" style="width: 8% ">Current Status</th>
-                                <th class="text-center" style="width: 12% ">Country of Destination</th>
+                                <th class="text-center" style="width: 8% ">DO Status</th>
+                                <th class="text-center" style="width: 7% ">MO Status</th>
+                                <th class="text-center" style="width: 10% ">Country of Destination</th>
                                 <th class="text-center" style="width: 12% ">Paid Amount</th>
                                 <th class="text-center" style="width: 12% ">Balance Amount</th>
                                 <th class="text-center" style="width: 8% ">Invoice Date</th>
@@ -52,6 +53,7 @@
                                         <td class="text-center" style="font-size: 10px"><span t-esc="doc['po_date']" t-options='{"widget": "date"}'/></td>
                                         <td class="text-center" style="font-size: 10px"><span t-esc="doc['value']" t-options='{"widget": "monetary", "display_currency": doc["company"].currency_id}'/></td>
                                         <td class="text-center" style="font-size: 10px"><span t-esc="doc['state']"/></td>
+                                        <td class="text-center" style="font-size: 10px"><span t-esc="doc['mo_state']"/></td>
                                         <td class="text-center" style="font-size: 10px"><span t-esc="doc['country']"/></td>
                                         <td class="text-center" style="font-size: 10px"><span t-esc="doc['paid_amount']" t-options='{"widget": "monetary", "display_currency": doc["company"].currency_id}'/></td>
                                         <td class="text-center" style="font-size: 10px"><span t-esc="doc['bal_amount']" t-options='{"widget": "monetary", "display_currency": doc["company"].currency_id}'/></td>

@@ -42,6 +42,15 @@ class quality_alert_report_detals(models.Model):
         ('name_seq_uniq', 'unique(name_seq)', "The sequence should be uniqe !"),
     ]
 
+    @api.multi
+    @api.depends('name', 'title')
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name_seq + ' - ' + record.title if record.title else record.name_seq
+            result.append((record.id, name))
+        return result
+
     @api.model
     def create(self, vals):
         if 'name' not in vals or vals['name'] == _('New'):
@@ -556,6 +565,7 @@ class sale_wf_inherit(models.Model):
         ('Partially Delivery','Partially Delivery'),
         ('Delivered','Delivered')],
         copy=False, index=True, readonly=True,compute="ready_state")
+    mo_state = fields.Text('Manufacture state',compute="ready_state")
 
 
     # @api.model
@@ -614,6 +624,11 @@ class sale_wf_inherit(models.Model):
                             break
                         else:
                             rec.receive_state = 'Delivered'
+            text = ''
+            mos = self.env['mrp.production'].search([('origin','=',rec.name)])
+            for mo in mos:
+                text = str(mo.name) + ' | ' + str(mo.availability) + ' | ' + str(mo.state) + '\n' + text
+            rec.mo_state = text
 
 
 
