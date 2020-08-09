@@ -2,27 +2,36 @@
 
 from odoo import models, fields, api
 from datetime import datetime
+from odoo import SUPERUSER_ID
 from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    @api.model
     def cron_overdue_customer(self):
-        for rec in self:
-            rec.ensure_one()
-            overdue_list = []
-            data = {}
-            duecount = 0
-            current_date = datetime.today().strftime('%Y-%m-%d')
-            user = self.env.user
+        overdue_list = []
+        email = []
+        data = {}
+        duecount = 0
+        current_date = datetime.today().strftime('%Y-%m-%d')
+        # match = self.search([('state', '=', 'open'), ('type', 'in', ['out_invoice', 'out_refund'])])
+        query = """SELECT DISTINCT ai.user_id, ru.login FROM ACCOUNT_INVOICE ai 
+                    LEFT JOIN res_users ru ON ru.id = ai.user_id
+                    WHERE state='open' AND type in ('out_invoice', 'out_refund')"""
+        self.env.cr.execute(query)
+        match = self.env.cr.dictfetchall()
+        for i in match:
             overdue = self.env['account.invoice'].search(
-                [('date_due', '<=', current_date), ('state', '=', 'open'), ('user_id', '=', rec.user_id.id)])
+                [('date_due', '<=', current_date), ('state', '=', 'open'), ('user_id', '=', i['user_id']),
+                 ('type', 'in', ['out_invoice', 'out_refund'])])
             for res in overdue:
                 overdue_content = {}
                 duecount = duecount + 1
                 overdue_content['inv_count'] = duecount
                 overdue_content['inv_no'] = res.number
+                overdue_content['origin'] = res.origin if res.origin else ''
                 overdue_content['customer'] = res.partner_id.name
                 overdue_content['inv_date'] = res.date_invoice
                 overdue_content['due_date'] = res.date_due
@@ -35,8 +44,13 @@ class AccountInvoice(models.Model):
             except ValueError:
                 template_id = False
             mail_template = self.env['mail.template'].browse(template_id.id)
+            user_id = self.env['res.users'].browse(i['user_id'])
             ctx = self.env.context.copy()
+            for user in user_id:
+                ctx['name'] = user.name
+            ctx['email_to'] = i['login']
+            email.append(ctx['email_to'])
             for key, value in data.items():
                 ctx['data'] = value
-            mail_template.with_context(ctx).send_mail(rec.id, force_send=True, raise_exception=True)
+            mail_template.with_context(ctx).send_mail(i['user_id'], force_send=True, raise_exception=True)
         return True
