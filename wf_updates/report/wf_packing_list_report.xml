@@ -30,12 +30,12 @@
             </h2>
                     
                 <strong>VENDOR DETAILS:</strong><br/>
-                <span style="white-space: nowrap;">Waterfall Pumps Manufacturing</span><br/>
-                <span style="white-space: nowrap;">Warehouse 1-5, Al T'tay Area</span><br/>
-                <span style="white-space: nowrap;">Dubai, United Arab Emirates</span><br/>
-                <span style="white-space: nowrap;">P.O.BOX: 371219 | 446054</span><br/>
-                <span style="white-space: nowrap;">+971 4 2633 325 | +971 43944 982</span><br/>
-                <span style="white-space: nowrap;">TRN : 10036722250003</span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.name" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.street" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.street2" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.zip" /></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.phone" /></span><br/>
+                <span style="white-space: nowrap;">TRN : <span t-field="res_company.vat" /></span><br/>
                 <!--<div t-if="o.dest_address_id">-->
                 <!--    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>-->
                 <!--</div>-->

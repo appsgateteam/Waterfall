@@ -505,7 +505,7 @@ class HrEmployeescus(models.Model):
 
     @api.multi
     def document_view(self):
-        action = self.env.ref('marcoms_updates.hr_employee_document_cus_action2').read()[0]
+        action = self.env.ref('Hr_enhancement.hr_employee_document_cus_action2').read()[0]
         return action
 
 class HRAirticket(models.Model):
@@ -548,8 +548,8 @@ class hrleaveUpdate(models.Model):
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
 
-        channel_all_employees = self.env.ref('marcoms_updates.channel_all_leave_status').read()[0]
-        template_new_employee = self.env.ref('marcoms_updates.email_template_data_applicant_leaves').read()[0]
+        channel_all_employees = self.env.ref('Hr_enhancement.channel_all_leave_status').read()[0]
+        template_new_employee = self.env.ref('Hr_enhancement.email_template_data_applicant_leaves').read()[0]
         # raise ValidationError(_(template_new_employee))
         if template_new_employee:
             # MailTemplate = self.env['mail.template']
@@ -575,8 +575,8 @@ class hrleaveUpdate(models.Model):
 
             if holiday.state == 'validate1':
                 holiday.write({'state': 'refuse', 'first_approver_id': current_employee.id})
-                channel_all_employees = self.env.ref('marcoms_updates.channel_all_leave_status').read()[0]
-                template_new_employee = self.env.ref('marcoms_updates.email_template_data_applicant_leaves').read()[0]
+                channel_all_employees = self.env.ref('Hr_enhancement.channel_all_leave_status').read()[0]
+                template_new_employee = self.env.ref('Hr_enhancement.email_template_data_applicant_leaves').read()[0]
                 # raise ValidationError(_(template_new_employee))
                 if template_new_employee:
                     # MailTemplate = self.env['mail.template']
@@ -591,8 +591,8 @@ class hrleaveUpdate(models.Model):
                     
             else:
                 holiday.write({'state': 'refuse', 'second_approver_id': current_employee.id})
-                channel_all_employees = self.env.ref('marcoms_updates.channel_all_leave_status').read()[0]
-                template_new_employee = self.env.ref('marcoms_updates.email_template_data_applicant_leaves').read()[0]
+                channel_all_employees = self.env.ref('Hr_enhancement.channel_all_leave_status').read()[0]
+                template_new_employee = self.env.ref('Hr_enhancement.email_template_data_applicant_leaves').read()[0]
                 # raise ValidationError(_(template_new_employee))
                 if template_new_employee:
                     # MailTemplate = self.env['mail.template']

@@ -14,8 +14,8 @@
             </xpath>
             <xpath expr="//field[@name='product_uom_id']" position="replace">
             </xpath>
-            <xpath expr="//field[@name='sale_order_id']" position="replace">
-            </xpath>
+            <!-- <xpath expr="//field[@name='sale_order_id']" position="replace">
+            </xpath> -->
             <xpath expr="//field[@name='employee_id']" position="before">
                 <field name="is_vendor" groups="hr_expense.group_hr_expense_user"/>
             </xpath>

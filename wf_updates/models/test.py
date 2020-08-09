@@ -13,7 +13,7 @@ from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 class quality_alert_report_detals(models.Model):
     _inherit = "quality.alert"
 
-    name_seq = fields.Char('Report No', required=True, copy=False, readonly=True, default='New')
+    name_seq = fields.Char('Name',copy=False, default='New')
     report_n = fields.Char('Report No')
     dtoday = fields.Date('Date' , compute="_com_today")
     reported_by  = fields.Char('Reported by')
@@ -38,17 +38,18 @@ class quality_alert_report_detals(models.Model):
     approv_date = fields.Date('Date')
     close_date = fields.Date('Date')
 
-
+    _sql_constraints = [
+        ('name_seq_uniq', 'unique(name_seq)', "The sequence should be uniqe !"),
+    ]
 
     @api.model
     def create(self, vals):
-        if vals.get('name_seq', 'New') == 'New':
-            vals['name_seq'] = self.env['ir.sequence'].next_by_code('quality.alerts.sequence') or 'New'   
+        if 'name' not in vals or vals['name'] == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('quality.alert') or _('New')
+        if vals.get('name_seq', _('New')) == _('New'):
+            vals['name_seq'] = self.env['ir.sequence'].next_by_code('quality.alerts.sequence') or 'New'    
 
-
-        result = super(quality_alert_report_detals, self).create(vals)       
-
-        return result
+        return super(quality_alert_report_detals, self).create(vals) 
 
 
 
@@ -65,7 +66,10 @@ class quality_alert_report_detals(models.Model):
     @api.onchange('closed_by')
     def _app_date(self):
         for rec in self :
-            rec.close_date =  date.today()
+            if rec.closed_by:
+                rec.close_date =  date.today()
+            else:
+                rec.close_date = False
 
 
     
@@ -95,6 +99,26 @@ class quality_check_inherit(models.Model):
         ('fail', 'Failed'),('close', 'closed')], string='Status', track_visibility='onchange',
         default='none', copy=False)
     notes = fields.Text('Note')
+    source_origin = fields.Char('Source',related='picking_id.origin',readonly=True,store=True)
+    source_origin_mo = fields.Many2one('mrp.production',string='Source MO',related='workorder_id.production_id',readonly=True,store=True)
+    lot_name = fields.Text('Lot Number',compute='_get_lot')
+
+    @api.depends('picking_id')
+    def _get_lot(self):
+        for rec in self:
+            lot = ''
+            coms = self.env['stock.picking'].search([('id','=',rec.picking_id.id)])
+            for x in coms:
+                for pro in x.move_ids_without_package:
+                    if rec.product_id.id == pro.product_id.id:
+                        for line in pro.move_line_ids:
+                            if line.lot_id:
+                                if lot == '':
+                                    lot = line.lot_id.name
+                                else:
+                                    lot = line.lot_id.name + '\n' + lot
+                        break
+            rec.lot_name = lot
 
     @api.depends('point_id')
     def _compute_attach(self):
@@ -528,8 +552,9 @@ class sale_wf_inherit(models.Model):
     receive_state = fields.Selection(string='Current State', selection=[
         ('New','New'),
         ('Ready','Ready'),
-        ('Partial Receive','Partial Receive'),
-        ('Closed','Closed')],
+        ('Partially Available','Partially Available'),
+        ('Partially Delivery','Partially Delivery'),
+        ('Delivered','Delivered')],
         copy=False, index=True, readonly=True,compute="ready_state")
 
 
@@ -555,31 +580,40 @@ class sale_wf_inherit(models.Model):
                 if len(com) == 1:
                     for line in com:
                         if line.state == 'done':
-                            rec.receive_state = 'Closed'
+                            rec.receive_state = 'Delivered'
                         else:
                             y = 0
                             x = 0
                             z = len(line.move_ids_without_package)
                             for l in line.move_ids_without_package:
-                                if l.product_uom_qty == l.quantity_done:
-                                    y = y + 1
-                                    continue
+                                if l.reserved_availability == 0.0 and l.quantity_done == 0.0:
+                                    if (rec.expected_date and rec.expected_date.date() <= current_date):
+                                        rec.receive_state = 'Ready'
+                                    else:
+                                        rec.receive_state = 'New'
+                                    
                                 else:
-                                    x = x + 1
-                            if z == x:
-                                if (rec.expected_date and rec.expected_date.date() <= current_date):
-                                    rec.receive_state = 'Ready'
-                                else:
-                                    rec.receive_state = 'New'
-                            else:
-                                rec.receive_state = 'Partial Receive'
+                                    rec.receive_state = 'Partially Available'
+                                #     if l.product_uom_qty == l.reserverd_availability:
+                                #         y = y + 1
+                                #         continue
+                                #     else:
+                                #         x = x + 1
+                                # else:
+                            # if z == x:
+                            #     if (rec.expected_date and rec.expected_date.date() <= current_date):
+                            #         rec.receive_state = 'Ready'
+                            #     else:
+                            #         rec.receive_state = 'New'
+                            # else:
+                            #     rec.receive_state = 'Partially Available'
                 else:
                     for line in com:
                         if line.state != 'done':
-                            rec.receive_state = 'Partial Receive'
+                            rec.receive_state = 'Partially Delivery'
                             break
                         else:
-                            rec.receive_state = 'Closed'
+                            rec.receive_state = 'Delivered'
 
 
 
@@ -1361,66 +1395,91 @@ class product_inh(models.Model):
         return action
 
     def action_open_pos(self):
+        for rec in self:
+            inv_obj = self.env['purchase.report.tw']
+            values = []
+            self.env.cr.execute("""delete from purchase_report_tw where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""SELECT  
+                                    sm.product_id as product,
+                                    sm.product_uom_qty as qty,
+                                    sm.picking_id as pick,
+                                    sm.date_expected as expected_date,
+                                    sm.origin as ref
+                                    FROM stock_move sm
+                                    join product_product pp on pp.id=sm.product_id
+                                    join product_template pt on pt.id=pp.product_tmpl_id
+                                    WHERE sm.state not in ('done','cancel') and sm.picking_type_id=2 and pt.id=%s
+                """ % (rec.id))
+            res = self.env.cr.dictfetchall() 
+            # raise UserError(res)
+            for x in res:
+                vals = {'po_noo': x['qty'],'poo_ref':x['ref'],'pick':x['pick'],'product_id':rec.id}
+                values.append(vals)
+            inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_purchase_report_tree0').read()[0]
         return action
 
     def action_open_oppos(self):
+        for rec in self:
+            inv_obj = self.env['purchase.report.one']
+            values = []
+            self.env.cr.execute("""delete from purchase_report_one where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""SELECT 
+                                    sm.product_id as product,
+                                    sm.product_uom_qty as qty,
+                                    sm.picking_id as pick,
+                                    sm.date_expected as expected_date,
+                                    po.name as ref,
+                                    po.date_order as po_order_date
+                                    FROM stock_move sm
+                                    join purchase_order_line p_line on p_line.id=sm.purchase_line_id
+                                    join purchase_order po on po.id=p_line.order_id
+                                    join product_product pp on pp.id=sm.product_id
+                                    join product_template pt on pt.id=pp.product_tmpl_id
+                                    WHERE sm.state not in ('done','cancel') and sm.picking_type_id=1 and pt.id=%s
+                """ % (rec.id))
+            res = self.env.cr.dictfetchall() 
+            # raise UserError(res)
+            for x in res:
+                vals = {'op_po_no': x['qty'],'op_po_ref':x['ref'],'product_id':rec.id}
+                values.append(vals)
+            inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_purchase_report_tree2').read()[0]
         return action
 
+    @api.model_cr
     def action_open_moss(self):
         for rec in self:
             inv_obj = self.env['manufacture.report.tw']
-            com = self.env['mrp.production'].search([])
-            y = 0.0
-            x = 0.0
             values = []
-            
-            if com:
-                for line in com:
-                    if line.state == 'done':
-                        cos = self.env['manufacture.report.tw'].search([])
-                        for k in cos:
-                            if k.poo_ref2 == line.name :
-                                k.unlink()
-                    elif line.state == 'cancel':
-                        cos = self.env['manufacture.report.tw'].search([])
-                        for k in cos:
-                            if k.poo_ref2 == line.name :
-                                k.unlink()
-                    else:
-                        for l in line.move_raw_ids:
-                            lot_no = ''
-                            if l.active_move_line_ids:
-                                # lot_no = ''
-                                for k in l.active_move_line_ids:
-                                    # if len(k) == 1:
-                                    # lot_no = k.lot_id.name
-                                # else:
-                                    
-                                    if k.lot_id:
-                                        lot_no = lot_no + '  \n ' + str(k.lot_id.name)
-                                    else:
-                                        continue
-                            if rec.default_code == l.product_id.default_code:
-                                if l.product_uom_qty == 0.0 :
-                                    continue
-                                else:
-                                    y = l.product_uom_qty
-                                    x = x + y
-                                    rec.poo_ref = line.origin
-                                    rec.po_noo2 = y
-                                    cod = self.env['manufacture.report.tw'].search([('poo_ref2','=',line.name),('product_id','=',rec.default_code)])
-                                    if cod:
-                                        for k in cod:
-                                            k.write({'po_noo': rec.po_noo2,'lot_no':lot_no})
-                                    if not cod:
-                                        # raise UserError(_('empty'))
+            self.env.cr.execute("""delete from manufacture_report_tw where product_id=%s """ % (rec.id))
+            self.env.cr.execute("""SELECT 
+                                    mp.name as ref,
+                                    mp.origin as origin,
+                                    sm.state as state,
+                                    sm.product_id as product,
+                                    sm.product_uom_qty as qty,
+                                    --sml.lot_id as lot
+                                    (select string_agg( spl.name, ',')
+                                        from stock_move_line sml
+                                        join stock_production_lot spl on spl.id=sml.lot_id
+                                        where sml.move_id=sm.id and sml.lot_id is not null) as lot_no
+                                    FROM 	stock_move sm,
+                                        product_product pp ,
+                                        product_template pt,
+                                        mrp_production mp
+                                    WHERE 	pp.id=sm.product_id
+                                    and 	pt.id=pp.product_tmpl_id
+                                    and 	mp.id=sm.raw_material_production_id
+                                    and 	mp.state not in ('done','cancel') 
+                                    and 	pt.id=%s
+                """ % (rec.id))
+            res = self.env.cr.dictfetchall() 
 
-                                        vals = {'po_noo': rec.po_noo2,'poo_ref':rec.poo_ref2,'poo_ref2':line.name,'lot_no':lot_no,'product_id':rec.id}
-                                        values.append(vals)
-                inv_obj.create(values)
-                # rec.mo_num = x
+            for x in res:
+                vals = {'po_noo': x['qty'],'poo_ref':x['origin'],'state':x['state'],'lot_no':x['lot_no'],'poo_ref2':x['ref'],'product_id':rec.id}
+                values.append(vals)
+            inv_obj.create(values)
         action = self.env.ref('wf_updates.action_view_manufacture_report_tree0').read()[0]
         return action
             
@@ -1440,6 +1499,7 @@ class purchase_report_tw_inherit(models.Model):
 
     po_noo = fields.Char('Done Qty')
     poo_ref = fields.Char('SO Reference')
+    pick = fields.Many2one('stock.picking',string='Picking Reference')
     poo_ref2 = fields.Char('SO Reference')
     product_id = fields.Many2one('product.template',string='Product')
 
@@ -1447,9 +1507,10 @@ class manufacture_report_tw_inherit(models.Model):
     _name = "manufacture.report.tw"
 
     po_noo = fields.Char('Done Qty')
-    poo_ref = fields.Char('MO Reference')
+    poo_ref = fields.Char('Main Source')
+    state = fields.Char('State')
     poo_ref2 = fields.Char('MO Reference')
-    lot_no = fields.Char('Lot/Serial Number')
+    lot_no = fields.Char(string='Lot/Serial Number')
     product_id = fields.Many2one('product.template',string='Product')
 
 class purchase_report_one_inherit(models.Model):
@@ -1898,6 +1959,7 @@ class package_line(models.Model):
 
     package_id = fields.Char('Package #',invisible=True)
     name = fields.Char('Package #',required=True)
+    name_arabic = fields.Char('Package Name Arabic')
     package_dim = fields.Char('Dimension')
     package_gross = fields.Float('Gross Wgt.')
     Package_detail = fields.One2many('package.line.inh','package_ids',string='Package Details')
@@ -1914,6 +1976,7 @@ class package_line_inh(models.Model):
     # package_id = fields.Char('Package #',invisible=True)
     package_ids = fields.Many2one('package.line','Package #')
     package_des = fields.Text('Description')
+    package_des_arabic = fields.Text('Description Arabic')
     package_qty = fields.Integer('Qty')
     package_net = fields.Float('Net Wgt.')
 
@@ -2030,10 +2093,20 @@ class product_supplier_inherit(models.Model):
 class StockProductionLot_inherit(models.Model):
     _inherit = "stock.production.lot"
 
-    _sql_constraints = [
-        ('name_uniq', 'unique (name)', 'The combination of serial number must be unique !'),
-        ('name_ref_uniq', 'unique ()', 'The combination of serial number must be unique !'),
-    ]
+
+    # @api.model_create_multi
+    @api.model
+    def create(self, vals):
+        res = super(StockProductionLot_inherit, self).create(vals)
+        com = self.env['stock.production.lot'].search([('name','=',vals.get('name'))])
+        if com:
+            raise UserError('The combination of serial number must be unique !')
+        return res
+
+    # _sql_constraints = [
+    #     ('name_uniq', 'unique (name)', 'The combination of serial number must be unique !'),
+    #     ('name_ref_uniq', 'unique ()', 'The combination of serial number and product must be unique !'),
+    # ]
 
 class StockQuantityHistoryinh(models.TransientModel):
     _inherit = 'stock.quantity.history'
@@ -2065,22 +2138,104 @@ class StockQuantityHistoryinh(models.TransientModel):
         else:
             return self.env.ref('stock_account.product_valuation_action').read()[0]
 
-# class ResPartner_inherit(models.Model):
-#     _inherit = "res.partner"
+class Partner(models.Model):
+    _inherit = "res.partner"
 
-#     vendor_name_arabic = fields.Text('Vendor Name in arabic')
+    vendor_name_ar = fields.Text('Vendor Name in arabic')
 
 class productproductinh(models.Model):
     _inherit = "product.product"
 
-    stock_value_num = fields.Float('Stock Value')
-    # stock_value = fields.Float('Value')
+    # stock_value_num = fields.Float('Stock Value')
+    stock_value2 = fields.Float('Stock Value Amount')
+
 
     @api.multi
-    @api.onchange('stock_value')
-    def _get_stock_value2(self):
+    @api.depends('stock_move_ids.product_qty', 'stock_move_ids.state', 'stock_move_ids.remaining_value', 'product_tmpl_id.cost_method', 'product_tmpl_id.standard_price', 'product_tmpl_id.property_valuation', 'product_tmpl_id.categ_id.property_valuation')
+    def _compute_stock_value(self):
+        StockMove = self.env['stock.move']
+        to_date = self.env.context.get('to_date')
+
+        real_time_product_ids = [product.id for product in self if product.product_tmpl_id.valuation == 'real_time']
+        if real_time_product_ids:
+            self.env['account.move.line'].check_access_rights('read')
+            fifo_automated_values = {}
+            query = """SELECT aml.product_id, aml.account_id, sum(aml.debit) - sum(aml.credit), sum(quantity), array_agg(aml.id)
+                         FROM account_move_line AS aml
+                        WHERE aml.product_id IN %%s AND aml.company_id=%%s %s
+                     GROUP BY aml.product_id, aml.account_id"""
+            params = (tuple(real_time_product_ids), self.env.user.company_id.id)
+            if to_date:
+                query = query % ('AND aml.date <= %s',)
+                params = params + (to_date,)
+            else:
+                query = query % ('',)
+            self.env.cr.execute(query, params=params)
+
+            res = self.env.cr.fetchall()
+            for row in res:
+                fifo_automated_values[(row[0], row[1])] = (row[2], row[3], list(row[4]))
+
+        product_values = {product.id: 0 for product in self}
+        product_move_ids = {product.id: [] for product in self}
+
+        if to_date:
+            domain = [('product_id', 'in', self.ids), ('date', '<=', to_date)] + StockMove._get_all_base_domain()
+            value_field_name = 'value'
+        else:
+            domain = [('product_id', 'in', self.ids)] + StockMove._get_all_base_domain()
+            value_field_name = 'remaining_value'
+
+        StockMove.check_access_rights('read')
+        query = StockMove._where_calc(domain)
+        StockMove._apply_ir_rules(query, 'read')
+        from_clause, where_clause, params = query.get_sql()
+        query_str = """
+            SELECT stock_move.product_id, SUM(COALESCE(stock_move.{}, 0.0)), ARRAY_AGG(stock_move.id)
+            FROM {}
+            WHERE {}
+            GROUP BY stock_move.product_id
+        """.format(value_field_name, from_clause, where_clause)
+        self.env.cr.execute(query_str, params)
+        for product_id, value, move_ids in self.env.cr.fetchall():
+            product_values[product_id] = value
+            product_move_ids[product_id] = move_ids
+
+        for product in self:
+            if product.cost_method in ['standard', 'average']:
+                qty_available = product.with_context(company_owned=True, owner_id=False).qty_available
+                price_used = product.standard_price
+                if to_date:
+                    price_used = product.get_history_price(
+                        self.env.user.company_id.id,
+                        date=to_date,
+                    )
+                product.stock_value = price_used * qty_available
+                product.qty_at_date = qty_available
+            elif product.cost_method == 'fifo':
+                if to_date:
+                    if product.product_tmpl_id.valuation == 'manual_periodic':
+                        product.stock_value = product_values[product.id]
+                        product.qty_at_date = product.with_context(company_owned=True, owner_id=False).qty_available
+                        product.stock_fifo_manual_move_ids = StockMove.browse(product_move_ids[product.id])
+                    elif product.product_tmpl_id.valuation == 'real_time':
+                        valuation_account_id = product.categ_id.property_stock_valuation_account_id.id
+                        value, quantity, aml_ids = fifo_automated_values.get((product.id, valuation_account_id)) or (0, 0, [])
+                        product.stock_value = value
+                        product.qty_at_date = quantity
+                        product.stock_fifo_real_time_aml_ids = self.env['account.move.line'].browse(aml_ids)
+                else:
+                    product.stock_value = product_values[product.id]
+                    product.qty_at_date = product.with_context(company_owned=True, owner_id=False).qty_available
+                    if product.product_tmpl_id.valuation == 'manual_periodic':
+                        product.stock_fifo_manual_move_ids = StockMove.browse(product_move_ids[product.id])
+                    elif product.product_tmpl_id.valuation == 'real_time':
+                        valuation_account_id = product.categ_id.property_stock_valuation_account_id.id
+                        value, quantity, aml_ids = fifo_automated_values.get((product.id, valuation_account_id)) or (0, 0, [])
+                        product.stock_fifo_real_time_aml_ids = self.env['account.move.line'].browse(aml_ids)
+
         for rec in self:
-            rec.stock_value_num = rec.stock_value
+            rec.write({'stock_value2':rec.stock_value})
 
 
 class SaleOrderOptioninh(models.Model):

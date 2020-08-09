@@ -21,7 +21,7 @@
                  <t>
             <t t-set="information_block">
               <br/><br/>
-              <h2>
+              <h2 style="white-space: nowrap;">
                         <span t-if="o.type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')" style="white-space: nowrap;">Invoice</span>
                         <span t-if="o.type == 'out_invoice' and o.state == 'draft'" style="white-space: nowrap;">Draft Invoice</span>
                         <span t-if="o.type == 'out_invoice' and o.state == 'cancel'" style="white-space: nowrap;">Cancelled Invoice</span>
@@ -31,12 +31,12 @@
                         <span t-field="o.number"/>
                     </h2>
                     
-                  <span style="white-space: nowrap;"><span t-field="res_company.name" /></span><br/>
-                <span style="white-space: nowrap;"><span t-field="res_company.street" /></span><br/>
-                <span style="white-space: nowrap;"><span t-field="res_company.street2" /></span><br/>
-                <span style="white-space: nowrap;"><span t-field="res_company.zip" /></span><br/>
-                <span style="white-space: nowrap;"><span t-field="res_company.phone" /></span><br/>
-                <span style="white-space: nowrap;">TRN : <span t-field="res_company.vat" /></span><br/>
+                  <span style="white-space: nowrap;"><span t-field="res_company.name"/></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.street"/></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.street2"/></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.zip"/></span><br/>
+                <span style="white-space: nowrap;"><span t-field="res_company.phone"/></span><br/>
+                <span style="white-space: nowrap;">TRN : <span t-field="res_company.vat"/></span><br/>
                 <!--<div t-if="o.dest_address_id">-->
                 <!--    <div t-field="o.dest_address_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" name="purchase_shipping_address"/>-->
                 <!--</div>-->
@@ -47,7 +47,7 @@
                 <div class="page">
                     
 
-                    <div id="informations" class="row mt32 mb32">
+                    <div id="informations" class="row mt32 mb2">
                         <div class="col-auto mw-100 mb-2" t-if="o.name" name="description">
                             <strong style="white-space: nowrap;">Customer Ref:</strong>
                             <p class="m-0" t-field="o.name"/>
@@ -131,7 +131,7 @@
                                             <t t-set="vat_value" t-value="(line.price_subtotal * (line.invoice_line_tax_ids.amount or 0.0) / 100.0)"/><span t-esc="vat_value" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
                                         </td>
                                         <td class="text-right o_price_total">
-                                          <t t-set="price_subtotal" t-value="vat_value + line.price_subtotal" />
+                                          <t t-set="price_subtotal" t-value="vat_value + line.price_subtotal"/>
                                             <span t-esc="price_subtotal" groups="account.group_show_line_subtotals_tax_excluded" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
                                             <span t-esc="price_subtotal" groups="account.group_show_line_subtotals_tax_included" t-options="{&quot;widget&quot;:&quot;float&quot;,&quot;precision&quot;:2}"/>
                                         </td>
@@ -204,14 +204,14 @@
                                 </table>
                             </div>
                         </div>
-                        <div>
+                        <div style="width:65%;">
                             <t t-if="o.amount_total">
                             <span>Amount Chargeable (in words)</span><br/>
-                            <pre><span t-field="o.text" style="font-family: Calibri;text-transform:uppercase;"/> ONLY</pre>
+                            <span><span t-field="o.text" style="font-family: Calibri;text-transform:uppercase;"/> ONLY</span><br />
                             </t>
                             <t t-if="o.amount_tax">
                             <span>VAT Amount (in words)</span><br/>
-                            <pre><span t-field="o.text_tax" style="font-family: Calibri;text-transform:uppercase;"/> ONLY</pre>
+                            <span><span t-field="o.text_tax" style="font-family: Calibri;text-transform:uppercase;"/> ONLY</span>
                             </t>
                         </div>
                     </div>
@@ -227,16 +227,20 @@
             <!--<br />-->
             <!--<br />-->
             <!--<br />-->
-            <p style="margin-left:60%;white-space: nowrap;"><b>for Waterfall Pumps Manufacturing</b></p><br/>
-            <p style="margin-left:60%;white-space: nowrap;">Authorised Signatory </p><br/>
-            <div style="margin-top:70px;position:relative;margin-left:10px;">
-              <p>
-                <span>Bank Account Name : Waterfall Pumps Manufacturing</span><br />
-                <span>Bank Name : Abu Dhabi Islamic Bank</span><br />
-                <span>Bank Account Number : 001-848030-8</span><br />
-                <span>IBAN : AE-49-050-0000000018480308</span><br />
-                <span>SWIFT : ABDIAEAD</span><br />
-                <span>Branch : Al Buhaira, Sharjah, U.A.E</span></p>
+            <div style="margin-top:70px;position:relative;">
+              <div style="float:right;">
+              <p style="white-space: nowrap;"><b>for Waterfall Pumps Manufacturing</b></p><br/>
+              <p style="white-space: nowrap;">Authorised Signatory </p><br/>
+              </div>
+              <div style="float:left;">
+                <p>
+                  <span>Bank Account Name : Waterfall Pumps Manufacturing</span><br/>
+                  <span>Bank Name : Abu Dhabi Islamic Bank</span><br/>
+                  <span>Bank Account Number : 001-848030-8</span><br/>
+                  <span>IBAN : AE-49-050-0000000018480308</span><br/>
+                  <span>SWIFT : ABDIAEAD</span><br/>
+                  <span>Branch : Al Buhaira, Sharjah, U.A.E</span></p>
+              </div>
             </div>
                     <!--<p t-if="o.reference">-->
                     <!--    Please use the following communication for your payment : <b><span t-field="o.reference"/></b>-->

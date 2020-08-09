@@ -33,6 +33,11 @@
                 <field name="quality_att" />
                 <field name="quality_attac" readonly="1" invisible="1" string="Quality attchment of employee"/>
             </xpath>
+            <xpath expr="//field[@name='team_id']" position="after">
+                <field name="source_origin" />
+                <field name="source_origin_mo" />
+                <field name="lot_name" />
+            </xpath>
             <xpath expr="//group[1]" position="after">
                 <label for="notes" />
                 <field name="notes"/>
@@ -80,7 +85,7 @@
     </record>
     <!-- ###################################################### -->
     <!-- hide inventory valuation value field -->
-    <record id="valuation_cus_tree" model="ir.ui.view">
+    <!-- <record id="valuation_cus_tree" model="ir.ui.view">
         <field name="name">valuation.cus.tree</field>
         <field name="model">product.product</field>
         <field name="inherit_id" ref="stock_account.view_stock_product_tree2"/>
@@ -89,7 +94,7 @@
                 <field name="stock_value" sum="Stock Valuation" widget="monetary" options="{'currency_field': 'cost_currency_id'}" groups="account.group_account_manager"/>
             </xpath>
         </field>
-    </record>
+    </record> -->
     <!-- FFF hide inventory valuation value field -->
 
 
@@ -157,6 +162,7 @@
                             </control>
                             <field name="package_id" invisible="1"/>
                             <field name="name"/>
+                            <field name="name_arabic"/>
                             <field name="package_dim"/>
                             <field name="package_gross"/>
                         </tree>
@@ -217,6 +223,7 @@
                         <group>
                             <field name="package_id" invisible="1"/>
                             <field name="name"/>
+                            <field name="name_arabic"/>
                         </group>
                         <group>
                             <field name="package_dim"/>
@@ -230,6 +237,7 @@
                                     <!-- <field name="package_id" invisible="1"/> -->
                                     <field name="package_ids" invisible="1"/>
                                     <field name="package_des"/>
+                                    <field name="package_des_arabic"/>
                                     <field name="package_qty"/>
                                     <field name="package_net"/>
                                 </tree>
@@ -248,6 +256,7 @@
             <tree string="Package Lines">
                 <field name="package_id" />
                 <field name="name"/>
+                <field name="name_arabic"/>
                 <field name="package_dim"/>
                 <field name="package_gross"/>
             </tree>
@@ -274,6 +283,7 @@
                         <!-- <field name="package_id" /> -->
                         <field name="package_ids"/>
                         <field name="package_des"/>
+                        <field name="package_des_arabic"/>
                         <field name="package_qty"/>
                         <field name="package_net"/>
                     </group>
@@ -290,6 +300,7 @@
                 <!-- <field name="package_id" /> -->
                 <field name="package_ids"/>
                 <field name="package_des"/>
+                <field name="package_des_arabic"/>
                 <field name="package_qty"/>
                 <field name="package_net"/>
             </tree>
@@ -908,7 +919,7 @@
                 <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['finalapp'])]}"/>
             </button>
             <xpath expr="//button[@name='action_cancel']" position="replace">
-                <button name="action_cancel" states="draft,sent,approve,approved,final,finalapp,sale" type="object" string="Cancel"/>            
+                <button name="action_cancel" states="draft,sent,approve,approved,final,finalapp,sale" type="object" string="Cancel" confirm="Are you sure you want to cancel this?"/>            
             </xpath>
 
 
@@ -1172,6 +1183,7 @@
             <tree string="Done Purchased">
                 <field name="po_noo"/>
                 <field name="poo_ref"/>
+                <field name="pick"/>
                 <field name="poo_ref2" invisible="1"/>
 		<field name="product_id" />
             </tree>
@@ -1196,10 +1208,12 @@
         <field name="arch" type="xml">
             <tree string="Done Purchased">
                 <field name="po_noo"/>
-                <field name="poo_ref" invisible="1"/>
                 <field name="poo_ref2"/>
+                <field name="poo_ref"/>
                 <field name="lot_no" />
-		<field name="product_id" />
+		        <field name="product_id" />
+                
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -1459,7 +1473,12 @@
                     <field name="name_seq" string="Reference" />       
                 </xpath> -->
                 
-
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="name_seq" />
+                </xpath>
 
                 <xpath expr="//form/sheet/notebook/page[2]" position="attributes">
                     <attribute name="string">Immediate/Action Taken</attribute>
@@ -1477,7 +1496,6 @@
                     <page string="Report Details">
                         <group>
                             <group>
-                                <field name="name_seq" string="Report No"/> 
                                 <field name="dtoday"/>  
                             </group>
                             <group>
@@ -1517,7 +1535,7 @@
                             <group>
                                 <field name="approved_by"/>
                                 <field name="closed_by"/>
-                                <field name="close_date" invisible="1"/>
+                                <field name="close_date" />
                                 <field name="approv_date" invisible="1"/>
                             </group>
                             <group>
@@ -1601,7 +1619,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='stock_value']" position="after">
-                <field name="stock_value_num" invisible="1"/>       
+                <field name="stock_value2" invisible="1"/>       
             </xpath>
              
         </field>
@@ -1618,7 +1636,7 @@
                 <field name="currency_id"/>
                 <field name="cost_currency_id"/>
                 <field name="stock_value" />
-                <field name="stock_value_num" type="measure"/>
+                <field name="stock_value2" type="measure"/>
                 <field name="cost_method"/>
             </pivot>
         </field>
@@ -1659,7 +1677,7 @@
     </record>
 
 
-    <!-- <record id="res_partner_from_cusss" model="ir.ui.view">
+    <record id="res_partner_from_cusss" model="ir.ui.view">
         <field name="name">res.partner.form.cusss</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
@@ -1667,12 +1685,13 @@
 
             <xpath expr="//notebook" position="inside">
                 <page name="vendor_arabic" string="Vendor Arabic">
-                    <field name="vendor_name_arabic" placeholder="Vendor Name in Arabic..."/>
+                    <label for="vendor_name_ar" />
+                    <field name="vendor_name_ar" placeholder="Vendor Name in Arabic..." />
                 </page>  
             </xpath>
              
         </field>
-    </record> -->
+    </record>
 
 
 </odoo>

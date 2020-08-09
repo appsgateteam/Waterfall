@@ -3,7 +3,7 @@
 <odoo>
 	<data>
 
-		<template id="marcoms_updates.journal_entry_template_report_view_mar">
+		<template id="Hr_enhancement.journal_entry_template_report_view_mar">
 			<t t-call="web.external_layout">
                 <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
                 <div class="page" style="font-size:17px;">
@@ -156,10 +156,10 @@
             </t>
 		</template>
 
-		<template id="marcoms_updates.journal_entry_report_template_id_mar">
+		<template id="Hr_enhancement.journal_entry_report_template_id_mar">
 			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="marcoms_updates.journal_entry_template_report_view_mar"  t-lang="o.partner_id.lang"/>
+					<t t-call="Hr_enhancement.journal_entry_template_report_view_mar"  t-lang="o.partner_id.lang"/>
 				</t>
 			</t>
 		</template>
