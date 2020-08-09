@@ -38,7 +38,7 @@
               <br/><br/><br/>
               <!-- style=" text-align: right; float:right; position: relative; left: 500px;"> -->
               
-              <div class="text-right" style="margin-right:70px;font-size: 17px; font-family: ARIAL;" t-field="o.partner_id.vendor_name_arrr"/>
+              <div class="text-right" style="margin-right:70px;font-size: 17px; font-family: ARIAL;" t-field="o.partner_id.vendor_name_arrrab"/>
               <!--<div t-if="o.partner_id.vat" class="mt16"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></div>-->
               <p  class="text-right" style="margin-right:70px;font-size: 17px; font-family: ARIAL;" t-if="o.partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'الرقم الضريبي'"/>: <span t-field="o.partner_id.vat"/></p>  
                   
