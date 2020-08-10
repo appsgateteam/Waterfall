@@ -2110,18 +2110,18 @@ class StockProductionLot_inherit(models.Model):
 
 
     # @api.model_create_multi
-    # @api.model
-    # def create(self, vals):
-    #     res = super(StockProductionLot_inherit, self).create(vals)
-    #     com = self.env['stock.production.lot'].search([('name','=',vals.get('name'))])
-    #     if com:
-    #         raise UserError('The combination of serial number must be unique !')
-    #     return res
+    @api.model
+    def create(self, vals):
+        res = super(StockProductionLot_inherit, self).create(vals)
+        com = self.env['stock.production.lot'].search([('name','=',vals.get('name'))])
+        if com:
+            raise UserError('The combination of serial number must be unique !')
+        return res
 
-    _sql_constraints = [
-        ('name_uniq', 'unique (name)', 'The combination of serial number must be unique !'),
-        # ('name_ref_uniq', 'unique ()', 'The combination of serial number and product must be unique !'),
-    ]
+    # _sql_constraints = [
+    #     ('name_uniq', 'unique (name)', 'The combination of serial number must be unique !'),
+    #     ('name_ref_uniq', 'unique ()', 'The combination of serial number and product must be unique !'),
+    # ]
 
 class StockQuantityHistoryinh(models.TransientModel):
     _inherit = 'stock.quantity.history'
