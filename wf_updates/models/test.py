@@ -2114,7 +2114,7 @@ class StockProductionLot_inherit(models.Model):
     def create(self, vals):
         res = super(StockProductionLot_inherit, self).create(vals)
         com = self.env['stock.production.lot'].search([('name','=',vals.get('name'))])
-        if com:
+        if not com:
             raise UserError('The combination of serial number must be unique !')
         return res
 
