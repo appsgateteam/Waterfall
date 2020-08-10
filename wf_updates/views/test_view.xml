@@ -479,7 +479,7 @@
                 <field name="decimal" invisible="1"/>
                 <field name="entire" invisible="1"/>
             </xpath>
-            <xpath expr="//field[@name='origin']" position="after">
+            <xpath expr="//field[@name='origin']" position="replace">
                 <field name="origin" />
                 <field name="department_id" />
                 <field name="purpose" />
