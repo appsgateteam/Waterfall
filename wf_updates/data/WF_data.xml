@@ -16,6 +16,19 @@
   </data>
 
   <data noupdate="1">
+    <record id="quality_point_seq_name" model="ir.sequence">
+      <field name="name">Quality Point Sequence Number</field>
+      <field name="code">quality.point</field>
+      <field name="active">True</field>
+      <field name="prefix">QCP</field>
+      <field name="number_increment">1</field>
+      <field name="number_next">1</field>
+      <field name="padding">5</field>
+      <field name="implementation">standard</field>
+    </record>
+  </data>
+
+  <data noupdate="1">
     <record id="ir_cron_cancel_auto_rfq" model="ir.cron">
       <field name="name">Base Action Rule: cancel automatic RFQ</field>
       <field name="model_id" ref="model_purchase_order"/>
