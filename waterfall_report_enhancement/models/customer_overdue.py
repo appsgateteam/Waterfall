@@ -23,7 +23,7 @@ class AccountInvoice(models.Model):
         self.env.cr.execute(query)
         match = self.env.cr.dictfetchall()
         for i in match:
-
+            duecount = 0
             
             # overdue = self.env['account.invoice'].search(
             #     [('date_due', '<=', current_date), ('state', '=', 'open'), ('user_id', '=', i['user_id']),
