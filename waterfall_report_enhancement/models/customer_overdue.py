@@ -11,7 +11,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def cron_overdue_customer(self):
-        # overdue_list = []
+        overdue_list = []
         email = []
         
         duecount = 0
