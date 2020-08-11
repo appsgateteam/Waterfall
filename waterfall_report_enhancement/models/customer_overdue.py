@@ -11,9 +11,9 @@ class AccountInvoice(models.Model):
 
     @api.model
     def cron_overdue_customer(self):
-        
+        overdue_list = []
         email = []
-        data = {}
+        
         duecount = 0
         current_date = datetime.today().strftime('%Y-%m-%d')
         # match = self.search([('state', '=', 'open'), ('type', 'in', ['out_invoice', 'out_refund'])])
@@ -23,8 +23,7 @@ class AccountInvoice(models.Model):
         self.env.cr.execute(query)
         match = self.env.cr.dictfetchall()
         for i in match:
-            overdue_list = []
-            
+            data = {}
             # overdue = self.env['account.invoice'].search(
             #     [('date_due', '<=', current_date), ('state', '=', 'open'), ('user_id', '=', i['user_id']),
             #      ('type', 'in', ['out_invoice', 'out_refund'])])
