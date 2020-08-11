@@ -5,7 +5,7 @@
             <t t-set="o" t-value="o.with_context({'lang': lang})"/>
             <div class="page">
               <h2 style="margin-left:45%;"><strong>Voucher</strong></h2>
-              <br />
+              <br/>
                 <h3><strong>Payment Voucher: <span t-field="o.name"/></strong></h3>
                 <div class="row">
                     <div class="col-6" t-if="o.payment_date">
@@ -69,39 +69,46 @@
                     </tbody>
                 </table>
                 <br/><br/>
-                <div class="row" id="journal_information2" style="margin-top:250px;">
-                    <div class="col-5">
+                <div class="row" id="journal_information2" style="margin-top:250px;margin-left:50px;">
+                  <div class="col-4">
                         <div>
                             <strong>Prepared by :</strong>
                             <p t-field="o.prepare"/>
                         </div>
-
-                        <div class="text-left" style="margin-top:250px;">
-                            <strong>Checked by:</strong>
-                            <p t-field="o.checked"/>
+                        
+                        <div class="text-left" style="margin-top:200px;">
+                            <strong>Received by :</strong>
+                            <p t-field="o.received"/>
                         </div>
+
+                        
                         <!--<div class="text-left" style="margin-top:250px;">-->
                         <!--    <strong>Verified by:</strong>-->
                         <!--    <p t-field="o.verified"/>-->
                         <!--</div>-->
                     </div>  
                
-                    <div class="col-5">
-                        <div>
-                            <strong>Approved by :</strong>
-                            <p t-field="o.approved"/>
+                    <div class="col-4">
+                        
+                        <div class="text-left" style="margin-top:200px;">
+                            <strong>Checked by:</strong>
+                            <p t-field="o.checked"/>
                         </div>
-                        <div class="text-left" style="margin-top:250px;">
-                            <strong>Received by :</strong>
-                            <p t-field="o.received"/>
-                        </div>
+                        
+                        
                     </div>  
-                    <div class="col-5">
-                        <div class="text-left" style="margin-top:250px;">
+                    <div class="col-4">
+                        <div class="text-left" style="margin-top:200px;">
                             <strong>Verified by:</strong>
                             <p t-field="o.verified"/>
                         </div>
-                    </div>  
+                        
+                        <div class="text-left" style="margin-top:200px;">
+                            <strong>Approved by :</strong>
+                            <p t-field="o.approved"/>
+                        </div>
+                    </div> 
+                      
                 </div>
             </div>
         </t>

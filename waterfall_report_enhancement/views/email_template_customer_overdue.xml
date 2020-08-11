@@ -8,7 +8,7 @@
             <field name="subject">Customer Overdue Details</field>
             <field name="email_to">${ctx['email_to']}</field>
 <!--            <field name="lang">${object.lang}</field>-->
-            <field name="model_id" ref="waterfall_report_enhancement.model_account_invoice"/>
+            <field name="model_id" ref="waterfall_report_enhancement.model_res_users"/>
             <field name="auto_delete" eval="False"/>
             <field name="body_html">
 		        <![CDATA[

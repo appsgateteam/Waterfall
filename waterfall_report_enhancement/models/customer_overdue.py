@@ -26,6 +26,7 @@ class AccountInvoice(models.Model):
             overdue = self.env['account.invoice'].search(
                 [('date_due', '<=', current_date), ('state', '=', 'open'), ('user_id', '=', i['user_id']),
                  ('type', 'in', ['out_invoice', 'out_refund'])])
+            
             for res in overdue:
                 overdue_content = {}
                 duecount = duecount + 1
@@ -45,12 +46,16 @@ class AccountInvoice(models.Model):
                 template_id = False
             mail_template = self.env['mail.template'].browse(template_id.id)
             user_id = self.env['res.users'].browse(i['user_id'])
+            
             ctx = self.env.context.copy()
             for user in user_id:
                 ctx['name'] = user.name
             ctx['email_to'] = i['login']
             email.append(ctx['email_to'])
+            
             for key, value in data.items():
                 ctx['data'] = value
+            
             mail_template.with_context(ctx).send_mail(i['user_id'], force_send=True, raise_exception=True)
+            # raise UserError(overdue)
         return True
