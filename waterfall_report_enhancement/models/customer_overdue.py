@@ -57,5 +57,5 @@ class AccountInvoice(models.Model):
                 ctx['data'] = value
             
             mail_template.with_context(ctx).send_mail(overdue.ids[0], force_send=True, raise_exception=True)
-            raise UserError(overdue)
+            # raise UserError(overdue)
         return True
