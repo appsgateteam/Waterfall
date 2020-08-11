@@ -558,14 +558,8 @@ class sale_wf_inherit(models.Model):
              "will be scheduled based on this date rather than product lead times.")
     # new changes ziad
 
-    receive_state = fields.Selection(string='Current State', selection=[
-        ('New','New'),
-        ('Ready','Ready'),
-        ('Partially Available','Partially Available'),
-        ('Partially Delivery','Partially Delivery'),
-        ('Delivered','Delivered')],
-        copy=False, index=True, readonly=True,compute="ready_state")
-    mo_state = fields.Text('Manufacture state',compute="ready_state")
+    receive_state = fields.Text('Delivery status',compute="ready_state")
+    mo_state = fields.Text('Manufacture status',compute="ready_state")
 
 
     # @api.model
@@ -580,55 +574,60 @@ class sale_wf_inherit(models.Model):
         current_date = date.today()
         for rec in self:
         # raise UserError(_(self.date_planned.date()))
-            if (rec.state == 'draft','sent','approve','approved','final','finalapp') and (rec.date_order.date() > current_date):
-                rec.receive_state = 'New'
-            if (rec.expected_date and rec.expected_date.date() <= current_date):
-                rec.receive_state = 'Ready'
-            if rec.state == 'sale':
-                # rec.receive_state = 'part'
-                com = self.env['stock.picking'].search([('origin','=',rec.name)])
-                if len(com) == 1:
-                    for line in com:
-                        if line.state == 'done':
-                            rec.receive_state = 'Delivered'
-                        else:
-                            y = 0
-                            x = 0
-                            z = len(line.move_ids_without_package)
-                            for l in line.move_ids_without_package:
-                                if l.reserved_availability == 0.0 and l.quantity_done == 0.0:
-                                    if (rec.expected_date and rec.expected_date.date() <= current_date):
-                                        rec.receive_state = 'Ready'
-                                    else:
-                                        rec.receive_state = 'New'
+            # if (rec.state == 'draft','sent','approve','approved','final','finalapp') and (rec.date_order.date() > current_date):
+            #     rec.receive_state = 'New'
+            # if (rec.expected_date and rec.expected_date.date() <= current_date):
+            #     rec.receive_state = 'Ready'
+            # if rec.state == 'sale':
+            #     # rec.receive_state = 'part'
+            #     com = self.env['stock.picking'].search([('origin','=',rec.name)])
+            #     if len(com) == 1:
+            #         for line in com:
+            #             if line.state == 'done':
+            #                 rec.receive_state = 'Delivered'
+            #             else:
+            #                 y = 0
+            #                 x = 0
+            #                 z = len(line.move_ids_without_package)
+            #                 for l in line.move_ids_without_package:
+            #                     if l.reserved_availability == 0.0 and l.quantity_done == 0.0:
+            #                         if (rec.expected_date and rec.expected_date.date() <= current_date):
+            #                             rec.receive_state = 'Ready'
+            #                         else:
+            #                             rec.receive_state = 'New'
                                     
-                                else:
-                                    rec.receive_state = 'Partially Available'
-                                #     if l.product_uom_qty == l.reserverd_availability:
-                                #         y = y + 1
-                                #         continue
-                                #     else:
-                                #         x = x + 1
-                                # else:
-                            # if z == x:
-                            #     if (rec.expected_date and rec.expected_date.date() <= current_date):
-                            #         rec.receive_state = 'Ready'
-                            #     else:
-                            #         rec.receive_state = 'New'
-                            # else:
-                            #     rec.receive_state = 'Partially Available'
-                else:
-                    for line in com:
-                        if line.state != 'done':
-                            rec.receive_state = 'Partially Delivery'
-                            break
-                        else:
-                            rec.receive_state = 'Delivered'
+            #                     else:
+            #                         rec.receive_state = 'Partially Available'
+            #                     #     if l.product_uom_qty == l.reserverd_availability:
+            #                     #         y = y + 1
+            #                     #         continue
+            #                     #     else:
+            #                     #         x = x + 1
+            #                     # else:
+            #                 # if z == x:
+            #                 #     if (rec.expected_date and rec.expected_date.date() <= current_date):
+            #                 #         rec.receive_state = 'Ready'
+            #                 #     else:
+            #                 #         rec.receive_state = 'New'
+            #                 # else:
+            #                 #     rec.receive_state = 'Partially Available'
+            #     else:
+            #         for line in com:
+            #             if line.state != 'done':
+            #                 rec.receive_state = 'Partially Delivery'
+            #                 break
+            #             else:
+            #                 rec.receive_state = 'Delivered'
             text = ''
             mos = self.env['mrp.production'].search([('origin','=',rec.name)])
             for mo in mos:
                 text = str(mo.name) + ' | ' + str(mo.availability) + ' | ' + str(mo.state) + '\n' + text
             rec.mo_state = text
+            text2 = ''
+            dos = self.env['stock.picking'].search([('origin','=',rec.name)])
+            for do in dos:
+                text2 = str(do.name) + ' | ' + str(do.state) + '\n' + text2
+            rec.receive_state = text2
 
 
 
@@ -1744,6 +1743,26 @@ class stock_move_inherit(models.Model):
 
 class AccountMoveCus(models.Model):
     _inherit = "account.move"
+
+    prepare = fields.Char('Prepared by')
+    checked = fields.Char('Checked by')
+    received = fields.Char('Received by')
+    approved = fields.Char('Approved by')
+    verified = fields.Char('Verified by')
+    total = fields.Float('Total',compute="_com_hand")
+    total2 = fields.Float('Total',compute="_com_hand")
+
+    @api.multi
+    @api.depends('line_ids')
+    def _com_hand(self):
+        for rec in self:
+            x = 0.0
+            y = 0.0
+            for l in rec.line_ids:
+                x = x + l.debit
+                y = y + l.credit
+            rec.total = x
+            rec.total2 = y
 
     @api.multi
     def assert_balanced(self):
