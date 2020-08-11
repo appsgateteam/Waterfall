@@ -2143,6 +2143,22 @@ class StockProductionLot_inherit(models.Model):
     #     if not com:
     #         raise UserError('The combination of serial number must be unique !')
     #     return res
+    @api.model
+    def create(self, vals):
+        # dates = self._get_dates(vals.get('product_id') or self.env.context.get('default_product_id'))
+        # for d in dates:
+        #     if not vals.get(d):
+        #         vals[d] = dates[d]
+        active_picking_id = self.env.context.get('active_picking_id', False)
+        if active_picking_id:
+            picking_id = self.env['stock.picking'].browse(active_picking_id)
+            if picking_id and not picking_id.picking_type_id.use_create_lots:
+                raise UserError(_('You are not allowed to create a lot or serial number with this operation type. To change this, go on the operation type and tick the box "Create New Lots/Serial Numbers".'))
+        # com = 
+        # raise UserError(com)
+        if self.env['stock.production.lot'].search([('name','=',vals.get('name'))]):
+            raise UserError('The combination of serial number must be unique !')
+        return super(StockProductionLot_inherit, self).create(vals)
 
     # _sql_constraints = [
     #     ('name_uniq', 'unique (name)', 'The combination of serial number must be unique !'),
