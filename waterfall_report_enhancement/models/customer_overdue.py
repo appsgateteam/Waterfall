@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'res.users'
 
     @api.model
     def cron_overdue_customer(self):
@@ -56,6 +56,6 @@ class AccountInvoice(models.Model):
             for key, value in data.items():
                 ctx['data'] = value
             
-            mail_template.with_context(ctx).send_mail(overdue.ids[], force_send=True, raise_exception=True)
+            mail_template.with_context(ctx).send_mail(i['user_id'], force_send=True, raise_exception=True)
             # raise UserError(overdue)
         return True
