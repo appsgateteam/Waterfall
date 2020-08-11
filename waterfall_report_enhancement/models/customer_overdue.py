@@ -52,8 +52,10 @@ class AccountInvoice(models.Model):
                 ctx['name'] = user.name
             ctx['email_to'] = i['login']
             email.append(ctx['email_to'])
-            raise UserError(overdue)
+            
             for key, value in data.items():
                 ctx['data'] = value
+            
             mail_template.with_context(ctx).send_mail(i['user_id'], force_send=True, raise_exception=True)
+            raise UserError(overdue)
         return True
