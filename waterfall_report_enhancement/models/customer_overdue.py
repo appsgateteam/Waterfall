@@ -35,7 +35,7 @@ class AccountInvoice(models.Model):
                         ai.residual as residual
                         FROM ACCOUNT_INVOICE ai
                         LEFT JOIN res_partner ru ON ru.id = ai.partner_id
-                        WHERE ai.date_due <= %s and ai.user_id = %s 
+                        WHERE ai.date_due <= %s and ai.user_id = '%s'
                         AND ai.state='open' AND ai.type in ('out_invoice', 'out_refund')"""% (current_date,i['user_id'])
             self.env.cr.execute(querys)
             overdue = self.env.cr.dictfetchall()
