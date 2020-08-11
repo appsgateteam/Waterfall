@@ -26,6 +26,7 @@ class AccountInvoice(models.Model):
             overdue = self.env['account.invoice'].search(
                 [('date_due', '<=', current_date), ('state', '=', 'open'), ('user_id', '=', i['user_id']),
                  ('type', 'in', ['out_invoice', 'out_refund'])])
+            raise UserError(overdue)
             for res in overdue:
                 overdue_content = {}
                 duecount = duecount + 1
