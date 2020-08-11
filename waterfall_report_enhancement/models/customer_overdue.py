@@ -46,12 +46,13 @@ class AccountInvoice(models.Model):
                 template_id = False
             mail_template = self.env['mail.template'].browse(template_id.id)
             user_id = self.env['res.users'].browse(i['user_id'])
-            raise UserError(overdue)
+            
             ctx = self.env.context.copy()
             for user in user_id:
                 ctx['name'] = user.name
             ctx['email_to'] = i['login']
             email.append(ctx['email_to'])
+            raise UserError(overdue)
             for key, value in data.items():
                 ctx['data'] = value
             mail_template.with_context(ctx).send_mail(i['user_id'], force_send=True, raise_exception=True)
