@@ -626,7 +626,14 @@ class sale_wf_inherit(models.Model):
             text2 = ''
             dos = self.env['stock.picking'].search([('origin','=',rec.name)])
             for do in dos:
-                text2 = str(do.name) + ' | ' + str(do.state) + '\n' + text2
+                if do.state == 'waiting':
+                    text2 = str(do.name) + '  |  ' + 'Waiting another operation' + '\n' + text2
+                elif do.state == 'confirmed':
+                    text2 = str(do.name) + '  |  ' + 'Waiting' + '\n' + text2
+                elif do.state == 'assigned':
+                    text2 = str(do.name) + '  |  ' + 'Ready' + '\n' + text2
+                else:
+                    text2 = str(do.name) + '  |  ' + str(do.state) + '\n' + text2
             rec.receive_state = text2
 
 
