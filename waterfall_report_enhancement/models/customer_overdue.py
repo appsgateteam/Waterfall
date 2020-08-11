@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
-    _inherit = 'res.users'
+    _inherit = 'account.invoice'
 
     @api.model
     def cron_overdue_customer(self):
