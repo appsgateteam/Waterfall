@@ -75,13 +75,13 @@
                             <!-- <td>
                                 <span t-field="line.analytic_account_id" />
                             </td> -->
-                            <td class="text-left">
-                                <span t-field="line.tax_ids"/>
+                            <td class="text-center">
+                                <t t-if="line.tax_ids" ><span t-field="line.tax_ids"/></t><t t-else="">0</t>
                             </td>
-                            <td class="text-left">
+                            <td class="text-center">
                                 <span t-field="line.debit"/>
                             </td>
-                            <td class="text-left">
+                            <td class="text-center">
                                 <span t-field="line.credit"/>
                             </td>
                         </tr>
