@@ -1716,5 +1716,27 @@
         </field>
     </record>
 
+    <record id="account_payment_form001" model="ir.ui.view">
+        <field name="name">account.payment.form001</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="after">
+                <group>
+                    <group>
+                        <field name="prepare"/>
+                        <field name="checked"/>
+                        <field name="verified"/>
+                    </group>
+                    <group>
+                        <field name="received"/>
+                        <field name="approved"/>
+                    </group>
+                </group>       
+            </xpath>
+
+        </field>
+    </record>
+
 
 </odoo>
