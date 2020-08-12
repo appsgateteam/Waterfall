@@ -118,7 +118,7 @@
                 <field name="effective_date" attrs="{'required': [('payment_method_code', '=', 'pdc')]}"/>
             </xpath>
             <xpath expr="//field[@name='payment_method_code']" position="after">
-                <field name="seal" />
+                <!-- <field name="seal" /> -->
                 <field name="accountname" invisible="1"/>
                 <field name="company_id"  invisible="1"/>
                 <field name="release_count" invisible="1" />
