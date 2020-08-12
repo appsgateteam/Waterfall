@@ -1979,10 +1979,10 @@ class AccountMoveCustomize(models.Model):
 
 #         # return res
 
-#     @api.constrains('line_ids', 'journal_id', 'auto_reverse', 'reverse_date')
-#     def _validate_move_modification(self):
-#         if 'posted' in self.mapped('line_ids.payment_id.state'):
-#             y = 1
+    @api.constrains('line_ids', 'journal_id', 'auto_reverse', 'reverse_date')
+    def _validate_move_modification(self):
+        if 'posted' in self.mapped('line_ids.payment_id.state'):
+            y = 1
 
 #     @api.model
 #     def create(self, vals):
