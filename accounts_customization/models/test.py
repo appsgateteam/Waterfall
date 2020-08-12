@@ -498,7 +498,7 @@ class AccountpaymentCust(models.Model):
     text = fields.Char('Price in Text',compute="_com_price2",invisible=True)
     # cheque_date = fields.Date('Cheque Date')
     remarks = fields.Text('Remarks')
-    # seal = fields.Boolean('Include Company Seal',default=False)
+    seal = fields.Boolean('Include Company Seal',default=False)
     pdc_account = fields.Many2one('account.account',string="PDC Account")
     release_count = fields.Integer('Count',default=0,copy=False)
     move_relase_id = fields.Integer('Move id')
