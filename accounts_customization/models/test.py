@@ -1929,8 +1929,8 @@ class AccountJournalcus(models.Model):
 #             else:
 #                 continue
 
-# class AccountMoveCustomize(models.Model):
-#     _inherit = 'account.move'
+class AccountMoveCustomize(models.Model):
+    _inherit = 'account.move'
 
 #     prepare = fields.Char('Prepared by')
 #     checked = fields.Char('Checked by')
@@ -1991,17 +1991,17 @@ class AccountJournalcus(models.Model):
 #         move.assert_balanced()
 #         return move
 
-#     @api.multi
-#     def write(self, vals):
-#         if vals.get('state') == 'posted':
-#             vals['approved'] = self.env.user.name
-#         if 'line_ids' in vals:
-#             res = super(AccountMoveCustomize, self.with_context(check_move_validity=False)).write(vals)
-#             self.assert_balanced()
-#         else:
-#             res = super(AccountMoveCustomize, self).write(vals)
-#         return res
-#             # raise ValidationError(_("You cannot modify a journal entry linked to a posted payment."))
+    @api.multi
+    def write(self, vals):
+        if vals.get('state') == 'posted':
+            vals['approved'] = self.env.user.name
+        if 'line_ids' in vals:
+            res = super(AccountMoveCustomize, self.with_context(check_move_validity=False)).write(vals)
+            self.assert_balanced()
+        else:
+            res = super(AccountMoveCustomize, self).write(vals)
+        return res
+            # raise ValidationError(_("You cannot modify a journal entry linked to a posted payment."))
 
 
 
