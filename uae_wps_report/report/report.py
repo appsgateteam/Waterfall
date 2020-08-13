@@ -6,7 +6,7 @@ from odoo.exceptions import UserError
 
 class GenerateSif(models.AbstractModel):
     _inherit = 'report.report_xlsx.abstract'
-    _name = 'report.wps_xlsx.xlsx'
+    _name = 'report.uae_wps_report.xlsx' 
 
     def get_data(self, start, end):
         cr = self._cr
