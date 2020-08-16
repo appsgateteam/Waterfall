@@ -440,7 +440,7 @@ class LeaveAnalysis(models.Model):
 class HrEmployeescus(models.Model):
     _inherit = 'hr.employee'
 
-    join_date = fields.Date('Date of Join')
+    join_date = fields.Datetime('Date of Join')
     airfare = fields.Float('Airfare')
     fax_ch = fields.Char('Fax')
     uid_num = fields.Char('UID Number')

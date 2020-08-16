@@ -68,7 +68,7 @@ class Wizard(models.TransientModel):
             end = str(self.end_date).split('-')
             if not start[1] == end[1]:
                 raise UserError(_('The Dates Can of Same Month Only'))
-        slips = self.env['report.wps_xlsx.xlsx'].get_data(self.start_date, self.end_date)
+        slips = self.env['report.uae_wps_report.xlsx'].get_data(self.start_date, self.end_date)
         if not slips:
             raise UserError(_('There are no payslip Created for the selected month'))
         company = self.env['res.company']._company_default_get('wps.wizard')
