@@ -102,7 +102,7 @@ class ReportQualityCheckRe(models.AbstractModel):
                         }
                     appointment_list.append(vals)
                 else:
-                    raise UserError('This MO %s have no quality checks'% (pick_names))
+                    raise UserError('This MO %s have no quality checks'% (production_name))
         
         # array.append({
         #     'quality_point':quality_point,
