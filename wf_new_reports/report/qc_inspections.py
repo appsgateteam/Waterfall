@@ -24,6 +24,7 @@ class ReportQualityCheckRe(models.AbstractModel):
         source = ''
         loc = ''
         qty = 0.0
+        date = ''
 
         if pick and production:
             raise UserError('You can select only one type')
@@ -78,6 +79,7 @@ class ReportQualityCheckRe(models.AbstractModel):
                     
                     loc = 'Production'
                     source = l.source_origin_mo
+                    date = l.control_date
                     # coms = self.env['stock.picking'].search([('id','=',pick)])
                     # for x in coms:
                     #     for pro in x.move_ids_without_package:
