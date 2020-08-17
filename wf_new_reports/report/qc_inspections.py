@@ -31,41 +31,44 @@ class ReportQualityCheckRe(models.AbstractModel):
         if pick:
             pick_name = pick_names
             com = self.env['quality.check'].search([('picking_id','=',pick),('quality_state','!=','close')])
-            for l in com:
-                if l.point_id:
-                    quality_point =  l.point_id.name
-                    types = l.point_id.title
-                if l.notes:
-                    note = l.notes
-                source = l.source_origin
-                loc = l.picking_id.location_dest_id.name
-                lot = l.lot_name
-                date = l.control_date
-                coms = self.env['stock.picking'].search([('id','=',pick)])
-                for x in coms:
-                    for pro in x.move_ids_without_package:
-                        if l.product_id.id == pro.product_id.id:
-                            qty = pro.product_uom_qty
-                            # for line in pro.move_line_ids:
-                            #     if line.lot_id:
-                            #         if lot == '':
-                            #             lot = line.lot_id.name
-                            #         else:
-                            #             lot = line.lot_id.name + ',' + lot
-                            # break
-                        
-                vals = {
-                        'team':l.team_id.name,
-                        'quality_point' :quality_point,
-                        'product':l.product_id.name,
-                        'lot':lot,
-                        'note':note,
-                        'employee':l.user_id.name,
-                        'state':l.quality_state,
-                        'qty':qty,
-                        
-                    }
-                appointment_list.append(vals)
+            if com :
+                for l in com:
+                    if l.point_id:
+                        quality_point =  l.point_id.name
+                        types = l.point_id.title
+                    if l.notes:
+                        note = l.notes
+                    source = l.source_origin
+                    loc = l.picking_id.location_dest_id.name
+                    lot = l.lot_name
+                    date = l.control_date
+                    coms = self.env['stock.picking'].search([('id','=',pick)])
+                    for x in coms:
+                        for pro in x.move_ids_without_package:
+                            if l.product_id.id == pro.product_id.id:
+                                qty = pro.product_uom_qty
+                                # for line in pro.move_line_ids:
+                                #     if line.lot_id:
+                                #         if lot == '':
+                                #             lot = line.lot_id.name
+                                #         else:
+                                #             lot = line.lot_id.name + ',' + lot
+                                # break
+                            
+                    vals = {
+                            'team':l.team_id.name,
+                            'quality_point' :quality_point,
+                            'product':l.product_id.name,
+                            'lot':lot,
+                            'note':note,
+                            'employee':l.user_id.name,
+                            'state':l.quality_state,
+                            'qty':qty,
+                            
+                        }
+                    appointment_list.append(vals)
+            else:
+                raise UserError('This Pick %s have no quality checks'% (pick_names))
         if production:
             pick_name = production_name
             com = self.env['quality.check'].search([('quality_state','!=','close')])
@@ -98,6 +101,8 @@ class ReportQualityCheckRe(models.AbstractModel):
                             
                         }
                     appointment_list.append(vals)
+                else:
+                    raise UserError('This MO %s have no quality checks'% (pick_names))
         
         # array.append({
         #     'quality_point':quality_point,
