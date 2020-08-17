@@ -35,9 +35,7 @@ class ReportQualityCheckRe(models.AbstractModel):
                 for l in com:
                     if l.point_id:
                         quality_point =  l.point_id.name
-                        if not types:
-                            types = l.point_id.title
-
+                        types = l.point_id.title
                     if l.notes:
                         note = l.notes
                     source = l.source_origin
@@ -78,8 +76,7 @@ class ReportQualityCheckRe(models.AbstractModel):
                 if l.workorder_id.production_id.id == production:
                     if l.point_id:
                         quality_point =  l.point_id.name
-                        if not types:
-                            types = l.point_id.title
+                        types = l.point_id.title
                     if l.notes:
                         note = l.notes
                     
