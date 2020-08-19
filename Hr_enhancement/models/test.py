@@ -866,6 +866,7 @@ class HrContractSheetView(models.Model):
     loan_deduction = fields.Float('Loan')
     net_salary = fields.Float('Net Salary')
     present = fields.Float('Present')
+    wage = fields.Float('Wage')
     trans_allowance = fields.Float('Transport Allowance')
     type_id = fields.Many2one('hr.contract.type',string="Contract Type")
     employee_id = fields.Many2one('hr.employee',string="Employee")
@@ -875,7 +876,7 @@ class HrContractSheetView(models.Model):
     @api.multi
     def _get_total(self):
         for rec in self:
-            rec.total = rec.basic + rec.hra + rec.air_ticket + rec.ot_allowance + rec.allowances_value + rec.additions + rec.deductions + rec.other_allowance + rec.fine_deduction + rec.gross + rec.loan_deduction + rec.net_salary + rec.present + rec.trans_allowance
+            rec.total = rec.wage + rec.basic + rec.hra + rec.air_ticket + rec.ot_allowance + rec.allowances_value + rec.additions + rec.deductions + rec.other_allowance + rec.fine_deduction + rec.gross + rec.loan_deduction + rec.net_salary + rec.present + rec.trans_allowance
 
     @api.model_cr
     def init(self):
@@ -891,6 +892,7 @@ class HrContractSheetView(models.Model):
         select_str = """
                 SELECT row_number() OVER (ORDER BY hr_employee.id) AS id,
                        hr_contract.employee_id,
+                       hr_contract.wage AS wage,
                        hr_contract.name AS contract_name,
                         hr_contract.type_id,
                         ( SELECT sum(hr_allowance_line.amt) AS sum
@@ -953,6 +955,7 @@ class HrContractSheetView(models.Model):
             GROUP BY
 				hr_contract.id,
                 hr_employee.id,
+                hr_contract.wage,
 				hr_contract.employee_id,
                 hr_contract.type_id,
                 hr_contract.name
