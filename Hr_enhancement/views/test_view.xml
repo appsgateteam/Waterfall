@@ -768,5 +768,103 @@
     <!-- Leaves Analysis -->
 
 
+    <!-- view of contract Sheet -->
+    <record id="hr_contract_sheet_view_tree" model="ir.ui.view">
+        <field name="name">hr.contract.sheet.view.tree</field>
+        <field name="model">hr.contract.sheet.view</field>
+        <field name="arch" type="xml">
+            <tree string="Contract Sheet" >
+                <field name="employee_id" string="Employee Name"/>
+                <field name="contract_name"/>
+                <field name="type_id"/>
+                <field name="basic" string="Basic Salary"/>
+                <field name="hra" string="Housing"/>
+                <field name="AIR"/>
+                <field name="trans_allowance" string="Transport Allowance"/>
+                <field name="other_allowance" string="Other Allowance"/>
+                <field name="ot_allowance" string="OT Allowance"/>
+                <field name="allowances_value" string="Allowances"/>
+                <field name="additions" string="Additions"/>
+                <field name="deductions" string="Deductions"/>
+                
+                <field name="loan_deduction" string="Loan"/>
+                <field name="fine_deduction" string="Fine"/>
+                <field name="gross"/>
+                <field name="net_salary"/>
+                <field name="total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_contract_sheet_view_graph" model="ir.ui.view">
+        <field name="name">hr.contract.sheet.view.graph</field>
+        <field name="model">hr.contract.sheet.view</field>
+        <field name="arch" type="xml">
+            <graph string="Contract Sheet" >
+                <field name="employee_id" type="row" string="Employee Name"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="hr_contract_sheet_view_pivot" model="ir.ui.view">
+        <field name="name">hr.contract.sheet.view.pivot</field>
+        <field name="model">hr.contract.sheet.view</field>
+        <field name="arch" type="xml">
+            <pivot string="Contract Sheet" disable_linking="True">
+                <field name="employee_id"/>
+                <field name="type_id"/>
+                <field name="contract_name"/>
+                <field name="basic" />
+                <field name="hra" />
+                <field name="trans_allowance" />
+                <field name="other_allowance" />
+                <field name="ot_allowance" />
+                <field name="allowances_value"/>
+                <field name="additions" />
+                <field name="deductions"/>
+                <field name="loan_deduction"/>
+                <field name="fine_deduction"/>
+                <field name="gross" type="measure"/>
+                <field name="net_salary"/>
+                <field name="total"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="hr_contract_sheet_view_search" model="ir.ui.view">
+        <field name="name">hr.contract.sheet.view.search</field>
+        <field name="model">hr.contract.sheet.view</field>
+        <field name="arch" type="xml">
+            <search string="Contract Sheet">
+                <field name="employee_id"/>
+                <field name="contract_name"/>
+                <field name="type_id"/>
+           		<group expand="1" string="Group By...">
+                    <filter string="Employee" icon="terp-personal" name="employee_id" context="{'group_by':'employee_id'}"/>
+                    <filter string="Contract Name" icon="terp-personal" name="contract_name" context="{'group_by':'contract_name'}"/>
+                    <filter string="Contract Type" icon="terp-personal" name="type_id" context="{'group_by':'type_id'}"/>
+				</group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_contract_sheet_view_action" model="ir.actions.act_window">
+        <field name="name">Contract Sheet</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.contract.sheet.view</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,graph,pivot</field>
+        <field name="search_view_id" ref="hr_contract_sheet_view_search"/>      
+    </record>
+
+    <menuitem id="hr_contract_sheet_view_action_config"
+            name="Contract Sheet"
+            parent="payroll_reporting_config"
+            action="hr_contract_sheet_view_action"
+            sequence="4"/>
+
+    <!-- view of contract Sheet -->
+
+
 
     </odoo>

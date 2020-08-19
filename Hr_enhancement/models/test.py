@@ -847,4 +847,119 @@ class hrexpenseSheetUpdate(models.Model):
 # expense changes
 
 
+# view of contract Sheet
+class HrContractSheetView(models.Model):
+    _name = 'hr.contract.sheet.view'
+    _description = "Contract Sheet"
+    _auto = False
+
+    basic = fields.Float('Basic')
+    hra = fields.Float('Housing')
+    AIR = fields.Float('Air Ticket Allowance')
+    ot_allowance = fields.Float('OT Allowance')
+    allowances_value = fields.Float('Allowances')
+    additions = fields.Float('Additions')
+    deductions = fields.Float('Deductions')
+    other_allowance = fields.Float('Other Allowance')
+    fine_deduction = fields.Float('Fine')
+    gross = fields.Float('Gross')
+    loan_deduction = fields.Float('Loan')
+    net_salary = fields.Float('Net Salary')
+    present = fields.Float('Present')
+    trans_allowance = fields.Float('Transport Allowance')
+    type_id = fields.Many2one('hr.contract.type',string="Contract Type")
+    employee_id = fields.Many2one('hr.employee',string="Employee")
+    contract_name = fields.Char('Contract Name')
+    total = fields.Char('Total Salary' ,compute='_get_total')
+
+    @api.multi
+    def _get_total(self):
+        for rec in self:
+            rec.total = rec.basic + rec.hra + rec.AIR + rec.ot_allowance + rec.allowances_value + rec.additions + rec.deductions + rec.other_allowance + rec.fine_deduction + rec.gross + rec.loan_deduction + rec.net_salary + rec.present + rec.trans_allowance
+
+    @api.model_cr
+    def init(self):
+        # self._table = sale_report
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
+            %s
+            FROM ( %s )
+            %s
+            )""" % (self._table, self._select(), self._from(), self._group_by()))
+
+    def _select(self):
+        select_str = """
+                SELECT row_number() OVER (ORDER BY hr_employee.id) AS id,
+                       hr_contract.employee_id,
+                       hr_contract.name AS contract_name,
+                        hr_contract.type_id,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'BASIC'::text) AS basic,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'HRA'::text) AS hra,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'OTH'::text) AS other_allowance,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'OT'::text) AS ot_allowance,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'ALWCE'::text) AS allowances_value,
+                                
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'ADTNS'::text) AS additions,
+
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'DED'::text) AS deductions,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'TRA'::text) AS trans_allowance,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'LOAN'::text) AS loan_deduction,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'FINE'::text) AS fine_deduction,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'GROSS'::text) AS gross,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'WORK100'::text) AS present,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'NET'::text) AS net_salary,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'AIR'::text) AS AIR
+                    
+        """
+        return select_str
+
+    def _from(self):
+        from_str = """
+            hr_contract
+                JOIN hr_employee on (hr_employee.id = hr_contract.employee_id)
+        """
+        return from_str
+
+    def _group_by(self):
+        group_by_str = """
+            GROUP BY
+				hr_contract.id,
+                hr_employee.id,
+				hr_contract.employee_id,
+                hr_contract.type_id,
+                hr_contract.name
+        """
+        return group_by_str
+
+    # view of contract Sheet
+
+
 
