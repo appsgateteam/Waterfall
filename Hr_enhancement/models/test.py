@@ -441,6 +441,8 @@ class LeaveAnalysis(models.Model):
    
 #HR Contract and Payroll Customize Part
 
+
+
 # Employee Master edits 
 class HrEmployeescus(models.Model):
     _inherit = 'hr.employee'
@@ -541,6 +543,8 @@ class Countriesscus(models.Model):
 class hrleaveUpdate(models.Model):
     _inherit = "hr.leave"
 
+    allow_sick_changed = fields.Boolean('Alloe check',default=False)
+
     @api.multi
     def action_approve(self):
         # if validation_type == 'both': this method is the first approval approval
@@ -553,6 +557,13 @@ class hrleaveUpdate(models.Model):
         self.filtered(lambda hol: not hol.validation_type == 'both').action_validate()
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
+
+        # Sick leave part
+        if self.holiday_status_id == 'Sick':
+            if self.employee_id.allow_sick_leave >= self.number_of_days_display:
+                self.allow_sick_changed = True
+                self.employee_id.allow_sick_leave -= self.number_of_days_display 
+        # Sick leave part
 
         channel_all_employees = self.env.ref('Hr_enhancement.channel_all_leave_status').read()[0]
         template_new_employee = self.env.ref('Hr_enhancement.email_template_data_applicant_leaves').read()[0]
@@ -616,6 +627,12 @@ class hrleaveUpdate(models.Model):
                 holiday.meeting_id.unlink()
             # If a category that created several holidays, cancel all related
             holiday.linked_request_ids.action_refuse()
+
+            # Sick leave part
+            if holiday.holiday_status_id == 'Sick':
+                if holiday.allow_sick_changed == True:
+                    holiday.employee_id.allow_sick_leave += holiday.number_of_days_display 
+            # Sick leave part
         self._remove_resource_leave()
         self.activity_update()
         
