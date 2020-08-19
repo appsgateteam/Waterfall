@@ -855,7 +855,7 @@ class HrContractSheetView(models.Model):
 
     basic = fields.Float('Basic')
     hra = fields.Float('Housing')
-    AIR = fields.Float('Air Ticket Allowance')
+    air_ticket = fields.Float('Air Ticket Allowance')
     ot_allowance = fields.Float('OT Allowance')
     allowances_value = fields.Float('Allowances')
     additions = fields.Float('Additions')
@@ -936,7 +936,7 @@ class HrContractSheetView(models.Model):
                             WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'NET'::text) AS net_salary,
                         ( SELECT sum(hr_allowance_line.amt) AS sum
                             FROM hr_allowance_line
-                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'AIR'::text) AS AIR
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'AIR'::text) AS air_ticket
                     
         """
         return select_str

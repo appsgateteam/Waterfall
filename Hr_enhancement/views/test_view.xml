@@ -779,7 +779,7 @@
                 <field name="type_id"/>
                 <field name="basic" string="Basic Salary"/>
                 <field name="hra" string="Housing"/>
-                <field name="AIR"/>
+                <field name="air_ticket"/>
                 <field name="trans_allowance" string="Transport Allowance"/>
                 <field name="other_allowance" string="Other Allowance"/>
                 <field name="ot_allowance" string="OT Allowance"/>
@@ -824,6 +824,7 @@
                 <field name="deductions"/>
                 <field name="loan_deduction"/>
                 <field name="fine_deduction"/>
+                <field name="air_ticket"/>
                 <field name="gross" type="measure"/>
                 <field name="net_salary"/>
                 <field name="total"/>
