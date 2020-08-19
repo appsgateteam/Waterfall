@@ -115,6 +115,7 @@
             </div>
             <xpath expr="//field[@name='parent_id']" position="after">
                 <field name="join_date" />
+                <field name="allow_sick_leave" />
             </xpath>
             <xpath expr="//field[@name='country_id']" position="after">
                 <field name="airfare" />
@@ -251,171 +252,6 @@
     </record>
 
     <!-- HR airticket part -->
-
-
-    <!-- Employee Master edits  -->
-    <record id="res_country_cus_form" model="ir.ui.view">
-        <field name="name">res.country.cus.form</field>
-        <field name="model">res.country</field>
-        <field name="inherit_id" ref="base.view_country_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='code']" position="after">
-                <field name="airfare" />
-            </xpath>
-        </field>
-    </record>
-
-    <record id="hr_employee_cus_form" model="ir.ui.view">
-        <field name="name">hr.employee.cus.form</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//button[@name='toggle_active']" position="after">
-                <button class="oe_stat_button" name="airticket_view" type="object" icon="fa-list-ol">
-                    <field string="Airtickets" name="airticket_count" widget="statinfo"/>
-                </button>
-            </xpath>
-            <div class="oe_button_box" position="inside">
-                <button class="oe_stat_button" name="document_view" type="object" icon="fa-list-ol" context="{'default_employee_ref': id}">
-                    <!-- <field string="Documents" name="document_count" widget="statinfo"/> -->
-                </button>
-            </div>
-            <xpath expr="//field[@name='parent_id']" position="after">
-                <field name="join_date" />
-            </xpath>
-            <xpath expr="//field[@name='country_id']" position="after">
-                <field name="airfare" />
-            </xpath>
-            <xpath expr="//field[@name='work_phone']" position="after">
-                <field name="fax_ch" widget="fax"/>
-            </xpath>
-            <xpath expr="//field[@name='passport_id']" position="after">
-                <field name="pass_expiry_date" />
-            </xpath>
-            <xpath expr="//field[@name='bank_account_id']" position="attributes">
-                <attribute name="invisible">1</attribute>
-                
-            </xpath>
-            <xpath expr="//field[@name='visa_no']" position="after">
-                <field name="uid_num" />
-                <field name="emirates_id" />
-                <field name="emirates_id_expiry_date" />
-            </xpath>
-        </field>
-    </record>
-    <record id="hr_employee_cus_tree" model="ir.ui.view">
-        <field name="name">hr.employee.cus.tree</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='parent_id']" position="after">
-                <field name="leaves_count" string="Pending Leaves" groups="hr.group_hr_user"/>
-                <field name="leaves_count_2" string="Approves Leaves" groups="hr.group_hr_user"/>
-            </xpath>
-        </field>
-    </record>
-    <!-- documents list view -->
-    <record id="hr_employee_document_form_cus2" model="ir.ui.view">
-        <field name="name">hr.employee.document.form.cus2</field>
-        <field name="model">hr.employee.document</field>
-        <field name="inherit_id" ref="oh_employee_documents_expiry.employee_document_form_view"/>
-        <field name="arch" type="xml">	
-            <xpath expr="//field[@name='employee_ref']" position="replace">
-                <field name="employee_ref" string="Employee Name"/>
-            </xpath>
-        </field>
-    </record>
-    <record id="hr_employee_document_tree_cus2" model="ir.ui.view">
-        <field name="name">hr.employee.document.tree.cus2</field>
-        <field name="model">hr.employee.document</field>
-        <field name="inherit_id" ref="oh_employee_documents_expiry.employee_document_tree_view"/>
-        <field name="arch" type="xml">	
-            <xpath expr="//field[@name='name']" position="after">
-                <field name="employee_ref" string="Employee Name"/>
-            </xpath>
-        </field>
-    </record>
-    <record id="hr_employee_document_search_cus2" model="ir.ui.view">
-        <field name="name">hr.employee.document.search.cus2</field>
-        <field name="model">hr.employee.document</field>
-        <field name="arch" type="xml">	
-            <search string="Search Documents">
-                <field name="expiry_date"/>
-                <group expand="0" string="Group By">
-                    <filter name="groupby_expiry_date" string="Expiry Date" domain="[]" context="{'group_by' : 'expiry_date'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-    <record id="hr_employee_document_cus_action" model="ir.actions.act_window">
-        <field name="name">Employess Documents</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">hr.employee.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_groupby_expiry_date':1}</field>
-    </record>
-    <record id="hr_employee_document_cus_action2" model="ir.actions.act_window">
-        <field name="name">Employess Documents</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">hr.employee.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('employee_ref', '=', active_id)]</field>
-        <field name="context">{'default_employee_ref': active_id}</field>
-    </record>
-    <menuitem id="emp_document_config"
-            name="Documents"
-            parent="hr.menu_hr_root"
-            groups="hr.group_hr_user"
-            action="hr_employee_document_cus_action"
-            sequence="5"/>
-    <!-- documents list view -->
-    <!-- HR airticket part -->
-    <record model='ir.ui.view' id='hr_airticket_form_view'>
-        <field name="name">hr.airticket.form.view</field>
-        <field name="model">hr.airticket</field>
-        <field name="arch" type="xml">
-            <form string="Airticket" >
-                <group>
-                    <group>
-                        <field name="name"/>
-                        <field name="depart"/>
-                        <field name="designation"/>
-                        <field name="join_date"/>
-                    </group>
-                    <group>
-                        <field name="Airfare"/>
-                        <field name="amount"/>
-                        <field name="ticket_date"/>
-                    </group>
-                </group>
-                <group>
-                    <field name="remarks" />
-                </group>
-            </form>
-        </field>
-    </record>
-    <record model='ir.ui.view' id='hr_airticket_tree_view'>
-        <field name="name">hr.airticket.tree.view</field>
-        <field name="model">hr.airticket</field>
-        <field name="arch" type="xml">
-            <tree string="Airticket" >
-                <field name="name"/>
-                <field name="depart"/>
-                <field name="designation"/>
-                <field name="join_date"/>
-                <field name="Airfare"/>
-                <field name="amount"/>
-                <field name="ticket_date"/>
-                <field name="remarks" />
-            </tree>
-        </field>
-    </record>
-
-    <!-- HR airticket part -->
-
-    <!-- Employee Master edits  -->
 
 
 
@@ -613,6 +449,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='active']" position="after">
                 <field name="od_payroll_item" />
+                <field name="payroll_rate" />
             </xpath>
         </field>
     </record>

@@ -103,12 +103,17 @@ class HRpayrolltranLine(models.Model):
     def _get_amount(self):
         for rec in self:
             rec.timesheet_cost = rec.employee_id.timesheet_cost
-            rec.allowance = rec.number_of_hours * rec.timesheet_cost
+            if rec.payroll_item.payroll_rate :
+                rec.allowance = rec.number_of_hours * rec.timesheet_cost * rec.payroll_item.payroll_rate
+            else:
+                rec.allowance = rec.number_of_hours * rec.timesheet_cost
+            
 
 class HrSalaryRulecus(models.Model):
     _inherit = 'hr.salary.rule'
 
     od_payroll_item = fields.Boolean('Payroll Item',default=False)
+    payroll_rate = fields.Float('Rate')
 
 class HrPayslipcus(models.Model):
     _inherit = 'hr.payslip'
@@ -449,6 +454,7 @@ class HrEmployeescus(models.Model):
     leaves_count_2 = fields.Float('Number of Leaves', compute='_compute_leaves_count2')
     emirates_id = fields.Char('Emirates ID')
     emirates_id_expiry_date = fields.Date('Emirates ID Expiry Date')
+    allow_sick_leave = fields.Float('Allowed Sick Leave Days',default=15)
 
     def _get_date_start_work(self):
         return self.join_date
