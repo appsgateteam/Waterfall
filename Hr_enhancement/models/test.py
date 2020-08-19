@@ -559,7 +559,7 @@ class hrleaveUpdate(models.Model):
             self.activity_update()
 
         # Sick leave part
-        if self.holiday_status_id == 'Sick':
+        if self.holiday_status_id.name == 'Sick':
             if self.employee_id.allow_sick_leave >= self.number_of_days_display:
                 self.allow_sick_changed = True
                 self.employee_id.allow_sick_leave -= self.number_of_days_display 
@@ -629,7 +629,7 @@ class hrleaveUpdate(models.Model):
             holiday.linked_request_ids.action_refuse()
 
             # Sick leave part
-            if holiday.holiday_status_id == 'Sick':
+            if holiday.holiday_status_id.name == 'Sick':
                 if holiday.allow_sick_changed == True:
                     holiday.employee_id.allow_sick_leave += holiday.number_of_days_display 
             # Sick leave part
