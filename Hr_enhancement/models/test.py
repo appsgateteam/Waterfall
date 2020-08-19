@@ -875,7 +875,7 @@ class HrContractSheetView(models.Model):
     @api.multi
     def _get_total(self):
         for rec in self:
-            rec.total = rec.basic + rec.hra + rec.AIR + rec.ot_allowance + rec.allowances_value + rec.additions + rec.deductions + rec.other_allowance + rec.fine_deduction + rec.gross + rec.loan_deduction + rec.net_salary + rec.present + rec.trans_allowance
+            rec.total = rec.basic + rec.hra + rec.air_ticket + rec.ot_allowance + rec.allowances_value + rec.additions + rec.deductions + rec.other_allowance + rec.fine_deduction + rec.gross + rec.loan_deduction + rec.net_salary + rec.present + rec.trans_allowance
 
     @api.model_cr
     def init(self):
