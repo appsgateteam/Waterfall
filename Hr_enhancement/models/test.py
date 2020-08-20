@@ -456,7 +456,7 @@ class HrEmployeescus(models.Model):
     leaves_count_2 = fields.Float('Number of Leaves', compute='_compute_leaves_count2')
     emirates_id = fields.Char('Emirates ID')
     emirates_id_expiry_date = fields.Date('Emirates ID Expiry Date')
-    allow_sick_leave = fields.Float('Allowed Sick Leave Days',default=15)
+    allow_sick_leave = fields.Float('Allowed Sick Leave Days',default=0)
 
     def _get_date_start_work(self):
         return self.join_date
@@ -558,11 +558,11 @@ class hrleaveUpdate(models.Model):
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
 
-        # Sick leave part
-        if self.holiday_status_id.name == 'Sick':
-            if self.employee_id.allow_sick_leave >= self.number_of_days_display:
-                self.allow_sick_changed = True
-                self.employee_id.allow_sick_leave -= self.number_of_days_display 
+        # # Sick leave part
+        # if self.holiday_status_id.name == 'Sick':
+        #     if self.employee_id.allow_sick_leave >= self.number_of_days_display:
+        #         self.allow_sick_changed = True
+        #         self.employee_id.allow_sick_leave -= self.number_of_days_display 
         # Sick leave part
 
         channel_all_employees = self.env.ref('Hr_enhancement.channel_all_leave_status').read()[0]
@@ -628,11 +628,11 @@ class hrleaveUpdate(models.Model):
             # If a category that created several holidays, cancel all related
             holiday.linked_request_ids.action_refuse()
 
-            # Sick leave part
-            if holiday.holiday_status_id.name == 'Sick':
-                if holiday.allow_sick_changed == True:
-                    holiday.employee_id.allow_sick_leave += holiday.number_of_days_display 
-            # Sick leave part
+            # # Sick leave part
+            # if holiday.holiday_status_id.name == 'Sick':
+            #     if holiday.allow_sick_changed == True:
+            #         holiday.employee_id.allow_sick_leave += holiday.number_of_days_display 
+            # # Sick leave part
         self._remove_resource_leave()
         self.activity_update()
         

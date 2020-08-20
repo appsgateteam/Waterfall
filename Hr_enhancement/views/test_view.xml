@@ -783,15 +783,15 @@
                 <field name="air_ticket"/>
                 <field name="trans_allowance" string="Transport Allowance"/>
                 <field name="other_allowance" string="Other Allowance"/>
-                <field name="ot_allowance" string="OT Allowance"/>
-                <field name="allowances_value" string="Allowances"/>
-                <field name="additions" string="Additions"/>
-                <field name="deductions" string="Deductions"/>
+                <!-- <field name="ot_allowance" string="OT Allowance"/> -->
+                <!-- <field name="allowances_value" string="Allowances"/> -->
+                <!-- <field name="additions" string="Additions"/> -->
+                <!-- <field name="deductions" string="Deductions"/> -->
                 
-                <field name="loan_deduction" string="Loan"/>
-                <field name="fine_deduction" string="Fine"/>
-                <field name="gross"/>
-                <field name="net_salary"/>
+                <!-- <field name="loan_deduction" string="Loan"/> -->
+                <!-- <field name="fine_deduction" string="Fine"/> -->
+                <!-- <field name="gross"/> -->
+                <!-- <field name="net_salary"/> -->
                 <field name="total"/>
             </tree>
         </field>
@@ -820,15 +820,15 @@
                 <field name="hra" />
                 <field name="trans_allowance" />
                 <field name="other_allowance" />
-                <field name="ot_allowance" />
-                <field name="allowances_value"/>
-                <field name="additions" />
-                <field name="deductions"/>
-                <field name="loan_deduction"/>
-                <field name="fine_deduction"/>
+                <!-- <field name="ot_allowance" /> -->
+                <!-- <field name="allowances_value"/> -->
+                <!-- <field name="additions" /> -->
+                <!-- <field name="deductions"/> -->
+                <!-- <field name="loan_deduction"/> -->
+                <!-- <field name="fine_deduction"/> -->
                 <field name="air_ticket"/>
-                <field name="gross" type="measure"/>
-                <field name="net_salary"/>
+                <!-- <field name="gross" type="measure"/> -->
+                <!-- <field name="net_salary"/> -->
                 <field name="total"/>
             </pivot>
         </field>
