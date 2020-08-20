@@ -947,11 +947,13 @@ class HrContractSheetView(models.Model):
         from_str = """
             hr_contract
                 JOIN hr_employee on (hr_employee.id = hr_contract.employee_id)
+                
         """
         return from_str
 
     def _group_by(self):
         group_by_str = """
+            WHERE hr_contract.state in ('open','pending')
             GROUP BY
 				hr_contract.id,
                 hr_employee.id,

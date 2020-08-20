@@ -777,8 +777,8 @@
                 <field name="employee_id" string="Employee Name"/>
                 <field name="contract_name"/>
                 <field name="type_id"/>
-                <field name="wage" />
-                <field name="basic" string="Basic Salary"/>
+                <field name="wage" string="Basic Salary"/>
+                <!-- <field name="basic" string="Basic Salary"/> -->
                 <field name="hra" string="Housing"/>
                 <field name="air_ticket"/>
                 <field name="trans_allowance" string="Transport Allowance"/>
@@ -816,7 +816,7 @@
                 <field name="type_id"/>
                 <field name="contract_name"/>
                 <field name="wage" />
-                <field name="basic" />
+                <!-- <field name="basic" /> -->
                 <field name="hra" />
                 <field name="trans_allowance" />
                 <field name="other_allowance" />
