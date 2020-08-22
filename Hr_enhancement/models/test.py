@@ -103,12 +103,17 @@ class HRpayrolltranLine(models.Model):
     def _get_amount(self):
         for rec in self:
             rec.timesheet_cost = rec.employee_id.timesheet_cost
-            rec.allowance = rec.number_of_hours * rec.timesheet_cost
+            if rec.payroll_item.payroll_rate :
+                rec.allowance = rec.number_of_hours * rec.timesheet_cost * rec.payroll_item.payroll_rate
+            else:
+                rec.allowance = rec.number_of_hours * rec.timesheet_cost
+            
 
 class HrSalaryRulecus(models.Model):
     _inherit = 'hr.salary.rule'
 
     od_payroll_item = fields.Boolean('Payroll Item',default=False)
+    payroll_rate = fields.Float('Rate')
 
 class HrPayslipcus(models.Model):
     _inherit = 'hr.payslip'
@@ -436,6 +441,8 @@ class LeaveAnalysis(models.Model):
    
 #HR Contract and Payroll Customize Part
 
+
+
 # Employee Master edits 
 class HrEmployeescus(models.Model):
     _inherit = 'hr.employee'
@@ -449,6 +456,7 @@ class HrEmployeescus(models.Model):
     leaves_count_2 = fields.Float('Number of Leaves', compute='_compute_leaves_count2')
     emirates_id = fields.Char('Emirates ID')
     emirates_id_expiry_date = fields.Date('Emirates ID Expiry Date')
+    allow_sick_leave = fields.Float('Allowed Sick Leave Days',default=0)
 
     def _get_date_start_work(self):
         return self.join_date
@@ -535,6 +543,8 @@ class Countriesscus(models.Model):
 class hrleaveUpdate(models.Model):
     _inherit = "hr.leave"
 
+    allow_sick_changed = fields.Boolean('Alloe check',default=False)
+
     @api.multi
     def action_approve(self):
         # if validation_type == 'both': this method is the first approval approval
@@ -547,6 +557,12 @@ class hrleaveUpdate(models.Model):
         self.filtered(lambda hol: not hol.validation_type == 'both').action_validate()
         if not self.env.context.get('leave_fast_create'):
             self.activity_update()
+
+        # Sick leave part
+        if self.holiday_status_id.name == 'Sick':
+                self.allow_sick_changed = True
+                self.employee_id.allow_sick_leave += self.number_of_days_display 
+        #Sick leave part
 
         channel_all_employees = self.env.ref('Hr_enhancement.channel_all_leave_status').read()[0]
         template_new_employee = self.env.ref('Hr_enhancement.email_template_data_applicant_leaves').read()[0]
@@ -610,6 +626,12 @@ class hrleaveUpdate(models.Model):
                 holiday.meeting_id.unlink()
             # If a category that created several holidays, cancel all related
             holiday.linked_request_ids.action_refuse()
+
+            # Sick leave part
+            if holiday.holiday_status_id.name == 'Sick':
+                if holiday.allow_sick_changed == True:
+                    holiday.employee_id.allow_sick_leave -= holiday.number_of_days_display 
+            # Sick leave part
         self._remove_resource_leave()
         self.activity_update()
         
@@ -822,6 +844,126 @@ class hrexpenseSheetUpdate(models.Model):
     is_vendor = fields.Boolean('Is Vendor Expense',default=False)
     vendor_id = fields.Many2one('res.partner','Vendor')
 # expense changes
+
+
+# view of contract Sheet
+class HrContractSheetView(models.Model):
+    _name = 'hr.contract.sheet.view'
+    _description = "Contract Sheet"
+    _auto = False
+
+    basic = fields.Float('Basic')
+    hra = fields.Float('Housing')
+    air_ticket = fields.Float('Air Ticket Allowance')
+    ot_allowance = fields.Float('OT Allowance')
+    allowances_value = fields.Float('Allowances')
+    additions = fields.Float('Additions')
+    deductions = fields.Float('Deductions')
+    other_allowance = fields.Float('Other Allowance')
+    fine_deduction = fields.Float('Fine')
+    gross = fields.Float('Gross')
+    loan_deduction = fields.Float('Loan')
+    net_salary = fields.Float('Net Salary')
+    present = fields.Float('Present')
+    wage = fields.Float('Wage')
+    trans_allowance = fields.Float('Transport Allowance')
+    type_id = fields.Many2one('hr.contract.type',string="Contract Type")
+    employee_id = fields.Many2one('hr.employee',string="Employee")
+    contract_name = fields.Char('Contract Name')
+    total = fields.Char('Total Salary' ,compute='_get_total')
+
+    @api.multi
+    def _get_total(self):
+        for rec in self:
+            rec.total = rec.wage + rec.basic + rec.hra + rec.air_ticket + rec.ot_allowance + rec.allowances_value + rec.additions + rec.deductions + rec.other_allowance + rec.fine_deduction + rec.gross + rec.loan_deduction + rec.net_salary + rec.present + rec.trans_allowance
+
+    @api.model_cr
+    def init(self):
+        # self._table = sale_report
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
+            %s
+            FROM ( %s )
+            %s
+            )""" % (self._table, self._select(), self._from(), self._group_by()))
+
+    def _select(self):
+        select_str = """
+                SELECT row_number() OVER (ORDER BY hr_employee.id) AS id,
+                       hr_contract.employee_id,
+                       hr_contract.wage AS wage,
+                       hr_contract.name AS contract_name,
+                        hr_contract.type_id,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'BASIC'::text) AS basic,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'HRA'::text) AS hra,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'OTH'::text) AS other_allowance,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'OT'::text) AS ot_allowance,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'ALWCE'::text) AS allowances_value,
+                                
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'ADTNS'::text) AS additions,
+
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'DED'::text) AS deductions,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'TRA'::text) AS trans_allowance,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'LOAN'::text) AS loan_deduction,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'FINE'::text) AS fine_deduction,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'GROSS'::text) AS gross,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'WORK100'::text) AS present,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'NET'::text) AS net_salary,
+                        ( SELECT sum(hr_allowance_line.amt) AS sum
+                            FROM hr_allowance_line
+                            WHERE hr_allowance_line.contract_id = hr_contract.id AND hr_allowance_line.code::text = 'AIR'::text) AS air_ticket
+                    
+        """
+        return select_str
+
+    def _from(self):
+        from_str = """
+            hr_contract
+                JOIN hr_employee on (hr_employee.id = hr_contract.employee_id)
+                
+        """
+        return from_str
+
+    def _group_by(self):
+        group_by_str = """
+            WHERE hr_contract.state in ('open','pending')
+            GROUP BY
+				hr_contract.id,
+                hr_employee.id,
+                hr_contract.wage,
+				hr_contract.employee_id,
+                hr_contract.type_id,
+                hr_contract.name
+        """
+        return group_by_str
+
+    # view of contract Sheet
 
 
 
