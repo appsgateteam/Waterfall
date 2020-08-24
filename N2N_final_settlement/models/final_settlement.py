@@ -49,72 +49,72 @@ class FinalSettlement(models.Model):
 			# for al_line in contract_obj.xo_allowance_rule_line_ids:
 			#     al_line.copy({'od_sett_id':ids[0],'contract_id':False})
 			vals = {'basic':basic,
-					'join_date':obj.employee_id.join_date,
+					# 'join_date':obj.employee_id.join_date,
 					'total_salary':total_sal,
 					'leave_pending':leave_pending,
 					'unpaid_leave':unpaid_tot,
 					'total_working_days':working_days,
-					'job_id':obj.employee_id.job_id.id,
-					'department_id':obj.employee_id.department_id.id,
+					# 'job_id':obj.employee_id.job_id.id,
+					# 'department_id':obj.employee_id.department_id.id,
 					'address_home_id':obj.employee_id.address_home_id.id,
 					}
 			self.write(vals)
-			partner_id = obj.employee_id.address_home_id.id
-			settlement_type_id = obj.settlement_type_id and obj.settlement_type_id.id
-			settlement_ids = self.env['final.settlement.type.master'].search([('id','=',settlement_type_id)])
-			settlement_type_obj = self.env['final.settlement.type.master'].browse(settlement_ids).id
-			account_ids = []
-			for accounts in settlement_type_obj.settlement_type_master_line:
-				account_ids.append(accounts.account_id.id)
-			if not account_ids:
-				raise UserError(_('first set the accounts in settlement type master'))
-			# if not partner_id:
-			#     raise osv.except_osv(_('Error!'), _('define Home Address First'))
-			if obj.account_line:
-				for lines in obj.account_line:
-					self.env['final.settlement.account.line'].unlink()
+			# partner_id = obj.employee_id.address_home_id.id
+			# settlement_type_id = obj.settlement_type_id and obj.settlement_type_id.id
+			# settlement_ids = self.env['final.settlement.type.master'].search([('id','=',settlement_type_id)])
+			# settlement_type_obj = self.env['final.settlement.type.master'].browse(settlement_ids).id
+			# account_ids = []
+			# for accounts in settlement_type_obj.settlement_type_master_line:
+			# 	account_ids.append(accounts.account_id.id)
+			# if not account_ids:
+			# 	raise UserError(_('first set the accounts in settlement type master'))
+			# # if not partner_id:
+			# #     raise osv.except_osv(_('Error!'), _('define Home Address First'))
+			# if obj.account_line:
+			# 	for lines in obj.account_line:
+			# 		self.env['final.settlement.account.line'].unlink()
 
 
-			account_move_line_obj = self.env['account.move.line']
+			# account_move_line_obj = self.env['account.move.line']
 
 
 			
-			move_ids = account_move_line_obj.search([('partner_id','=',partner_id),('account_id','in',account_ids)])
-			if not move_ids:
-				raise UserError(_('there is no accounting entries for the particular employee'))
+			# move_ids = account_move_line_obj.search([('partner_id','=',partner_id),('account_id','in',account_ids)])
+			# if not move_ids:
+			# 	raise UserError(_('there is no accounting entries for the particular employee'))
 
-			move_data = account_move_line_obj.browse(move_ids).id
-			move_line_credit={}
-			move_line_debit={}
-			for line in move_data:
-				if not line.account_id:
-					continue
-				if line.credit:
-					move_line_credit[line.account_id.id] = (line.account_id.id not in move_line_credit) \
-															 and line.credit or (float(move_line_credit.get(line.account_id.id))+line.credit)
-				if line.debit:
-					move_line_debit[line.account_id.id] = (line.account_id.id not in move_line_debit) \
-														   and line.debit or (float(move_line_debit.get(line.account_id.id))+line.debit)
+			# move_data = account_move_line_obj.browse(move_ids).id
+			# move_line_credit={}
+			# move_line_debit={}
+			# for line in move_data:
+			# 	if not line.account_id:
+			# 		continue
+			# 	if line.credit:
+			# 		move_line_credit[line.account_id.id] = (line.account_id.id not in move_line_credit) \
+			# 												 and line.credit or (float(move_line_credit.get(line.account_id.id))+line.credit)
+			# 	if line.debit:
+			# 		move_line_debit[line.account_id.id] = (line.account_id.id not in move_line_debit) \
+			# 											   and line.debit or (float(move_line_debit.get(line.account_id.id))+line.debit)
 
-			result =  { k: move_line_debit.get(k, 0) - move_line_credit.get(k, 0) for k in set(move_line_debit) | set(move_line_credit) }
-			for account_id in result:
-				if result[account_id] < 0:
-					payable = math.fabs(result[account_id])
-					amount = math.fabs(result[account_id])
-				elif result[account_id] >0:
-					amount = (-1 * result[account_id])
-					payable = 0
+			# result =  { k: move_line_debit.get(k, 0) - move_line_credit.get(k, 0) for k in set(move_line_debit) | set(move_line_credit) }
+			# for account_id in result:
+			# 	if result[account_id] < 0:
+			# 		payable = math.fabs(result[account_id])
+			# 		amount = math.fabs(result[account_id])
+			# 	elif result[account_id] >0:
+			# 		amount = (-1 * result[account_id])
+			# 		payable = 0
 
 
-				vals = {
-					'account_id':account_id,
-					'balance':result[account_id],
-					'account_line_id':self.id,
-					'amount':amount,
-					'final_settlement_flag':final_settlement
+			# 	vals = {
+			# 		'account_id':account_id,
+			# 		'balance':result[account_id],
+			# 		'account_line_id':self.id,
+			# 		'amount':amount,
+			# 		'final_settlement_flag':final_settlement
 
-				}
-				self.env['final.settlement.account.line'].create(vals)
+			# 	}
+			# 	self.env['final.settlement.account.line'].create(vals)
 		# self.write(cr,uid,ids,{'checking_acc_entry_button_ctrl':True})
 		return True
 

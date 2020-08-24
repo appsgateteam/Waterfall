@@ -84,7 +84,7 @@
 
 
                 <notebook>
-                <page string="Account Information">
+                <page string="Account Information" invisible="1">
                 <field name="account_line" attrs="{'readonly':[('state','in', ('done'))]}">
                     <tree editable="top" create="false" delete="false">
 
