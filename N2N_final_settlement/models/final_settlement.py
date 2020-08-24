@@ -367,8 +367,8 @@ class FinalSettlement(models.Model):
 							  'date_from':joining_date,
 							  'date_to':gratuity_date,
 							  'no_of_days':working_days,
-							  'termination_amount':0,
-							  'resign_amount':gratuity,
+							  'termination_amount':gratuity,
+							  'resign_amount':0,
 					}
 					data_lines.append((0,0,vals2),)
 				elif experience >= 3 and experience < 5:
@@ -378,8 +378,8 @@ class FinalSettlement(models.Model):
 							  'date_from':joining_date,
 							  'date_to':gratuity_date,
 							  'no_of_days':working_days,
-							  'termination_amount':0,
-							  'resign_amount':gratuity,
+							  'termination_amount':gratuity,
+							  'resign_amount':0,
 					}
 					data_lines.append((0,0,vals3),)
 				elif experience >= 5:
@@ -391,8 +391,8 @@ class FinalSettlement(models.Model):
 							  'date_from':joining_date,
 							  'date_to':gratuity_date,
 							  'no_of_days':working_days,
-							  'termination_amount':0,
-							  'resign_amount':gratuity,
+							  'termination_amount':gratuity,
+							  'resign_amount':0,
 					}
 					data_lines.append((0,0,vals4),)
 				self.gratuity_line_id = data_lines
@@ -462,8 +462,8 @@ class FinalSettlement(models.Model):
 							  'date_from':joining_date,
 							  'date_to':gratuity_date,
 							  'no_of_days':working_days,
-							  'termination_amount':0,
-							  'resign_amount':gratuity,
+							  'termination_amount':gratuity,
+							  'resign_amount':0,
 					}
 					data_lines.append((0,0,vals2),)
 				elif experience >= 3 and experience < 5:
@@ -473,8 +473,8 @@ class FinalSettlement(models.Model):
 							  'date_from':joining_date,
 							  'date_to':gratuity_date,
 							  'no_of_days':working_days,
-							  'termination_amount':0,
-							  'resign_amount':gratuity,
+							  'termination_amount':gratuity,
+							  'resign_amount':0,
 					}
 					data_lines.append((0,0,vals3),)
 				elif experience >= 5:
@@ -486,8 +486,8 @@ class FinalSettlement(models.Model):
 							  'date_from':joining_date,
 							  'date_to':gratuity_date,
 							  'no_of_days':working_days,
-							  'termination_amount':0,
-							  'resign_amount':gratuity,
+							  'termination_amount':gratuity,
+							  'resign_amount':0,
 					}
 					data_lines.append((0,0,vals4),)
 				self.gratuity_line_id = data_lines
