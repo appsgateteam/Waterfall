@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, tools, _
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta ,date
 from odoo.exceptions import AccessError, UserError, ValidationError
 import math
 
@@ -280,8 +280,9 @@ class FinalSettlement(models.Model):
 			resign = obj.settlement_type_id.final_settlement
 			join_date = obj.join_date
 			resign_date = obj.resign_date
-			if not join_date:
-				raise Warning(_("pls provide join date"))
+			# raise UserError(_(obj.join_date))
+			if not obj.join_date:
+				raise UserError(_("pls provide join date"))
 			joining_date = datetime.strptime(str(join_date), "%Y-%m-%d").date()
 			gratuity_date = datetime.strptime(str(resign_date), "%Y-%m-%d").date()
 			experience = float((gratuity_date -  joining_date).days)/365.00
@@ -495,7 +496,7 @@ class FinalSettlement(models.Model):
 
 	company_id = fields.Many2one('res.company',string="Company", default=lambda self: self.env.user.company_id.id)
 	employee_id = fields.Many2one('hr.employee', string="Employee", required=True)
-	join_date = fields.Date(string="Join Date")
+	join_date = fields.Date('Join Date',store=True)
 	resign_date = fields.Date(string="Resign Date", default=fields.Date.context_today)
 	settlement_type_id = fields.Many2one('final.settlement.type.master',string="Settlement Type",required=True)
 	basic = fields.Float(string="Basic")
@@ -519,6 +520,14 @@ class FinalSettlement(models.Model):
 	leave_pending = fields.Integer(string="Remaining Leaves")
 	unpaid_leaves = fields.Integer(string="Unpaid Leaves")
 	total_working_days = fields.Float(string="Total Working Days")
+
+	@api.onchange('employee_id')
+	def _change_employee(self):
+		for rec in self:
+			rec.join_date = fields.Datetime.to_string(rec.employee_id.join_date)
+			rec.department_id = rec.employee_id.department_id
+			rec.job_id = rec.employee_id.job_id
+
 	# @api.multi
 	# def _total_wage(self):
 	# 	for rec in self:

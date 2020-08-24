@@ -120,7 +120,7 @@
                 <group>
 
                     <group string="Working Days">
-                        <field name="join_date" readonly="1"/>
+                        <!-- <field name="join_date" readonly="1"/> -->
                         <field name="total_working_days" readonly="1"/>
                         <field name="leave_pending" readonly="1"/>
                         <field name="unpaid_leaves" readonly="1"/>
