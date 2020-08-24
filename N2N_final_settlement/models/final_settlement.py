@@ -21,7 +21,7 @@ class FinalSettlement(models.Model):
 		for obj in self:
 			final_settlement = obj.settlement_type_id.final_settlement
 			leave_pending = obj.employee_id.leaves_count
-			joining_date = obj.employee_id.join_date
+			joining_date = obj.join_date
 
 			holiday_ids = self.env['hr.leave'].search([('employee_id','=',obj.employee_id.id),('holiday_status_id','=',4),('state','not in',('cancel','refuse'))])
 			for holiday in holiday_ids:
