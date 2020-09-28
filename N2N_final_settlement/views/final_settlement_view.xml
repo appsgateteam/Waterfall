@@ -41,7 +41,7 @@
                     <button name="action_generate" type="object" string="Generate" attrs="{'invisible':[('state','in',('progress','done'))]}"/>
 
 
-                    <button name="check_accounts_entry" type="object" string="Check Accounts Entry" attrs="{'invisible':[('state','in',('progress','done'))]}"/>
+                    <button name="check_accounts_entry" invisible="1" type="object" string="Check Accounts Entry" attrs="{'invisible':[('state','in',('progress','done'))]}"/>
 
                     <button name="action_validate" type="object" string="Validate" states="progress"/>
 
