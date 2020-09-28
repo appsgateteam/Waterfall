@@ -560,7 +560,7 @@ class sale_wf_inherit(models.Model):
 
     receive_state = fields.Text('Delivery status',compute="ready_state")
     mo_state = fields.Text('Manufacture status',compute="ready_state")
-    partner_id = fields.Many2one('res.partner', string='Customer', required=True, change_default=True, index=True, track_visibility='always', track_sequence=1, help="You can find a customer by its Name, TIN, Email or Internal Reference.")
+    partner_id = fields.Many2one('res.partner', string='Customer', readonly=True, states={'draft': [('readonly', False)],'approve': [('readonly', False)],'approved': [('readonly', False)],'finalapp': [('readonly', False)],'final': [('readonly', False)],'sale': [('readonly', False)], 'sent': [('readonly', False)]}, required=True, change_default=True, index=True, track_visibility='always', track_sequence=1, help="You can find a customer by its Name, TIN, Email or Internal Reference.")
     
 
 
