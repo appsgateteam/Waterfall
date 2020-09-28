@@ -94,7 +94,7 @@
                             </tr>
                             <tr style="height:50px;">
                                 <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Driver:</td>
-                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span><span t-field="o.product_id.product_tmpl_id.manu_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.rate_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.rate_uom_id_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.frame"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.supply_dr"/>&amp;nbsp;<span t-field="o.product_id.product_tmpl_id.model_dr"/></span> </td>
+                                <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span><span t-field="o.product_id.product_tmpl_id.manu_dr"/> <span t-field="o.product_id.product_tmpl_id.rate_dr"/> <span t-field="o.product_id.product_tmpl_id.rate_uom_id_dr"/> <span t-field="o.product_id.product_tmpl_id.frame"/> <span t-field="o.product_id.product_tmpl_id.supply_dr"/> <span t-field="o.product_id.product_tmpl_id.model_dr"/> <span t-field="o.product_id.product_tmpl_id.enc_dr"/></span> </td>
                                 <td class="text-left" style="margin-left:10px;padding: 2px;width:20%;border: 1px solid black;">Skid Size.:</td>
                                 <td class="text-left" style="margin-left:10px;padding: 2px;width:30%;border: 1px solid black;"><span t-field="o.skid_size"/> </td>
                             </tr>
