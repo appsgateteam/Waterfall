@@ -221,17 +221,18 @@ class stock_picking_inherit(models.Model):
                             pickings_to_not_autoconfirm |= picking
                             break
                 (self - pickings_to_not_autoconfirm)._autoconfirm_picking()
-            if recs.move_ids_without_package :
-                for rec in recs.move_ids_without_package:
-                    if rec.quantity_done != rec.product_uom_qty:
-                        if rec.product_uom_qty == 0:
-                            continue
-                        elif rec.product_uom_qty == rec.reserved_availability and rec.product_uom_qty !=0 :
-                            continue
-                        elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability !=0:
-                            rec.write({'state':'partially_available'})
-                        elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability == 0:
-                            rec.write({'state':'confirmed'})
+            if recs.picking_type_id.id == 6:
+                if recs.move_ids_without_package :
+                    for rec in recs.move_ids_without_package:
+                        if rec.quantity_done != rec.product_uom_qty:
+                            if rec.product_uom_qty == 0:
+                                continue
+                            elif rec.product_uom_qty == rec.reserved_availability and rec.product_uom_qty !=0 :
+                                continue
+                            elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability !=0:
+                                rec.write({'state':'partially_available'})
+                            elif rec.product_uom_qty > rec.reserved_availability and rec.reserved_availability == 0:
+                                rec.write({'state':'confirmed'})
         
 
         return res
