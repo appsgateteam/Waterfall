@@ -33,6 +33,7 @@ class ReportQualityCheckRe(models.AbstractModel):
             com = self.env['quality.check'].search([('picking_id','=',pick),('quality_state','!=','close')])
             if com :
                 for l in com:
+                    note = ""
                     if l.point_id:
                         quality_point =  l.point_id.name
                         if types == '':
@@ -74,6 +75,7 @@ class ReportQualityCheckRe(models.AbstractModel):
             pick_name = production_name
             com = self.env['quality.check'].search([('quality_state','!=','close')])
             for l in com:
+                note = ""
                 if l.workorder_id.production_id.id == production:
                     if l.point_id:
                         quality_point =  l.point_id.name
