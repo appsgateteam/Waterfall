@@ -7,6 +7,7 @@
     'depends': ['mrp'],
     'data': [
         'views/wf.xml',
+        'security/mar_security.xml',
     ],
     'installable': True,
     'auto_install': False,
