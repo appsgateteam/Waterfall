@@ -60,11 +60,11 @@ class StockPicking(models.Model):
             raise UserError(_('You still need to do the quality checks!'))
         return super(StockPicking, self).action_done()
 
-    @api.multi
-    def action_cancel(self):
-        res = super(StockPicking, self).action_cancel()
-        self.sudo().mapped('check_ids').filtered(lambda x: x.quality_state == 'none').unlink()
-        return res
+    # @api.multi
+    # def action_cancel(self):
+    #     res = super(StockPicking, self).action_cancel()
+    #     self.sudo().mapped('check_ids').filtered(lambda x: x.quality_state == 'none').unlink()
+    #     return res
 
     @api.multi
     def button_quality_alert(self):
