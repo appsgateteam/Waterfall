@@ -1748,8 +1748,9 @@ class stock_move_inherit(models.Model):
         # if any(move.state not in ('draft', 'cancel') for move in self):
             # raise UserError(_('You can only delete draft moves.'))
         # With the non plannified picking, draft moves could have some move lines.
+        res = super(stock_move_inherit, self).unlink()
         self.mapped('move_line_ids').unlink()
-        return super(stock_move_inherit, self).unlink()
+        return res
 
 class AccountMoveCus(models.Model):
     _inherit = "account.move"
