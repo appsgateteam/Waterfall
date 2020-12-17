@@ -401,3 +401,8 @@ class MrpProductionQu(models.Model):
 # class StockMoveLinecust(models.Model):
 #     _inherit = 'stock.move.line'
 
+class MrpWorkcenter(models.Model):
+    _inherit = "mrp.workcenter"
+
+    access_users_id = fields.Many2many('res.users',string="Access Users")
+
