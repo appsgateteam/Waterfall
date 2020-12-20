@@ -58,6 +58,17 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="view_mrp_workcenter_custtt">
+        <field name="name">view.mrp.workcenter.custtt</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="access_users_id" widget="many2many_tags" groups="wf_updates.group_mrp_top_manager"/>
+            </xpath>
+        </field>
+    </record>
+
     
 
 
