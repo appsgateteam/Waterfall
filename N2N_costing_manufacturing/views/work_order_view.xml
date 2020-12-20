@@ -36,7 +36,7 @@
 <!--                        </div>-->
                    <!-- </group> -->
 <!--                </page>-->
-                <page string="Direct Labour Cost">
+                <page string="Direct Labour Cost" groups="account.group_account_invoice">
                     <group>
                         <field name="labour_journal_id" required="1"/>
                         <field name="labour_move_id" attrs="{'invisible': [('labour_move_id', '=', False)]}" readonly="1"/>
@@ -69,7 +69,7 @@
 <!--                        </div>-->
                   <!--  </group> -->
                 </page>
-                <page string="Overhead Cost">
+                <page string="Overhead Cost" groups="account.group_account_invoice">
                     <group>
                         <field name="overhead_journal_id" required="1"/>
                         <field name="overhead_move_id" attrs="{'invisible': [('overhead_move_id', '=', False)]}" readonly="1"/>
