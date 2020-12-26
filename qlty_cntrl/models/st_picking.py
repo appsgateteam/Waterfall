@@ -64,8 +64,9 @@ class StockPicking(models.Model):
     def action_cancel(self):
         res = super(StockPicking, self).action_cancel()
         self.sudo().mapped('check_ids').filtered(lambda x: x.quality_state == 'none').unlink()
-        for line in self.move_ids_without_package:
-            line._action_cancel()
+        for move in self:
+            for line in move.move_ids_without_package:
+                line._action_cancel()
         return res
 
     @api.multi
